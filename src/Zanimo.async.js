@@ -6,7 +6,7 @@
  * (https://github.com/kriskowal/q/blob/master/design/q7.js)
  */
 
-(function (async) {
+(function (zanimo, async) {
  
     async.enqueue = function (callback) {
         setTimeout(callback, 1);
@@ -86,7 +86,7 @@
         };
     };
 
-    async.when = function (value, _callback, _errback) {
+    zanimo.when = async.when = function (value, _callback, _errback) {
         var result = async.defer();
         var done;
 
@@ -129,4 +129,4 @@
         return result.promise;
     };
 
-})(window.Zanimo.async = window.Zanimo.async || {});
+})(window.Zanimo, window.Zanimo.async = window.Zanimo.async || {});
