@@ -39,7 +39,7 @@
                         return value;
                     };
                     _errback = _errback || function (reason) {
-                        return reject(reason);
+                        return async.reject(reason);
                     };
                     var callback = function (value) {
                         result.resolve(_callback(value));
@@ -74,7 +74,7 @@
         };
     };
 
-    var reject = function (reason) {
+    async.reject = function (reason) {
         return {
             then: function (callback, errback) {
                 var result = async.defer();
@@ -94,21 +94,21 @@
             return value;
         };
         _errback = _errback || function (reason) {
-            return reject(reason);
+            return async.reject(reason);
         };
 
         var callback = function (value) {
             try {
                 return _callback(value);
             } catch (reason) {
-                return reject(reason);
+                return async.reject(reason);
             }
         };
         var errback = function (reason) {
             try {
                 return _errback(reason);
             } catch (reason) {
-                return reject(reason);
+                return async.reject(reason);
             }
         };
 
