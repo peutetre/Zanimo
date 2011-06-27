@@ -48,10 +48,6 @@
         var s11 = doc.getElementById('square11');
         var s12 = doc.getElementById('square12');
 
-        Zanimo(s1).then(
-            Zanimo.width(300)
-        );
-
         Zanimo.delay(300).then(
             function () {
                 Zanimo.transition(s1, "width", "400px", 1000, "ease-in").then(echo("animation done"));

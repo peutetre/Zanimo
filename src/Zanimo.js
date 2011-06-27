@@ -1,5 +1,13 @@
 var Zanimo = (function () {
  
+    var kDelta = 40; 
+
+    function _set(domElt, property, newValue) {
+        domElt.style[property] = (domElt.style[property].length > 0) 
+                                 ? (domElt.style[property] + ", " + newValue) 
+                                 : newValue;
+    }
+
     var Z = function (domElt) {
         var d = Zanimo.async.defer();
         d.resolve(domElt);
@@ -12,15 +20,10 @@ var Zanimo = (function () {
         return d.promise;
     };
 
-    Z.width = function (len) {
-        return function (domElt) {
-            domElt.style.width = len + "px";
-        }
-    };
-
     Z.transition = function (domElt, attr, value, duration, timing) {
         var d = Zanimo.async.defer(),
                 done = false;
+
         Zanimo.async.enqueue(function () {
             var cb = function (evt) {
                 done = true;
@@ -32,45 +35,25 @@ var Zanimo = (function () {
                 );
             };
 
-            domElt.addEventListener(
-                "webkitTransitionEnd",
-                cb
-            );
-            Zanimo.delay(duration + 40).then(
-                function () { if (!done) {
-                    Zanimo.async.reject("Transition Error: ");
-                    throw new Error("Transition Error: " + domElt.id + " " + attr );
-                } }
-            );
-           if (domElt.style.webkitTransitionDuration.length === 0) {
-                domElt.style.webkitTransitionDuration = duration + "ms";
-           }
-           else {
-            domElt.style.webkitTransitionDuration += ", " +  duration + "ms";
-           }
+            domElt.addEventListener( "webkitTransitionEnd", cb);
 
-           if (domElt.style.webkitTransitionProperty.length === 0) {
-                domElt.style.webkitTransitionProperty =   attr;
-           }
-           else {
-            domElt.style.webkitTransitionProperty +=   ", " +attr;
-           }
+            Zanimo.delay(duration + kDelta).then(
+                function () { 
+                    if (!done) {
+                        Zanimo.async.reject("Transition Error: ");
+                        throw new Error("Transition Error: " + domElt.id + " " + attr );
+                    } 
+                }
+            );
 
-           if (domElt.style.webkitTransitionTimingFunction.length === 0) {
-                domElt.style.webkitTransitionTimingFunction +=  (timing || "linear");
-           }
-           else {
-            domElt.style.webkitTransitionTimingFunction +=  ", " + (timing || "linear");
-           }
-            setTimeout(function () {
-                domElt.style.cssText += ";" + attr + ":" + value;
-            },1);
+            _set(domElt, "webkitTransitionDuration", duration + "ms");
+            _set(domElt, "webkitTransitionProperty", attr);
+            _set(domElt, "webkitTransitionTimingFunction", timing || "linear");
+
+            domElt.style.cssText += ";" + attr + ":" + value;
         });
-
         return d.promise;
-            
     };
 
     return Z;
-
 })();
