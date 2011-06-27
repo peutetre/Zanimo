@@ -3,9 +3,8 @@ var Zanimo = (function () {
     var kDelta = 40; 
 
     function _set(domElt, property, newValue) {
-        domElt.style[property] = (domElt.style[property].length > 0) 
-                                 ? (domElt.style[property] + ", " + newValue) 
-                                 : newValue;
+        var prop = domElt.style[property];
+        domElt.style[property] = (prop.length > 0) ? (prop + ", " + newValue) : newValue;
     }
 
     var Z = function (domElt) {
@@ -24,34 +23,31 @@ var Zanimo = (function () {
         var d = Zanimo.async.defer(),
                 done = false;
 
-        Zanimo.async.enqueue(function () {
-            var cb = function (evt) {
-                done = true;
-                console.log(d);
-                d.resolve(domElt);
-                domElt.removeEventListener(
-                    "webkitTransitionEnd",
-                    cb
-                );
-            };
-
-            domElt.addEventListener( "webkitTransitionEnd", cb);
-
-            Zanimo.delay(duration + kDelta).then(
-                function () { 
-                    if (!done) {
-                        Zanimo.async.reject("Transition Error: ");
-                        throw new Error("Transition Error: " + domElt.id + " " + attr );
-                    } 
-                }
+        var cb = function (evt) {
+            done = true;
+            d.resolve(domElt);
+            domElt.removeEventListener(
+                "webkitTransitionEnd",
+                cb
             );
+        };
 
-            _set(domElt, "webkitTransitionDuration", duration + "ms");
-            _set(domElt, "webkitTransitionProperty", attr);
-            _set(domElt, "webkitTransitionTimingFunction", timing || "linear");
+        domElt.addEventListener( "webkitTransitionEnd", cb);
 
-            domElt.style.cssText += ";" + attr + ":" + value;
-        });
+        Zanimo.delay(duration + kDelta).then(
+            function () { 
+                if (!done) {
+                    Zanimo.async.reject("Transition Error: ");
+                    throw new Error("Transition Error: " + domElt.id + " " + attr );
+                } 
+            }
+        );
+
+        _set(domElt, "webkitTransitionDuration", duration + "ms");
+        _set(domElt, "webkitTransitionProperty", attr);
+        _set(domElt, "webkitTransitionTimingFunction", timing || "linear");
+
+        domElt.style.cssText += ";" + attr + ":" + value;
         return d.promise;
     };
 
