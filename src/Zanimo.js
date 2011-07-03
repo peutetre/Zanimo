@@ -1,6 +1,6 @@
 var Zanimo = (function () {
  
-    var kDelta = 40; 
+    var kDelta = 20; 
 
     function _set(domElt, property, newValue) {
         var prop = domElt.style[property];
