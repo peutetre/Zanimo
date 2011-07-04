@@ -35,7 +35,7 @@ var Zanimo = (function () {
         domElt.addEventListener( "webkitTransitionEnd", cb);
 
         Zanimo.delay(duration + kDelta).then(
-            function () { 
+            function () {
                 if (!done) {
                     d.resolve(Zanimo.async.reject("Transition error."));
                 }
