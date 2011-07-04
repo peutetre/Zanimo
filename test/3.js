@@ -38,6 +38,17 @@
               .then( function () { return Zanimo.transition(elt1, "-webkit-transform", "scale(2)", 1000, "linear"); })
               .then( function () { return Zanimo.transition(elt1, "-webkit-transform", "scale(1)", 1000, "linear"); })
               .then( function () { return Zanimo.transition(elt1, "-webkit-transform", "scale(2)", 1000, "linear"); })
+
+        /* Sequences test 3 */
+        Zanimo.transition(elt1, "opacity", "1", 1000, "linear")
+              .then( function () { return Zanimo.transition(elt1, "opacity", "0", 1000, "linear"); },
+                     echo("Erreur step 1") )
+              .then( function () { return Zanimo.transition(elt1, "opacity", "1", 1000, "linear"); },
+                     echo("Erreur step 2") )
+              .then( function () { return Zanimo.transition(elt1, "opacity", "0", 1000, "linear"); },
+                      echo("Erreur step 3") )
+              .then( function () { return Zanimo.transition(elt1, "opacity", "1", 1000, "linear"); },
+                      echo("Erreur step 4") )
               
     }
 

@@ -37,9 +37,8 @@ var Zanimo = (function () {
         Zanimo.delay(duration + kDelta).then(
             function () { 
                 if (!done) {
-                    Zanimo.async.reject("Transition Error: ");
-                    throw new Error("Transition Error: " + domElt.id + " " + attr );
-                } 
+                    d.resolve(Zanimo.async.reject("Transition error."));
+                }
             }
         );
 
