@@ -23,7 +23,7 @@
         );
 
         Zanimo.when(
-            Zanimo.transition(elt, "-webkit-transform", "scale(2)", 1000, "linear")   
+            Zanimo.transition(elt, "transform", "scale(2)", 1000, "linear")   
         ).then(
             function () { return Zanimo.transition(elt, "transform", "scale(1)", 1000, "linear"); }  
         ).then(
@@ -33,7 +33,7 @@
         );  
 
         /* Sequences test 2 */
-        Zanimo.transition(elt1, "-webkit-transform", "scale(2)", 1000, "linear")
+        Zanimo.transition(elt1, "transform", "scale(2)", 1000, "linear")
               .then( function () { return Zanimo.transition(elt1, "transform", "scale(1)", 1000, "linear"); })
               .then( function () { return Zanimo.transition(elt1, "transform", "scale(2)", 1000, "linear"); })
               .then( function () { return Zanimo.transition(elt1, "transform", "scale(1)", 1000, "linear"); })
