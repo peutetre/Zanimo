@@ -54,13 +54,13 @@
                 Zanimo.transition(s1, "height", "400px", 1000, "ease-in").then(echo("animation2 done"));
                 Zanimo.transition(s1, "height", "800px", 1000, "ease-in").then(echo("animation2 done"));
                 Zanimo.transition(s1, "background-color", "black", 1000, "ease-in").then(echo("animation3 done"));
-                Zanimo.transition(s1, "-webkit-transform", "rotate(390deg)", 1000, "ease-in").then(echo("animation3 done"));
+                Zanimo.transition(s1, "transform", "rotate(390deg)", 1000, "ease-in").then(echo("animation3 done"));
             }        
         ).then(
             function () {
                 Zanimo.transition(s2, "width", "400px", 1000, "ease-in").then(echo("animation done"));
                 Zanimo.transition(s3, "height", "400px", 1000, "ease-in").then(echo("animation done"));
-                Zanimo.transition(s4, "-webkit-transform", "rotate(390deg)", 1000, "ease-in").then(echo("animation done"));
+                Zanimo.transition(s4, "transform", "rotate(390deg)", 1000, "ease-in").then(echo("animation done"));
                 Zanimo.transition(s5, "width", "400px", 1000, "ease-in").then(echo("animation done"));
                 Zanimo.transition(s6, "width", "400px", 1000, "ease-in").then(echo("animation done"));
                 Zanimo.transition(s7, "width", "400px", 1000, "ease-in").then(echo("animation done"));
@@ -75,13 +75,13 @@
 
 
     Zanimo.when(
-        Zanimo.transition(s1, "-webkit-transform", "rotate(390deg)", 1000, "ease-in"),
+        Zanimo.transition(s1, "transform", "rotate(390deg)", 1000, "ease-in"),
         function (value) {
             Zanimo.delay(10000)
                   .then(function () {
-                        Zanimo.transition(value, "-webkit-transform", "rotate(-370deg)", 1000, "ease-in").then(
+                        Zanimo.transition(value, "transform", "rotate(-370deg)", 1000, "ease-in").then(
                             function () {
-                                Zanimo.transition(value, "-webkit-transform", "rotate(370deg)", 1000, "ease-in");
+                                Zanimo.transition(value, "transform", "rotate(370deg)", 1000, "ease-in");
                             }
                         )
                   })

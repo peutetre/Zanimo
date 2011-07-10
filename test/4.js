@@ -11,15 +11,15 @@
 
         var elt = doc.getElementById("square1");
         Zanimo(elt).then(function (value) {
-            return Zanimo.transition(value, "-webkit-transform", "scale(2)", 1000, "linear");
+            return Zanimo.transition(value, "transform", "scale(2)", 1000, "linear");
         }).then(function (value) {
-            return Zanimo.transition(value, "-webkit-transform", "scale(1)", 1000, "linear");
+            return Zanimo.transition(value, "transform", "scale(1)", 1000, "linear");
         });
     }
 
     doc.addEventListener("DOMContentLoaded", function () {
         console.log("DOMContentLoaded");
         tests();
-    });
+    }, false);
 
 })(window, window.document);

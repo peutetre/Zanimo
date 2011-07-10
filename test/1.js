@@ -8,12 +8,11 @@
     }
 
     function tests() {
-    
+        console.log("DOMContentLoaded");
     }
 
     doc.addEventListener("DOMContentLoaded", function () {
-        console.log("DOMContentLoaded");
         tests();
-    });
+    }, false);
 
-})(window, window.document);
+}(window, window.document));
