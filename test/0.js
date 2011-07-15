@@ -99,6 +99,6 @@
     doc.addEventListener("DOMContentLoaded", function () {
         console.log("DOMContentLoaded");
         tests();
-    });
+    }, false);
 
 })(window, window.document);

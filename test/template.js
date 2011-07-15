@@ -8,7 +8,7 @@
     }
 
     function tests() {
-        console.log("DOMContentLoaded");
+        console.log("Starting tests ???? ");
     }
 
     doc.addEventListener("DOMContentLoaded", function () {
