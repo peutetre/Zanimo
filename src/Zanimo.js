@@ -31,6 +31,14 @@ var Zanimo = (function (ua) {
                     : "-" + prefix.name.toLowerCase() + "-" + s;
     }
 
+    function _getAttrName(text) {
+        text = prefixedAttributs.indexOf(text) === -1 ? text : prefix.name + "-" + text;
+        return text.split("-")
+                   .reduce( function (rst, val) { 
+                        return rst + val.charAt(0).toUpperCase() + val.substr(1);
+                    });
+    }
+
     var Z = function (domElt) {
         var d = Zanimo.async.defer();
         d.resolve(domElt);
@@ -70,7 +78,8 @@ var Zanimo = (function (ua) {
         _set(domElt, prefix.name + "TransitionDuration", duration + "ms");
         _set(domElt, prefix.name + "TransitionProperty", getAttr(attr) );
         _set(domElt, prefix.name + "TransitionTimingFunction", timing || "linear");
-        domElt.style.cssText += ";" + getAttr(attr) + ":" + value;
+        
+        domElt.style[_getAttrName(attr)] = value;
         return d.promise;
     };
 
