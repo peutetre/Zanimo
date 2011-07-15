@@ -1,3 +1,10 @@
+// TODO: 
+// on ne peut set un attribut qu'une seule fois, pas besoin de le répéter et donc
+// il ne peut pas y avoir plusieurs configuration possible d'une transition sur le meme elt en meme
+// temps. Si on rajoute une nouvelle configuration, il faut modifier la précédente.
+// et apres le tour est joué...
+
+
 var Zanimo = (function (ua) {
 
     var VERSION = "0.0.0",
@@ -23,6 +30,29 @@ var Zanimo = (function (ua) {
     function _set(domElt, property, newValue) {
         var prop = domElt.style[property] || "";
         domElt.style[property] = (prop.length > 0) ? (prop + ", " + newValue) : newValue;
+        console.log(domElt.style[property]);
+    }
+
+    function _addTransitionProperty(domElt, prefix, attr) {
+        var elts = domElt.style[prefix + "TransitionProperty"] ? domElt.style[prefix +"TransitionProperty"].split(", ") : [];
+        var pos = elts.indexOf(attr);
+
+        if (pos !== -1) {
+            console.log("found !!!!! : " + attr + " ==== " + elts.indexOf(attr));
+        }
+        else {
+            _set(domElt, prefix + "TransitionProperty", attr);
+            pos = domElt.style[prefix +"TransitionProperty"].split(", ").indexOf(attr);
+        }
+        console.log(pos);
+        console.log(attr);
+        return pos;
+    }
+
+    function _setAttributeAt(domElt, property, value, pos) {
+        vals = (domElt.style[property] || "").split(",");
+        vals[pos] = value;
+        domElt.style[property] = vals.toString();
     }
 
     function getAttr(s) {
@@ -53,7 +83,8 @@ var Zanimo = (function (ua) {
 
     Z.transition = function (domElt, attr, value, duration, timing) {
         var d = Zanimo.async.defer(),
-                done = false;
+            pos = -1,
+            done = false;
 
         var cb = function (evt) {
             done = true;
@@ -75,12 +106,16 @@ var Zanimo = (function (ua) {
                     }
               });
 
-        _set(domElt, prefix.name + "TransitionDuration", duration + "ms");
-        _set(domElt, prefix.name + "TransitionProperty", getAttr(attr) );
-        _set(domElt, prefix.name + "TransitionTimingFunction", timing || "linear");
+        // config the TransitionDuration property and return his position
+        pos = _addTransitionProperty(domElt, prefix.name, getAttr(attr));
+        _setAttributeAt(domElt, prefix.name + "TransitionDuration", duration + "ms", pos);
+        _setAttributeAt(domElt, prefix.name + "TransitionTimingFunction", timing || "linear", pos);
+        
+        //_set(domElt, prefix.name + "TransitionDuration", duration + "ms");
+        //_set(domElt, prefix.name + "TransitionProperty", getAttr(attr) );
+        //_set(domElt, prefix.name + "TransitionTimingFunction", timing || "linear");
         
         domElt.style[_getAttrName(attr)] = value;
-        //domElt.style.cssText += ";" + getAttr(attr) + ":" + value;
         return d.promise;
     };
 
