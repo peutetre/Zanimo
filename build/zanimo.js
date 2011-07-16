@@ -1,62 +1,7 @@
-var Zanimo = (function (ua) {
+var Zanimo = (function () {
 
     var VERSION = "0.0.0",
-        kDelta = 20,
-        prefixedAttributs = ["transform"],
-        prefix = {
-            webkit : { evt : "webkitTransitionEnd", name : "webkit" },
-            opera  : { evt : "oTransitionEnd"     , name : "O" },
-            firefox: { evt : "transitionend"      , name : "Moz" }
-        },
-        browser = ua.match(/.*(Chrome|Safari).*/) 
-                    ? "webkit" : ( ua.match(/.*Firefox.*/) 
-                    ? "firefox" : (navigator.appName === "Opera" 
-                    ? "opera": undefined));
-
-    function init() {
-        prefix = prefix[browser];
-        if (!prefix) {
-            throw "Unsupported browser...";
-        }
-    }
-
-    function _set(domElt, property, newValue) {
-        var prop = domElt.style[property] || "";
-        domElt.style[property] = (prop.length > 0) ? (prop + ", " + newValue) : newValue;
-        return domElt.style[property].split(", ").indexOf(newValue);
-    }
-
-    function _addTransitionProperty(domElt, prefix, attr) {
-        var n = prefix + "TransitionProperty";
-        var props = domElt.style[name];
-        var pos = (props ? props.split(", ") : []).indexOf(attr);
-
-        if (pos === -1) {
-            pos = _set(domElt, name, attr);
-        }
-
-        return pos;
-    }
-
-    function _setAttributeAt(domElt, property, value, pos) {
-        vals = (domElt.style[property] || "").split(",");
-        vals[pos] = value;
-        domElt.style[property] = vals.toString();
-    }
-
-    function getAttr(s) {
-        return prefixedAttributs.indexOf(s) === -1 
-                    ? s 
-                    : "-" + prefix.name.toLowerCase() + "-" + s;
-    }
-
-    function _getAttrName(text) {
-        text = prefixedAttributs.indexOf(text) === -1 ? text : prefix.name + "-" + text;
-        return text.split("-")
-                   .reduce( function (rst, val) { 
-                        return rst + val.charAt(0).toUpperCase() + val.substr(1);
-                    });
-    }
+        kDelta = 20;
 
     var Z = function (domElt) {
         var d = Zanimo.async.defer();
@@ -79,13 +24,13 @@ var Zanimo = (function (ua) {
             done = true;
             d.resolve(domElt);
             domElt.removeEventListener(
-                prefix.evt,
+                Zanimo.utils.prefix.evt,
                 cb,
                 false
             );
         };
 
-        domElt.addEventListener(prefix.evt, cb, false);
+        domElt.addEventListener(Zanimo.utils.prefix.evt, cb, false);
 
         Zanimo.delay(duration + kDelta)
               .then(
@@ -95,18 +40,16 @@ var Zanimo = (function (ua) {
                     }
               });
 
-        pos = _addTransitionProperty(domElt, prefix.name, getAttr(attr));
-        _setAttributeAt(domElt, prefix.name + "TransitionDuration", duration + "ms", pos);
-        _setAttributeAt(domElt, prefix.name + "TransitionTimingFunction", timing || "linear", pos);
+        pos = Zanimo.utils._add(domElt, Zanimo.utils._getAttr(attr));
+        Zanimo.utils._setAt(domElt, "TransitionDuration", duration + "ms", pos);
+        Zanimo.utils._setAt(domElt, "TransitionTimingFunction", timing || "linear", pos);
                 
-        domElt.style[_getAttrName(attr)] = value;
+        domElt.style[Zanimo.utils._getAttrName(attr)] = value;
         return d.promise;
     };
 
-    init();
-
     return Z;
-})(navigator.userAgent);
+})();
 /**
  * Zanimo.async.js
  *
@@ -239,3 +182,54 @@ var Zanimo = (function (ua) {
     };
 
 })(window.Zanimo, window.Zanimo.async = window.Zanimo.async || {});
+(function (zanimo, utils, ua) {
+
+    utils.prefixed = ["transform"];
+
+    utils.prefix = {
+        webkit : { evt : "webkitTransitionEnd", name : "webkit" },
+        opera  : { evt : "oTransitionEnd"     , name : "O" },
+        firefox: { evt : "transitionend"      , name : "Moz" }
+    };
+
+    utils.browser = ua.match(/.*(Chrome|Safari).*/) 
+                ? "webkit" : ( ua.match(/.*Firefox.*/) 
+                ? "firefox" : (navigator.appName === "Opera" 
+                ? "opera": undefined) );
+
+
+    utils.prefix = utils.prefix[utils.browser];
+
+    utils._set = function (domElt, property, newValue) {
+        var prop = domElt.style[property] || "";
+        domElt.style[property] = (prop.length > 0) ? (prop + ", " + newValue) : newValue;
+        return domElt.style[property].split(", ").indexOf(newValue);
+    };
+
+    utils._add = function (domElt, attr) {
+        var props = domElt.style[utils.prefix.name + "TransitionProperty"];
+        var pos = (props ? props.split(", ") : []).indexOf(attr);
+        return pos === -1 ? utils._set(domElt, "TransitionProperty", attr) : pos;
+    };
+
+    utils._setAt = function (domElt, property, value, pos) {
+        var vals = (domElt.style[utils.prefix.name + property] || "").split(",");
+        vals[pos] = value;
+        domElt.style[utils.prefix.name + property] = vals.toString();
+    };
+
+    utils._getAttr = function (s) {
+        return utils.prefixed.indexOf(s) === -1 
+               ? s 
+               : "-" + utils.prefix.name.toLowerCase() + "-" + s;
+    };
+
+    utils._getAttrName = function (text) {
+        text = utils.prefixed.indexOf(text) === -1 ? text :  utils.prefix.name + "-" + text;
+        return text.split("-")
+                   .reduce( function (rst, val) { 
+                        return rst + val.charAt(0).toUpperCase() + val.substr(1);
+                   });
+    };
+
+})(window.Zanimo, window.Zanimo.utils = window.Zanimo.utils || {}, navigator.userAgent);
