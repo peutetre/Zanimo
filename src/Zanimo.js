@@ -1,13 +1,13 @@
 var Zanimo = (function () {
 
     var VERSION = "0.0.0",
-        kDelta = 20;
+        kDelta = 20,
 
-    var Z = function (domElt) {
-        var d = Zanimo.async.defer();
-        d.resolve(domElt);
-        return d.promise;
-    };
+        Z = function (domElt) {
+            var d = Zanimo.async.defer();
+            d.resolve(domElt);
+            return d.promise;
+        };
 
     Z.delay = function (ms) {
         var d = Zanimo.async.defer();
@@ -33,11 +33,10 @@ var Zanimo = (function () {
         domElt.addEventListener(Zanimo.utils.prefix.evt, cb, false);
 
         Zanimo.delay(duration + kDelta)
-              .then(
-                function () {
-                    if (!done) {
-                        d.resolve(Zanimo.async.reject("Transition error."));
-                    }
+              .then( function () {
+                  if (!done) {
+                      d.resolve(Zanimo.async.reject("Transition error."));
+                  }
               });
 
         pos = Zanimo.utils._add(domElt, Zanimo.utils._getAttr(attr));
