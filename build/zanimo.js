@@ -39,9 +39,9 @@ var Zanimo = (function () {
                   }
               });
 
-        pos = Zanimo.utils._addTransition(domElt,attr);
-        Zanimo.utils._setAt(domElt, "TransitionDuration", duration + "ms", pos);
-        Zanimo.utils._setAt(domElt, "TransitionTimingFunction", timing || "linear", pos);
+        pos = Zanimo.utils._addTransition(domElt, attr);
+        Zanimo.utils._setAttributeAt(domElt, "TransitionDuration", duration + "ms", pos);
+        Zanimo.utils._setAttributeAt(domElt, "TransitionTimingFunction", timing || "linear", pos);
                 
         domElt.style[Zanimo.utils._getAttrName(attr)] = value;
         return d.promise;
@@ -199,7 +199,7 @@ var Zanimo = (function () {
     utils.prefix = utils.prefix[utils.browser];
     utils.transitionProperty = utils.prefix.name + "TransitionProperty";
 
-    utils._set = function (domElt, property, value) {
+    utils._appendToProperty = function (domElt, property, value) {
         var prop = domElt.style[property] || "";
         domElt.style[property] = (prop.length > 0) ? (prop + ", " + value) : value;
         return domElt.style[property].split(", ").indexOf(value);
@@ -209,10 +209,10 @@ var Zanimo = (function () {
         attr = utils._prefixCSSAttribute(attr);
         _props = domElt.style[utils.transitionProperty];
         _pos = (_props ? _props.split(", ") : []).indexOf(attr);
-        return _pos === -1 ? utils._set(domElt, "TransitionProperty", attr) : _pos;
+        return _pos === -1 ? utils._appendToProperty(domElt, "TransitionProperty", attr) : _pos;
     };
 
-    utils._setAt = function (domElt, property, value, pos) {
+    utils._setAttributeAt = function (domElt, property, value, pos) {
         var vals = (domElt.style[utils.prefix.name + property] || "").split(",");
         vals[pos] = value;
         domElt.style[utils.prefix.name + property] = vals.toString();
