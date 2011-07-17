@@ -9,9 +9,9 @@ var Zanimo = (function () {
             return d.promise;
         };
 
-    Z.delay = function (ms) {
+    Z.delay = function (ms, domElt) {
         var d = Zanimo.async.defer();
-        setTimeout(function () { d.resolve(ms); }, ms);
+        setTimeout(function () { d.resolve(domElt || ms); }, ms);
         return d.promise;
     };
 
