@@ -3,9 +3,9 @@
     utils.prefixed = ["transform"];
 
     utils.prefix = {
-        webkit : { evt : "webkitTransitionEnd", name : "webkit" },
-        opera  : { evt : "oTransitionEnd"     , name : "O" },
-        firefox: { evt : "transitionend"      , name : "Moz" }
+        webkit : { evt : "webkitTransitionEnd", name : "webkit", css: "-webkit-" },
+        opera  : { evt : "oTransitionEnd"     , name : "O", css: "-o-" },
+        firefox: { evt : "transitionend"      , name : "Moz", css: "-moz-" }
     };
 
     utils.browser = ua.match(/.*(Chrome|Safari).*/) 
@@ -14,17 +14,19 @@
                 ? "opera": undefined) );
 
     utils.prefix = utils.prefix[utils.browser];
+    utils.transitionProperty = utils.prefix.name + "TransitionProperty";
 
-    utils._set = function (domElt, property, newValue) {
+    utils._set = function (domElt, property, value) {
         var prop = domElt.style[property] || "";
-        domElt.style[property] = (prop.length > 0) ? (prop + ", " + newValue) : newValue;
-        return domElt.style[property].split(", ").indexOf(newValue);
+        domElt.style[property] = (prop.length > 0) ? (prop + ", " + value) : value;
+        return domElt.style[property].split(", ").indexOf(value);
     };
 
-    utils._add = function (domElt, attr) {
-        var props = domElt.style[utils.prefix.name + "TransitionProperty"];
-        var pos = (props ? props.split(", ") : []).indexOf(attr);
-        return pos === -1 ? utils._set(domElt, "TransitionProperty", attr) : pos;
+    utils._addTransition = function (domElt, attr, /* tmp vars */_props, _pos) {
+        attr = utils._prefixCSSAttribute(attr);
+        _props = domElt.style[utils.transitionProperty];
+        _pos = (_props ? _props.split(", ") : []).indexOf(attr);
+        return _pos === -1 ? utils._set(domElt, "TransitionProperty", attr) : _pos;
     };
 
     utils._setAt = function (domElt, property, value, pos) {
@@ -33,10 +35,8 @@
         domElt.style[utils.prefix.name + property] = vals.toString();
     };
 
-    utils._getAttr = function (s) {
-        return utils.prefixed.indexOf(s) === -1 
-               ? s 
-               : "-" + utils.prefix.name.toLowerCase() + "-" + s;
+    utils._prefixCSSAttribute = function (s) {
+        return utils.prefixed.indexOf(s) === -1 ? s : utils.prefix + s;
     };
 
     utils._getAttrName = function (text) {

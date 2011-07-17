@@ -1,13 +1,13 @@
 var Zanimo = (function () {
 
     var VERSION = "0.0.0",
-        kDelta = 20;
+        kDelta = 20,
 
-    var Z = function (domElt) {
-        var d = Zanimo.async.defer();
-        d.resolve(domElt);
-        return d.promise;
-    };
+        Z = function (domElt) {
+            var d = Zanimo.async.defer();
+            d.resolve(domElt);
+            return d.promise;
+        };
 
     Z.delay = function (ms) {
         var d = Zanimo.async.defer();
@@ -33,14 +33,13 @@ var Zanimo = (function () {
         domElt.addEventListener(Zanimo.utils.prefix.evt, cb, false);
 
         Zanimo.delay(duration + kDelta)
-              .then(
-                function () {
-                    if (!done) {
-                        d.resolve(Zanimo.async.reject("Transition error."));
-                    }
+              .then( function () {
+                  if (!done) {
+                      d.resolve(Zanimo.async.reject("Transition error."));
+                  }
               });
 
-        pos = Zanimo.utils._add(domElt, Zanimo.utils._getAttr(attr));
+        pos = Zanimo.utils._addTransition(domElt,attr);
         Zanimo.utils._setAt(domElt, "TransitionDuration", duration + "ms", pos);
         Zanimo.utils._setAt(domElt, "TransitionTimingFunction", timing || "linear", pos);
                 
@@ -187,9 +186,9 @@ var Zanimo = (function () {
     utils.prefixed = ["transform"];
 
     utils.prefix = {
-        webkit : { evt : "webkitTransitionEnd", name : "webkit" },
-        opera  : { evt : "oTransitionEnd"     , name : "O" },
-        firefox: { evt : "transitionend"      , name : "Moz" }
+        webkit : { evt : "webkitTransitionEnd", name : "webkit", css: "-webkit-" },
+        opera  : { evt : "oTransitionEnd"     , name : "O", css: "-o-" },
+        firefox: { evt : "transitionend"      , name : "Moz", css: "-moz-" }
     };
 
     utils.browser = ua.match(/.*(Chrome|Safari).*/) 
@@ -197,19 +196,20 @@ var Zanimo = (function () {
                 ? "firefox" : (navigator.appName === "Opera" 
                 ? "opera": undefined) );
 
-
     utils.prefix = utils.prefix[utils.browser];
+    utils.transitionProperty = utils.prefix.name + "TransitionProperty";
 
-    utils._set = function (domElt, property, newValue) {
+    utils._set = function (domElt, property, value) {
         var prop = domElt.style[property] || "";
-        domElt.style[property] = (prop.length > 0) ? (prop + ", " + newValue) : newValue;
-        return domElt.style[property].split(", ").indexOf(newValue);
+        domElt.style[property] = (prop.length > 0) ? (prop + ", " + value) : value;
+        return domElt.style[property].split(", ").indexOf(value);
     };
 
-    utils._add = function (domElt, attr) {
-        var props = domElt.style[utils.prefix.name + "TransitionProperty"];
-        var pos = (props ? props.split(", ") : []).indexOf(attr);
-        return pos === -1 ? utils._set(domElt, "TransitionProperty", attr) : pos;
+    utils._addTransition = function (domElt, attr, /* tmp vars */_props, _pos) {
+        attr = utils._prefixCSSAttribute(attr);
+        _props = domElt.style[utils.transitionProperty];
+        _pos = (_props ? _props.split(", ") : []).indexOf(attr);
+        return _pos === -1 ? utils._set(domElt, "TransitionProperty", attr) : _pos;
     };
 
     utils._setAt = function (domElt, property, value, pos) {
@@ -218,10 +218,8 @@ var Zanimo = (function () {
         domElt.style[utils.prefix.name + property] = vals.toString();
     };
 
-    utils._getAttr = function (s) {
-        return utils.prefixed.indexOf(s) === -1 
-               ? s 
-               : "-" + utils.prefix.name.toLowerCase() + "-" + s;
+    utils._prefixCSSAttribute = function (s) {
+        return utils.prefixed.indexOf(s) === -1 ? s : utils.prefix + s;
     };
 
     utils._getAttrName = function (text) {

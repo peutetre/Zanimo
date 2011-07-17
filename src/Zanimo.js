@@ -39,7 +39,7 @@ var Zanimo = (function () {
                   }
               });
 
-        pos = Zanimo.utils._add(domElt, Zanimo.utils._getAttr(attr));
+        pos = Zanimo.utils._addTransition(domElt, attr);
         Zanimo.utils._setAt(domElt, "TransitionDuration", duration + "ms", pos);
         Zanimo.utils._setAt(domElt, "TransitionTimingFunction", timing || "linear", pos);
                 
