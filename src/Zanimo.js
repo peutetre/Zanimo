@@ -39,11 +39,10 @@ var Zanimo = (function () {
                   }
               });
 
-        pos = Zanimo.utils._addTransition(domElt, attr);
-        Zanimo.utils._setAttributeAt(domElt, "TransitionDuration", duration + "ms", pos);
-        Zanimo.utils._setAttributeAt(domElt, "TransitionTimingFunction", timing || "linear", pos);
-                
-        domElt.style[Zanimo.utils._getAttrName(attr)] = value;
+        pos = Zanimo.utils.addTransition(domElt, attr);
+        Zanimo.utils.setAttributeAt(domElt, "TransitionDuration", duration + "ms", pos);
+        Zanimo.utils.setAttributeAt(domElt, "TransitionTimingFunction", timing || "linear", pos);
+        Zanimo.utils.setProperty(domElt, attr, value);
         return d.promise;
     };
 
