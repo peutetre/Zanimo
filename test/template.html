@@ -13,8 +13,21 @@
     </style>
   </head>
   <body>
+      <h1>This is the template test...</h1>
+      <p>a short descripton of the test and some code</p>
+<pre>
+/**
+ * example test...
+ */
+
+Zanimo.when(Zanimo.delay(1000, $("square1")), function (elt) { 
+    return Zanimo.transition(elt, "width", "300px", 1000, "ease-in"); 
+}).then(function(elt) { return Zanimo.transition(elt, "height", "300px", 1000, "ease-in") } )
+  .then(function(elt) { return Zanimo.transition(elt, "height", "100px", 1000, "ease-in") } )
+
+</pre>
       <div id="square1" class="red"></div>
-      <script src="../build/zanimo.min.js"></script>
+      <script src="../build/zanimo.js"></script>
       <script src="template.js"></script>
   </body>
 </html>
