@@ -20,6 +20,11 @@ var Zanimo = (function () {
             pos = -1,
             done = false;
 
+        if (!domElt || !domElt.nodeType || !(domElt.nodeType >= 0)) {
+            d.resolve(Zanimo.async.reject("Zanimo transition Error : no given dom Element!"));
+            return d.promise;
+        }
+
         var cb = function (evt) {
             done = true;
             d.resolve(domElt);
@@ -35,7 +40,13 @@ var Zanimo = (function () {
         Zanimo.delay(duration + kDelta)
               .then( function () {
                   if (!done) {
-                      d.resolve(Zanimo.async.reject("Transition error."));
+                      d.resolve(Zanimo.async.reject( "Zanimo transition Error on "
+                                                     + domElt.id
+                                                     + " with "
+                                                     + attr
+                                                     + ":"
+                                                     + value
+                      ));
                   }
               });
 
