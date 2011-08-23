@@ -1,13 +1,14 @@
 var Zanimo = (function () {
 
     var VERSION = "0.0.0",
-        kDelta = 20,
 
         Z = function (domElt) {
             var d = Zanimo.async.defer();
             d.resolve(domElt);
             return d.promise;
         };
+
+    Z.kDelta = 50;
 
     Z.delay = function (ms, domElt) {
         var d = Zanimo.async.defer();
@@ -37,7 +38,7 @@ var Zanimo = (function () {
 
         domElt.addEventListener(Zanimo.utils.prefix.evt, cb, false);
 
-        Zanimo.delay(duration + kDelta)
+        Zanimo.delay(duration + Z.kDelta)
               .then( function () {
                   if (!done) {
                       d.resolve(Zanimo.async.reject( "Zanimo transition Error on "
