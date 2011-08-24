@@ -48,6 +48,14 @@ a:hover {
     text-shadow: 0px 0px 1px rgba(0,0,0,.3);
 }
 
+select {
+    font-size: 15px;
+    background: rgb(1,44,28);
+    color: #fbbda1;
+    height:27px;
+    border:none;
+}
+
 button {
     margin-left:10px; 
     font-size: 15px;
