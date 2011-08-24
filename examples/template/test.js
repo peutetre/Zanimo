@@ -53,6 +53,7 @@
         }
 
         test.sel.addEventListener("change", function (evt) {
+            suite[currentTestName].reset();
             suite[currentTestName].clean();
             suite[test.sel.value].init();
             currentTestName = test.sel.value;
