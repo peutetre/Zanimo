@@ -10,27 +10,25 @@
     <link rel="stylesheet" type="text/css" href="default.css">
   </head>
   <body>
-      <h1>Title of the test/example</h1>
-      <p>A short description of the test/example. In this case, it should success one time.</p>
-      <p>the source <a href="test.js">code</a></p>
-
+      <h1 id="title">Title of the test/example</h1>
+      <p id="desc">A short description of the test/example. In this case, it should success one time.</p>
+      <p>the <a id="code" href="#">source code</a></p>
+      <div id="select-container"></div>
       <button id="trigger-test-button">start test</button>
       <button id="trigger-reset-button">reset</button>
-
       <div id="logs">
           <!-- Here comes the logs -->
       </div>
 
-      <div id="square1" class="red"></div>
-
       <footer> <small> a <a href="http://zanimo.com">Zanimo</a> example </small> </footer>
 
       <script src="../../build/zanimo.js"></script>
-      <script src="utils.js"></script>
-
-      <!-- Your example or test/example -->
       <script src="test.js"></script>
-      <!-- <script src="http://192.168.3.67:3333/target/target-script-min.js"></script> -->
+
+      <!-- Tests -->
+      <script src="000.js"></script>
+      <script src="001.js"></script>
+      <!-- Include your test here ! -->
 
   </body>
 </html>

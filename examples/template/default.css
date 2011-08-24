@@ -95,10 +95,24 @@ footer {
     padding:0;
 }
 
+#select-container {
+    display:inline;
+    margin-left:10px;
+}
+
 #square1 {
     position:absolute;
-    top:200px;
+    top:400px;
     left:250px;
+}
+
+#circle1 {
+    position:absolute;
+    top:400px;
+    left:250px;
+    -moz-border-radius: 50px;
+	-webkit-border-radius: 50px;
+	border-radius: 50px;   
 }
 
 @media (max-device-width:480px) and (orientation:landscape), 
