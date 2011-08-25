@@ -123,6 +123,21 @@ footer {
 	border-radius: 50px;   
 }
 
+#circle2 {
+    position:absolute;
+    top:400px;
+    left:250px;
+    -moz-border-radius: 50px;
+	-webkit-border-radius: 50px;
+	border-radius: 50px;
+}
+
+#square3 {
+    position:absolute;
+    top:400px;
+    left:250px;
+}
+
 @media (max-device-width:480px) and (orientation:landscape), 
                    (max-device-width:480px) and (orientation:portrait),
                    (min-device-width:481px) and (max-device-width:1024px) and (orientation:portrait), 
