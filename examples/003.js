@@ -10,6 +10,8 @@
     }
     
     function genLoop() {
+        // TODO il faut une autre construction avec un flag pour
+        // permettre d'arrêter l'animation à la fin d'une sequence
         loop = function (elt, prop, min, max) {
             function change(prop, val) {
                 return Zanimo.transition(elt, prop, val, 1000, "ease-in");
