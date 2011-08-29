@@ -19,5 +19,5 @@ Zanimo.transition(domElt, "width", "200px", 1000, "ease-in")
 ## TODO
 
 * adding more tests/examples
-* better documentation
+* documentation
 * adding a Zanimo.animate() which doesn't use transitions, in the case you want to stop the animation at any time.
