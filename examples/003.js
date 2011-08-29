@@ -45,10 +45,14 @@
         square.style.cssText = " ";
     }
 
+    var desc = "In this test, there is 3 infinite loops: <br> The first one changes the background to green in 1s\
+                <br> The second one changes the height to 300px in 1s \
+                <br> the last one changes the width to 300px in 1s";
+
     test.add(
         "simple-loops",
         "Simple loop",
-        "A stupid simple recursive loop...",
+        desc,
         "003.js",
         init,
         run,

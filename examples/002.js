@@ -32,8 +32,8 @@
 
     test.add(
         "simple-scale",
-        "Simple scale 2 1 2 1",
-        "A minialist example of the usage of Zanimo...",
+        "Simple circle scale",
+        "Scale the cicrle to 2 in 1s then rescale it to 1 and repeat this steps on time.",
         "001.js",
         init,
         run,

@@ -19,8 +19,8 @@
     }
     
     function run () {
-        Zanimo.when( a(circle), b(), test.rejectAndlog("a failed...") )
-              .then( test.done(), test.fail("failed with raison => ") );
+        Zanimo.when( a(circle), b(), test.rejectAndlog("Failed at a") )
+              .then( test.done(), test.fail("Failed at b") );
     }
 
     function clean () {
@@ -35,7 +35,7 @@
     test.add(
         "defaultcircle",
         "Default circle",
-        "This is the default circle test",
+        "Translates the circle to 100px in the x axis, then translate it to 100px in the y axis",
         "001.js",
         init,
         run,

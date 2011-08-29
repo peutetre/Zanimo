@@ -2,7 +2,7 @@
 
     var square = doc.createElement("div");
 
-    function withTo300In1sec () {
+    function changeHeight () {
         return function (elt) {
             return Zanimo.transition(elt, "height", "200px", 1000, "ease-in");
         };
@@ -15,7 +15,7 @@
     function secondStep() {
         return function (elt) {
             return Zanimo.transition(elt, "width", "200px", 1000, "ease-in")
-                         .then( withTo300In1sec(), test.rejectAndlog("won't be called...") );
+                         .then( changeHeight(), test.rejectAndlog("Failed in the first inner step of the second step") );
         };
     }
 
@@ -32,9 +32,9 @@
     }
     
     function run () {
-        Zanimo.when( firstStep(square), secondStep(), test.rejectAndlog("will be called after that when you click the test button...") )
-              .then( thirdStep(), test.rejectAndlog("Oups... second step failed..."))
-              .then( test.done(), test.fail("failed with raison => ") );
+        Zanimo.when( firstStep(square), secondStep(), test.rejectAndlog("Failed at the first step") )
+              .then( thirdStep(), test.rejectAndlog("Failed at the second step"))
+              .then( test.done(), test.fail("Failed at the thirs step") );
     }
 
     function clean () {
@@ -45,11 +45,17 @@
         square.style.cssText = " ";
     }
 
+
+    var desc = "First changes the background color of the square to green in 1s, \
+                then in a second step changes the width to 200px in 1s, then the height to 200px in 1s \
+                and in the third step rotates the square to 90deg in 1s. <br> \
+                If you trigger the test another time without reseting the element you should see an error!";
+
     // add the test
     test.add(
         "default",
         "Default test",
-        "This is the default test",
+        desc,
         "000.js",
         init,
         run,

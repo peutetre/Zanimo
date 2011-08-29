@@ -63,14 +63,14 @@
             currentTestName = test.sel.value;
             code.href = suite[test.sel.value].url;
             title.innerText = suite[test.sel.value].title;
-            desc.innerText = suite[test.sel.value].desc;
+            desc.innerHTML = suite[test.sel.value].desc;
         }, false);
 
         currentTestName = test.sel.value;
         suite[currentTestName].init();
         code.href = suite[currentTestName].url;
         title.innerText = suite[currentTestName].title;
-        desc.innerText = suite[currentTestName].desc;
+        desc.innerHTML = suite[currentTestName].desc;
     };
 
     test.add = function (name, title, desc, url, init, test, clean, reset) {
