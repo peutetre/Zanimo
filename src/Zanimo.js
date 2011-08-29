@@ -1,3 +1,6 @@
+// Zanimo.js
+// (c) 2011 Paul Panserrieu
+
 var Zanimo = (function () {
 
     var VERSION = "0.0.0",

@@ -1,3 +1,6 @@
+// Zanimo.js
+// (c) 2011 Paul Panserrieu
+
 var Zanimo = (function () {
 
     var VERSION = "0.0.0",
@@ -65,6 +68,7 @@ var Zanimo = (function () {
  *
  * This is the promises module.
  * The code a modified version of the q7 design example from Kris Kowal's Q library (q7.js)
+ * which is under the MIT license
  * (https://github.com/kriskowal/q/blob/master/design/q7.js)
  */
 
