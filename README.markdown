@@ -9,7 +9,7 @@ The promises are based on the q7 design example of Kris Kowal's Q library (https
 
 See `examples/index.html` for the demo/examples.
 
-## API
+## Usage
 
 ```javaScript
 Zanimo.transition(domElt, "width", "200px", 1000, "ease-in")

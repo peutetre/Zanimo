@@ -7,6 +7,7 @@
     var logsContainer = test.$("logs"),
         testButton = test.$("trigger-test-button"),
         resetButton = test.$("trigger-reset-button"),
+        cleanButton = test.$("trigger-clean-button"),
         title = test.$("title"),
         desc = test.$("desc"),
         code = test.$("code"),
@@ -85,10 +86,15 @@
         };
     };
 
+    test.clean = function () {
+        logsContainer.innerHTML = "";
+    };
+
     doc.addEventListener("DOMContentLoaded", function () {
         test.init();
         testButton.addEventListener("click", test.run, false);
         resetButton.addEventListener("click", test.reset, false);
+        cleanButton.addEventListener("click", test.clean, false);
     }, false);
 
 }(window.document, window.Test = window.Test || {}));
