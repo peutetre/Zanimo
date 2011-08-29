@@ -1,33 +1,39 @@
 (function (doc, test) {
 
     var square = doc.createElement("div"),
-        loop;
+        i = 1, j = 1, k = 1, on = true;
 
     function init () {
         doc.body.appendChild(square);
         square.id = "square3";
         square.className = "red";
     }
-    
-    function genLoop() {
-        // TODO il faut une autre construction avec un flag pour
-        // permettre d'arrêter l'animation à la fin d'une sequence
-        loop = function (elt, prop, min, max) {
-            function change(prop, val) {
-                return Zanimo.transition(elt, prop, val, 1000, "ease-in");
-            }
+   
+    function change(prop, val) {
+        return function (elt) {
+            return on ? Zanimo.transition(elt, prop, val, 1000, "ease-in-out") : null;
+        };
+    }
 
-            (function go(){
-                Zanimo.when(change(prop, max), function ( ) { return change(prop, min); }, test.fail("Oups"))
-                      .then(go, test.fail("Failing in the go loop from " + prop + "... "));
-             })();
-        };    
+    function go(elt, prop, start, end, counter) {
+        Zanimo(elt).then(change(prop, start), test.rejectAndlog("failing in the 1 step"))
+                   .then(change(prop, end),   test.rejectAndlog("failing in the 2 step"))
+                   .then(nextStep(prop, start, end, counter), test.fail("Oups : "));
+    }
+
+    function nextStep(prop, start, end, counter) {
+        return function (elt) {
+            counter++;
+            test.log("Starting the " + counter + " iteration with prop. '" + prop + "'");
+            return go(elt, prop, start, end, counter);
+        }
     }
 
     function run () {
-        genLoop();
-        loop(square, "width", "100px", "300px");
-        loop(square, "height", "100px", "300px");
+        on = true;
+        go(square, "width", "300px", "100px", i);
+        go(square, "height", "300px", "100px", j);
+        go(square, "background-color", "green", "red", k);
     }
 
     function clean () {
@@ -35,16 +41,14 @@
     }
 
     function reset() {
-        setTimeout(function () {
-            loop = function () {};
-            square.style.cssText = " ";
-        }, 1);
+        on = false;
+        square.style.cssText = " ";
     }
 
     test.add(
         "simple-loops",
         "Simple loop",
-        "A simple stupid recursive loop...",
+        "A stupid simple recursive loop...",
         "003.js",
         init,
         run,

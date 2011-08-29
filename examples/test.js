@@ -33,6 +33,10 @@
         };
     };
 
+    test.log = function (msg) {
+        logsContainer.innerHTML += '<span>' + "Log: " + msg + '</span><br>';
+    };
+
     test.reset = function () {
         suite[test.sel.value].reset();
     };
