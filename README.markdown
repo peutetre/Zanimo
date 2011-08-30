@@ -11,7 +11,7 @@ See `examples/index.html` for the demo/examples.
 
 ## Usage
 
-```javaScript
+```javascript
 Zanimo.transition(domElt, "width", "200px", 1000, "ease-in")
       .then(function () { alert("Transition done!"); });
 ```
@@ -20,4 +20,4 @@ Zanimo.transition(domElt, "width", "200px", 1000, "ease-in")
 
 * adding more tests/examples
 * documentation
-* adding a Zanimo.animate() which doesn't use transitions, in the case you want to stop the animation at any time.
+* adding a Zanimo.animate() which doesn't use css3 transitions, in the case you want to stop the animation at any time.
