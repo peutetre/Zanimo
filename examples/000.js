@@ -30,9 +30,9 @@
         square.id = "square1";
         square.className = "red";
     }
-    
+
     function run () {
-        Zanimo.when( firstStep(square), secondStep(), test.rejectAndlog("Failed at the first step") )
+        Q.when( firstStep(square), secondStep(), test.rejectAndlog("Failed at the first step") )
               .then( thirdStep(), test.rejectAndlog("Failed at the second step"))
               .then( test.done(), test.fail("Failed at the thirs step") );
     }

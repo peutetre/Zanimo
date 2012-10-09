@@ -3,7 +3,6 @@ ZANIMOMIN = zanimo.min.js
 BUILDDIR = build
 
 FILES = src/Zanimo.js\
-		src/Zanimo.async.js\
 		src/Zanimo.utils.js
 
 all: cat

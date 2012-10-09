@@ -1,12 +1,12 @@
 // Zanimo.js
-// (c) 2011 Paul Panserrieu
+// (c) 2011-2012 Paul Panserrieu
 
 var Zanimo = (function () {
 
-    var VERSION = "0.0.0",
+    var VERSION = "0.0.1",
 
         Z = function (domElt) {
-            var d = Zanimo.async.defer();
+            var d = Q.defer();
             d.resolve(domElt);
             return d.promise;
         };
@@ -14,18 +14,20 @@ var Zanimo = (function () {
     Z.kDelta = 50;
 
     Z.delay = function (ms, domElt) {
-        var d = Zanimo.async.defer();
+        var d = Q.defer();
         setTimeout(function () { d.resolve(domElt || ms); }, ms);
         return d.promise;
     };
 
     Z.transition = function (domElt, attr, value, duration, timing) {
-        var d = Zanimo.async.defer(),
+        var d = Q.defer(),
             pos = -1,
             done = false;
 
         if (!domElt || !domElt.nodeType || !(domElt.nodeType >= 0)) {
-            d.resolve(Zanimo.async.reject("Zanimo transition Error : no given dom Element!"));
+            d.resolve(Q.fcall(function () {
+                throw new Error("Zanimo transition: no given dom Element!");
+            }));
             return d.promise;
         }
 
@@ -43,15 +45,10 @@ var Zanimo = (function () {
 
         Zanimo.delay(duration + Z.kDelta)
               .then( function () {
-                  if (!done) {
-                      d.resolve(Zanimo.async.reject( "Zanimo transition Error on "
-                                                     + domElt.id
-                                                     + " with "
-                                                     + attr
-                                                     + ":"
-                                                     + value
-                      ));
-                  }
+                  if (!done)
+                      d.resolve(Q.fcall(function () {
+                        throw new Error("Zanimo transition: " + domElt.id + " with " + attr + ":" + value);
+                      }));
               });
 
         pos = Zanimo.utils.addTransition(domElt, attr);
