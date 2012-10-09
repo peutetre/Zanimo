@@ -11,7 +11,7 @@
     utils.browser = ua.match(/.*(Chrome|Safari).*/) 
                 ? "webkit" : ( ua.match(/.*Firefox.*/) 
                 ? "firefox" : (navigator.appName === "Opera" 
-                ? "opera": undefined) );
+                ? "opera": "webkit") );
 
     utils.prefix = utils.prefix[utils.browser];
     utils.transitionProperty = utils.prefix.name + "TransitionProperty";
