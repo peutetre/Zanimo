@@ -1,15 +1,13 @@
-ZANIMO = zanimo.js
-ZANIMOMIN = zanimo.min.js
+ZANIMO = zanimo
 BUILDDIR = build
-
-FILES = src/Zanimo.js\
-		src/Zanimo.utils.js
+VERSION = `cat VERSION`
+FILES = src/Zanimo.js
 
 all: cat
-	@@java -jar bin/compiler.jar --js ${BUILDDIR}/${ZANIMO} --js_output_file ${BUILDDIR}/${ZANIMOMIN}
+	@@java -jar bin/compiler.jar --js ${BUILDDIR}/${ZANIMO}-${VERSION}.js --js_output_file ${BUILDDIR}/${ZANIMO}-${VERSION}.min.js
 
 cat:
-	@@cat ${FILES} > ${BUILDDIR}/${ZANIMO};
+	@@cat ${FILES} > ${BUILDDIR}/${ZANIMO}-${VERSION}.js;
 
 clean:
-	@@rm ${BUILDDIR}/${ZANIMO} ${BUILDDIR}/${ZANIMOMIN}
+	@@rm ${BUILDDIR}/${ZANIMO}-${VERSION}.js ${BUILDDIR}/${ZANIMO}-${VERSION}.min.js
