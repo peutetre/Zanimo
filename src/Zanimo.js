@@ -1,11 +1,9 @@
-// Zanimo.js
+// Zanimo.js - a tiny css3 transition library
 // (c) 2011-2012 Paul Panserrieu
 
 var Zanimo = (function () {
 
-    var VERSION = "0.0.1",
-
-        Z = function (domElt) {
+    var Z = function (domElt) {
             var d = Q.defer();
             d.resolve(domElt);
             return d.promise;
@@ -21,44 +19,55 @@ var Zanimo = (function () {
         return d.promise;
     };
 
+    Z._addTransition = function (domElt, attr, value, duration, timing) {
+        attr = attr === "transform" ? "-webkit-transform" : attr;
+        if (domElt.style.webkitTransitionProperty) {
+            domElt.style.webkitTransitionProperty = domElt.style.webkitTransitionProperty + ", " + attr;
+            domElt.style.webkitTransitionDuration = domElt.style.webkitTransitionDuration + ", " + duration + "ms";
+            domElt.style.webkitTransitionTimingFunction = domElt.style.webkitTransitionTimingFunction + ", " + (timing || "linear");
+        }
+        else {
+            domElt.style.webkitTransitionProperty = attr;
+            domElt.style.webkitTransitionDuration = duration + "ms";
+            domElt.style.webkitTransitionTimingFunction = (timing || "linear");
+        }
+        attr = attr[0] === "-" ? attr.substr(1, attr.length-1) : attr;
+        attr = attr.replace(/(\-[a-z])/g, function(m) { return m.toUpperCase().replace('-','');} );
+        domElt.style[attr] = value;
+    };
+
+    Z._removeTransition = function (domElt, attr, value, duration, timing) {
+        attr = attr === "transform" ? "-webkit-transform" : attr;
+        var props = domElt.style.webkitTransition.split(", "),
+            pos = props.lastIndexOf(attr + " " + duration + "ms " + (timing || "linear")),
+            newProps = props.filter(function (elt, idx) { return idx !== pos; });
+
+        domElt.style.webkitTransition = newProps.toString();
+    };
+
     Z.transition = function (domElt, attr, value, duration, timing) {
         var d = Q.defer(),
-            pos = -1;
+            pos = -1,
+            timeout,
+            cb = function (evt) {
+                if (timeout) { clearTimeout(timeout); timeout = null; }
+                d.resolve(domElt);
+                Z._removeTransition(domElt, attr, value, duration, timing);
+                domElt.removeEventListener("webkitTransitionEnd", cb, false);
+            };
 
         if (!domElt || !domElt.nodeType || !(domElt.nodeType >= 0)) {
-            d.resolve(Q.fcall(function () {
-                throw new Error("Zanimo transition: no given dom Element!");
-            }));
+            d.reject(new Error("Zanimo transition: no given dom Element!"));
             return d.promise;
         }
 
-        var timeout,
-            cb = function (evt) {
-                if (timeout) { clearTimeout(timeout); timeout = null }
-                d.resolve(domElt);
-                // FIXME just remove what you need to remove and not all transitions
-                //Zanimo.utils.removeTransition(domElt, attr);
-                //domElt.style.webkitTransition = "";
-                //domElt.style.webkitTransitionDuration = "";
-                //domElt.style.webkitTransitionTimingFunction = "";
-                domElt.removeEventListener(
-                    Zanimo.utils.prefix.evt,
-                    cb,
-                    false
-                );
-            };
-
-        domElt.addEventListener(Zanimo.utils.prefix.evt, cb, false);
+        domElt.addEventListener("webkitTransitionEnd", cb, false);
 
         timeout = setTimeout(function() {
-          d.reject(new Error("Zanimo transition: " + domElt.id + " with " + attr + ":" + value));
+            d.reject(new Error("Zanimo transition: " + domElt.id + " with " + attr + ":" + value));
         }, duration + Z.kDelta);
 
-        pos = Zanimo.utils.addTransition(domElt, attr);
-        Zanimo.utils.setAttributeAt(domElt, "TransitionDuration", duration + "ms", pos);
-        Zanimo.utils.setAttributeAt(domElt, "TransitionTimingFunction", timing || "linear", pos);
-        Zanimo.utils.setProperty(domElt, attr, value);
-
+        Z._addTransition(domElt, attr, value, duration, timing);
         return d.promise;
     };
 
