@@ -8,7 +8,7 @@
         square.id = "square3";
         square.className = "red";
     }
-   
+
     function change(prop, val) {
         return function (elt) {
             return on ? Zanimo.transition(elt, prop, val, 1000, "ease-in-out") : null;

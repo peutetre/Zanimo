@@ -16,8 +16,8 @@
 
     test.rejectAndlog = function (tag) {
         return function (raison) {
-            var d = Zanimo.async.defer();
-            d.resolve(Zanimo.async.reject(tag + " : " + raison));
+            var d = Q.defer();
+            d.reject(new Error(tag + " : " + raison));
             return d.promise;
         };
     };

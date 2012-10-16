@@ -7,7 +7,7 @@
         circle.id = "circle2";
         circle.className = "red";
     }
-    
+
     function scale(n) {
         return function (value) {
             return Zanimo.transition(value, "transform", "scale(" + n + ")", 1000, "linear");

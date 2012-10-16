@@ -17,7 +17,7 @@
         circle.id = "circle1";
         circle.className = "red";
     }
-    
+
     function run () {
         Zanimo.when( a(circle), b(), test.rejectAndlog("Failed at a") )
               .then( test.done(), test.fail("Failed at b") );

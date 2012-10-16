@@ -11,7 +11,9 @@ var Zanimo = (function () {
             return d.promise;
         };
 
-    Z.kDelta = 50;
+    Z.kDelta = 100;
+
+    Z.when = Q.when;
 
     Z.delay = function (ms, domElt) {
         var d = Q.defer();
@@ -21,8 +23,7 @@ var Zanimo = (function () {
 
     Z.transition = function (domElt, attr, value, duration, timing) {
         var d = Q.defer(),
-            pos = -1,
-            done = false;
+            pos = -1;
 
         if (!domElt || !domElt.nodeType || !(domElt.nodeType >= 0)) {
             d.resolve(Q.fcall(function () {
@@ -31,30 +32,33 @@ var Zanimo = (function () {
             return d.promise;
         }
 
-        var cb = function (evt) {
-            done = true;
-            d.resolve(domElt);
-            domElt.removeEventListener(
-                Zanimo.utils.prefix.evt,
-                cb,
-                false
-            );
-        };
+        var timeout,
+            cb = function (evt) {
+                if (timeout) { clearTimeout(timeout); timeout = null }
+                d.resolve(domElt);
+                // FIXME just remove what you need to remove and not all transitions
+                //Zanimo.utils.removeTransition(domElt, attr);
+                //domElt.style.webkitTransition = "";
+                //domElt.style.webkitTransitionDuration = "";
+                //domElt.style.webkitTransitionTimingFunction = "";
+                domElt.removeEventListener(
+                    Zanimo.utils.prefix.evt,
+                    cb,
+                    false
+                );
+            };
 
         domElt.addEventListener(Zanimo.utils.prefix.evt, cb, false);
 
-        Zanimo.delay(duration + Z.kDelta)
-              .then( function () {
-                  if (!done)
-                      d.resolve(Q.fcall(function () {
-                        throw new Error("Zanimo transition: " + domElt.id + " with " + attr + ":" + value);
-                      }));
-              });
+        timeout = setTimeout(function() {
+          d.reject(new Error("Zanimo transition: " + domElt.id + " with " + attr + ":" + value));
+        }, duration + Z.kDelta);
 
         pos = Zanimo.utils.addTransition(domElt, attr);
         Zanimo.utils.setAttributeAt(domElt, "TransitionDuration", duration + "ms", pos);
         Zanimo.utils.setAttributeAt(domElt, "TransitionTimingFunction", timing || "linear", pos);
         Zanimo.utils.setProperty(domElt, attr, value);
+
         return d.promise;
     };
 
