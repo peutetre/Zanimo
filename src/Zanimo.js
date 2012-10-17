@@ -47,7 +47,6 @@ var Zanimo = (function () {
 
     Z.transition = function (domElt, attr, value, duration, timing) {
         var d = Q.defer(),
-            pos = -1,
             timeout,
             cb = function (evt) {
                 if (timeout) { clearTimeout(timeout); timeout = null; }
