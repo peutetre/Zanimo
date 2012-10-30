@@ -9,7 +9,7 @@ var Zanimo = (function () {
             return d.promise;
         };
 
-    Z.kDelta = 100;
+    Z.kDelta = 140;
 
     Z.when = Q.when;
 
