@@ -66,7 +66,9 @@ var Zanimo = (function () {
             d.reject(new Error("Zanimo transition: " + domElt.id + " with " + attr + ":" + value));
         }, duration + Z.kDelta);
 
-        Z._addTransition(domElt, attr, value, duration, timing);
+        setTimeout(function () {
+            Z._addTransition(domElt, attr, value, duration, timing);
+        },0);
         return d.promise;
     };
 
