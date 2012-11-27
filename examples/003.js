@@ -11,7 +11,7 @@
 
     function change(prop, val) {
         return function (elt) {
-            return on ? Zanimo.transition(elt, prop, val, 1000, "ease-in-out") : null;
+            return on ? Zanimo.transition(elt, prop, val, 100, "ease-in-out") : null;
         };
     }
 

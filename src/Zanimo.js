@@ -10,6 +10,7 @@ var Zanimo = (function () {
         };
 
     Z.kDelta = 140;
+    Z.kMin = 100;
 
     Z.when = Q.when;
 
@@ -64,7 +65,7 @@ var Zanimo = (function () {
 
         timeout = setTimeout(function() {
             d.reject(new Error("Zanimo transition: " + domElt.id + " with " + attr + ":" + value));
-        }, duration + Z.kDelta);
+        }, duration > Z.kMin ? duration + Z.kDelta : Z.kMin + Z.kDelta);
 
         setTimeout(function () {
             Z._addTransition(domElt, attr, value, duration, timing);
