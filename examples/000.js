@@ -1,6 +1,6 @@
 (function (doc, test) {
 
-    var square = doc.createElement("div");
+    var square = null;
 
     function changeHeight () {
         return function (elt) {
@@ -26,6 +26,7 @@
     }
 
     function init () {
+        square = doc.createElement("div")
         doc.body.appendChild(square);
         square.id = "square1";
         square.className = "red";
@@ -39,6 +40,9 @@
 
     function clean () {
         doc.body.removeChild(square);
+        console.log("clean test 000");
+        square = null;
+        console.log("square: " + square);
     }
 
     function reset() {

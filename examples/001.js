@@ -1,6 +1,6 @@
 (function (doc, test) {
 
-    var circle = doc.createElement("div");
+    var circle = null;
 
     function a(elt) {
         return Zanimo.transition(elt, "transform", "translateX(100px)", 1000, "ease-in");
@@ -13,18 +13,20 @@
     }
 
     function init () {
+        circle = doc.createElement("div");
         doc.body.appendChild(circle);
         circle.id = "circle1";
         circle.className = "red";
     }
 
     function run () {
-        Zanimo.when( a(circle), b(), test.rejectAndlog("Failed at a") )
+        Q.when( a(circle), b(), test.rejectAndlog("Failed at a") )
               .then( test.done(), test.fail("Failed at b") );
     }
 
     function clean () {
         doc.body.removeChild(circle);
+        circle = null;
     }
 
     function reset() {

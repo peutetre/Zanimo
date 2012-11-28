@@ -1,8 +1,9 @@
 (function (doc, test) {
 
-    var circle = doc.createElement("div");
+    var circle = null;
 
     function init () {
+        circle = doc.createElement("div");
         doc.body.appendChild(circle);
         circle.id = "circle2";
         circle.className = "red";
@@ -24,6 +25,7 @@
 
     function clean () {
         doc.body.removeChild(circle);
+        circle = null;
     }
 
     function reset() {

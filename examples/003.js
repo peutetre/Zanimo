@@ -1,9 +1,10 @@
 (function (doc, test) {
 
-    var square = doc.createElement("div"),
+    var square = null,
         i = 1, j = 1, k = 1, on = true;
 
     function init () {
+        square = doc.createElement("div");
         doc.body.appendChild(square);
         square.id = "square3";
         square.className = "red";
@@ -11,7 +12,7 @@
 
     function change(prop, val) {
         return function (elt) {
-            return on ? Zanimo.transition(elt, prop, val, 100, "ease-in-out") : null;
+            return on ? Zanimo.transition(elt, prop, val, 200, "ease-in-out") : null;
         };
     }
 
@@ -38,6 +39,7 @@
 
     function clean () {
         doc.body.removeChild(square);
+        square =  null;
     }
 
     function reset() {
