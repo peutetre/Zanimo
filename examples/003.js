@@ -26,7 +26,9 @@
         return function (elt) {
             counter++;
             test.log("Starting the " + counter + " iteration with prop. '" + prop + "'");
-            return go(elt, prop, start, end, counter);
+            return setTimeout(function () {
+                go(elt, prop, start, end, counter)
+            },0);
         }
     }
 
