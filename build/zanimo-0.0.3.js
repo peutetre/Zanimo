@@ -3,6 +3,28 @@
 
 var Zanimo = (function () {
 
+    /**
+     * Provides requestAnimationFrame in a cross browser way.
+     * @author paulirish / http://paulirish.com/
+     */
+    if ( !window.requestAnimationFrame ) {
+        window.requestAnimationFrame = ( function() {
+
+            return window.webkitRequestAnimationFrame ||
+                window.mozRequestAnimationFrame ||
+                window.oRequestAnimationFrame ||
+                window.msRequestAnimationFrame ||
+            function( /* function FrameRequestCallback */ callback, /* DOMElement Element */ element ) {
+                window.setTimeout( callback, 1000 / 60 );
+            };
+
+        } )();
+    };
+
+
+    /**
+     * set up
+     */
     var T = (function (doc) {
         var transitionend = "transitionend",
             prefix = null,
@@ -16,7 +38,9 @@ var Zanimo = (function () {
                 var property = p[0] === "-" ? p.substr(1, attr.length-1) : p;
                 return property.replace(/\-([a-z])/g, function(m, g) { return g.toUpperCase();});
             };
-
+            /**
+             * detect transition feature
+             */
             if('WebkitTransition' in doc.body.style) {
                 transitionend = 'webkitTransitionEnd'; prefix = "webkit";
             }
@@ -30,8 +54,8 @@ var Zanimo = (function () {
         return {
             transition : norm(prefix ? prefix + "-" + "transition": "transition"),
             transitionend : transitionend,
-            properties:properties,
-            norm:norm,
+            properties : properties,
+            norm : norm,
             prefixProperty : function (p) {
                 return prefixed[p] ? prefixed[p] : p;
             }
@@ -68,16 +92,15 @@ var Zanimo = (function () {
     };
 
     Z.kDelta = 140;
-    Z.kMin = 140;
 
     Z.transition = function (domElt, attr, value, duration, timing) {
         var d = Q.defer(),
             timeout,
             cb = function (evt) {
                 if (timeout) { clearTimeout(timeout); timeout = null; }
-                d.resolve(domElt);
                 remove(domElt, attr, value, duration, timing);
                 domElt.removeEventListener(T.transitionend, cb, false);
+                d.resolve(domElt);
             };
 
         if (!domElt || !domElt.nodeType || !(domElt.nodeType >= 0)) {
@@ -87,12 +110,20 @@ var Zanimo = (function () {
 
         domElt.addEventListener(T.transitionend, cb, false);
 
-        timeout = setTimeout(function() {
-            d.reject(new Error("Zanimo transition: " + domElt.id + " with " + attr + ":" + value));
-        }, duration > Z.kMin ? duration + Z.kDelta : Z.kMin);
+        window.requestAnimationFrame(function () {
+            add(domElt, attr, value, duration, timing);
+            timeout = setTimeout(function() {
+                d.reject(new Error("Zanimo transition: " + domElt.id + " with " + attr + ":" + value));
+            }, duration + Z.kDelta);
+        }, domElt);
 
-        setTimeout(function () { add(domElt, attr, value, duration, timing); }, 0);
         return d.promise;
+    };
+
+    Z.transitionƒ = function (attr, value, duration, timing) {
+        return function (elt) {
+            return Z.transition(elt, attr, value, duration, timing);
+        };
     };
 
     return Z;
