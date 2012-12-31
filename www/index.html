@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Zanimo.js - promise based css transitions</title>
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="viewport" content="width=device-width">
+        <meta name="viewport" content="user-scalable=yes">
+        <link rel="stylesheet" type="text/css" href="css/reset.css">
+        <link rel="stylesheet" type="text/css" href="css/default.css">
+        <link rel="stylesheet" type="text/css" href="vendor/rainbow/solarized-light.css">
+    </head>
+    <body>
+        <article>
+            <div class="curtain">
+                <section class="documentation">
+                    <h1>Documentation</h1>
+                    <p>Zanimo is a promise based css transition library and take adventage of the transitionend event which occurs after a transition. The specs defines case where a transition should not work, like trying to make a transition from a state A to the stae A; this implies error handling and Zanimo give you the controle!</p>
+                    <p>Zanimo use the library Q <a href="https://github.com/kriskowal/q">https://github.com/kriskowal/q</a> </p>
+                    <h2>Zanimo(elt) ➡ promise</h2>
+                    <p> Takes a DOM element and returns a resolved promise with the element as value</p>
+                    <h2>Zanimo.transition(elt, attr, value, duration, timing) ➡ promise</h2>
+                    <p>Launch a transition on the given DOM element `elt` on the CSS attribute `attr` with the value `value`.
+                    The transition takes `duration` miliseconds with a `timing` timing function.</p>
+                    <h2>Zanimo.transitionƒ(property, value, time, timingFunction, delta) ➡ function</h2>
+                    <p>Wrapping Zanimo.transition</p>
+                </section>
+                <section class="header">
+                    <h1>Zanimo</h1>
+                    <h2>Promise based CSS transitions</h2>
+                    <button class="download">download v0.1</button>
+                    <div class="circle">
+                        <span>⬇</span>
+                    </div>
+                </section>
+            </div>
+            <section class="code">
+                <div class="code-content">
+                    <button class="orange-button run">RUN</button>
+                    <button class="orange-button reset">RESET</button>
+                    <a>Source code on github</a>
+                </div>
+                <div class="editor-container">
+<div id="editor">/*
+ * Animate the first star
+ */
+Zanimo(star1).then(Zanimo.transitionƒ("transform", "translate3d(200px, 0, 0)", 200, 'ease-in-out'))
+             .then(Zanimo.transitionƒ("width", "200px", 300))
+             .fin(function () { alert("done!")});
+</div>
+                </div>
+                <footer>
+                    <a>42loops</a>
+                </footer>
+            </section>
+        </article>
+
+        <script src="vendor/rainbow/rainbow.min.js"></script>
+        <script src="vendor/q-0.8.9.js"></script>
+        <script src="vendor/zanimo-0.0.3.js"></script>
+        <script src="http://d1n0x3qji82z53.cloudfront.net/src-min-noconflict/ace.js"></script>
+        <script src="js/app.js"></script>
+    </body>
+</html>

@@ -104,7 +104,7 @@ var Zanimo = (function () {
             };
 
         if (!domElt || !domElt.nodeType || !(domElt.nodeType >= 0)) {
-            d.reject(new Error("Zanimo transition: no given dom Element!"));
+            d.reject(new Error("Zanimo transition: no DOM element!"));
             return d.promise;
         }
 

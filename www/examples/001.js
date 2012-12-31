@@ -7,9 +7,7 @@
     }
 
     function b() {
-        return function (elt) {
-            return Zanimo.transition(elt, "transform", "translateY(100px)", 1000, "ease-in");
-        };
+        return Zanimo.transitionƒ("transform", "translateY(100px)", 1000, "ease-in");
     }
 
     function init () {
@@ -21,7 +19,7 @@
 
     function run () {
         Q.when( a(circle), b(), test.rejectAndlog("Failed at a") )
-              .then( test.done(), test.fail("Failed at b") );
+         .then( test.done(), test.fail("Failed at b") );
     }
 
     function clean () {

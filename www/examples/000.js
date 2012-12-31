@@ -3,39 +3,33 @@
     var square = null;
 
     function changeHeight () {
-        return function (elt) {
-            return Zanimo.transition(elt, "height", "200px", 1000, "ease-in");
-        };
+        return Zanimo.transitionƒ("height", "200px", 1000, "ease-in");
     }
 
     function firstStep(elt) {
         return Zanimo.transition(elt, "background-color", "green", 1000, "ease-in");
     }
 
-    function secondStep() {
-        return function (elt) {
-            return Zanimo.transition(elt, "width", "200px", 1000, "ease-in")
-                         .then( changeHeight(), test.rejectAndlog("Failed in the first inner step of the second step") );
-        };
+    function secondStep(elt) {
+        return Zanimo.transition(elt, "width", "200px", 1000, "ease-in");
     }
 
     function thirdStep() {
-        return function (elt) {
-            return Zanimo.transition(elt, "transform", "rotate(90deg)", 1000, "ease-in");
-        };
+        return Zanimo.transitionƒ("transform", "rotate(90deg)", 1000, "ease-in");
     }
 
     function init () {
-        square = doc.createElement("div")
+        square = doc.createElement("div");
         doc.body.appendChild(square);
         square.id = "square1";
         square.className = "red";
     }
 
     function run () {
-        Q.when( firstStep(square), secondStep(), test.rejectAndlog("Failed at the first step") )
-              .then( thirdStep(), test.rejectAndlog("Failed at the second step"))
-              .then( test.done(), test.fail("Failed at the thirs step") );
+        Q.when( firstStep(square), secondStep(square).then(changeHeight()))
+         .fin(function (e) { console.log(e); console.log("toto"); return e;})
+         //.then( thirdStep(), test.rejectAndlog("Failed at the second step"))
+         //.then( test.done(), test.fail("Failed at the thirs step") );
     }
 
     function clean () {
