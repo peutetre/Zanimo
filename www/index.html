@@ -49,9 +49,34 @@
 <div id="editor">/*
  * Animate the first star
  */
-Zanimo(star1).then(Zanimo.transitionƒ("transform", "translate3d(200px, 0, 0)", 200, 'ease-in-out'))
-             .then(Zanimo.transitionƒ("width", "200px", 300))
-             .fin(function () { alert("done!")});
+
+var animX200px = Zanimo.transitionƒ("transform", "translate3d(200px, 0, 0)", 200, 'ease-in-out'),
+    animY200px = Zanimo.transitionƒ("transform", "translate3d(0, 200px, 0)", 200, 'ease-in-out');
+
+Zanimo(stars[0]).then(animX200px)
+ .then(Zanimo.ƒ(stars[1])).then(animX200px)
+ .then(Zanimo.ƒ(stars[2])).then(animX200px)
+ .then(Zanimo.ƒ(stars[3])).then(animX200px)
+ .then(Zanimo.ƒ(stars[4])).then(animX200px)
+ .then(Zanimo.ƒ(stars[5])).then(animX200px)
+ .then(Zanimo.ƒ(stars[6])).then(animX200px)
+ .then(Zanimo.ƒ(stars[7])).then(animX200px)
+ .then(Zanimo.ƒ(stars[8])).then(animX200px)
+ .then(Zanimo.ƒ(stars[9])).then(animX200px)
+ .then(function () {
+    return Q.all([
+        Zanimo(stars[0]).then(animY200px),
+        Zanimo(stars[1]).then(animY200px),
+        Zanimo(stars[2]).then(animY200px),
+        Zanimo(stars[3]).then(animY200px),
+        Zanimo(stars[4]).then(animY200px),
+        Zanimo(stars[5]).then(animY200px),
+        Zanimo(stars[6]).then(animY200px),
+        Zanimo(stars[7]).then(animY200px),
+        Zanimo(stars[8]).then(animY200px),
+        Zanimo(stars[9]).then(animY200px)
+    ]);
+ });
 </div>
                 </div>
                 <footer>

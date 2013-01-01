@@ -26,19 +26,20 @@ div.curtain {
 
     position:absolute;
     top: 0;
-    height: 600px;
+    height: 710px;
     -webkit-transform: translate3d(0,0px,0);
     -moz-transform: translate3d(0,0px,0);
     z-index: 10;
     width: 100%;
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
-    height: -webkit-calc(100% - 50px - 20px);
-    height: -moz-calc(100% - 50px - 20px);
+    /*height: -webkit-calc(100% - 50px - 20px);
+    height: -moz-calc(100% - 50px - 20px);*/
+    /*height: 100%;*/
 }
 
 div.curtain section.header div.circle {
-    font-size: 50px;
+    /*font-size: 50px;
     height: 100px;
     width: 100px;
     border-radius: 100px;
@@ -48,11 +49,21 @@ div.curtain section.header div.circle {
     text-align: center;
     background: #4C7BC3;
     left: -webkit-calc(50% - 50px);
-    left: -moz-calc(50% - 50px);
+    left: -moz-calc(50% - 50px);*/
+
+    font-size: 50px;
+    height: 100px;
+    width: 100px;
+    border-radius: 100px;
+    position: relative;
+    top: -70px;
+    text-align: center;
+    background: #4C7BC3;
+    margin: auto;
 }
 
 div.curtain section.header div.circle span {
-    position: absolute;
+    /*position: absolute;
     top: 0.45em;
     left: -webkit-calc(50% - 24px);
     left: -moz-calc(50% - 24px);
@@ -62,7 +73,15 @@ div.curtain section.header div.circle span {
     color: #233774;
     -moz-text-shadow:    1px 2px 1px rgba(150,176,216,0.99);
     -webkit-text-shadow: 1px 2px 1px rgba(150,176,216,0.99);
-    text-shadow:         1px 2px 1px rgba(150,176,216,0.99);
+    text-shadow: -1px -2px 1px rgba(150, 176, 216, 0.99);*/
+
+    position: absolute;
+    top: 0.45em;
+    left: 0.5em;
+    -webkit-transform-origin: 50% 50%;
+    -moz-transform-origin: 50% 50%;
+    font-family: Futura-Medium;
+    color: #233774;
 }
 
 section.header {
@@ -334,4 +353,16 @@ article section footer span a:hover {
 
 article section footer a.twitter-share-button {
     margin:auto;
+}
+
+.star {
+    position:absolute;
+    background:url("../images/stern.png");
+    top : 0;
+    left : 0;
+    -webkit-transform: translate3d(0,0,0);
+    -moz-transform: translate3d(0,0,0);
+    width: 62px;
+    height: 61px;
+    z-index: 10;
 }
