@@ -18,12 +18,17 @@
                     <p>Zanimo is a promise based css transition library and take adventage of the transitionend event which occurs after a transition. The specs defines case where a transition should not work, like trying to make a transition from a state A to the stae A; this implies error handling and Zanimo give you the controle!</p>
                     <p>Zanimo use the library Q <a href="https://github.com/kriskowal/q">https://github.com/kriskowal/q</a> </p>
                     <h2>Zanimo(elt) ➡ promise</h2>
-                    <p> Takes a DOM element and returns a resolved promise with the element as value</p>
-                    <h2>Zanimo.transition(elt, attr, value, duration, timing) ➡ promise</h2>
-                    <p>Launch a transition on the given DOM element `elt` on the CSS attribute `attr` with the value `value`.
-                    The transition takes `duration` miliseconds with a `timing` timing function.</p>
-                    <h2>Zanimo.transitionƒ(property, value, time, timingFunction, delta) ➡ function</h2>
-                    <p>Wrapping Zanimo.transition</p>
+                    <p> Takes a DOM element and returns a resolved promise of the element.</p>
+                    <h2>Zanimo.transition(
+                        <br>&nbsp;&nbsp;&nbsp;&nbsp;elt, &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   <span>/* DOM element */     </span>
+                        <br>&nbsp;&nbsp;&nbsp;&nbsp;attr, &nbsp;&nbsp;&nbsp;&nbsp;        <span>/* CSS attribute */ </span>
+                        <br>&nbsp;&nbsp;&nbsp;&nbsp;val,  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  <span>/* CSS attribute's value */ </span>
+                        <br>&nbsp;&nbsp;&nbsp;&nbsp;t, &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  <span>/* transition time in milisecond */ </span>
+                        <br>&nbsp;&nbsp;&nbsp;&nbsp;timingF <span>/* timing function */ </span>
+                        <br>) ➡ promise</h2>
+                    <p>Start a transition</p>
+                    <h2>Zanimo.transitionƒ(attr, val, t, timingF) ➡ function</h2>
+                    <p>Returns a function wrapping Zanimo.transition wich is conviniant for chaining</p>
                 </section>
                 <section class="header">
                     <h1>Zanimo</h1>
@@ -38,7 +43,7 @@
                 <div class="code-content">
                     <button class="orange-button run">RUN</button>
                     <button class="orange-button reset">RESET</button>
-                    <a>Source code on github</a>
+                    <a href="http://github.com/peutetre/Zanimo">Source code on github</a>
                 </div>
                 <div class="editor-container">
 <div id="editor">/*
@@ -50,7 +55,9 @@ Zanimo(star1).then(Zanimo.transitionƒ("transform", "translate3d(200px, 0, 0)", 
 </div>
                 </div>
                 <footer>
-                    <a>42loops</a>
+                    <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://zani.mo" data-hashtags="js">Tweet</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="http://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+                    <span>by <a href="http://42loops.com">42loops</a></span>
                 </footer>
             </section>
         </article>

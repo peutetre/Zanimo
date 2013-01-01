@@ -6,7 +6,7 @@
 
     var $ = function (s, ctx) { return (ctx || doc).querySelectorAll(s); },
         upAnimation = Zanimo.transitionƒ("transform", "translate3d(0,-520px,0)", 400, 'ease-in-out'),
-        upArrowAnimation = Zanimo.transitionƒ("transform", "rotate(180deg)", 400, 'ease-in-out'),
+        upArrowAnimation = Zanimo.transitionƒ("transform", "rotate(540deg)", 400, 'ease-in-out'),
         downAnimations = [
             Zanimo.transitionƒ("transform", "translate3d(0,10px,0)", 300, 'ease-in'),
             Zanimo.transitionƒ("transform", "translate3d(0,-15px,0)", 80, 'ease-in-out'),
@@ -18,7 +18,12 @@
             Zanimo.transitionƒ("transform", "translate3d(0,-15px,0)", 80, 'ease-in-out'),
             Zanimo.transitionƒ("transform", "translate3d(0,0px,0)", 60, 'ease-in')
         ],
-        downDownloadBtnAnimation = Zanimo.transitionƒ("transform", "translate3d(0,-520px,0)", 200),
+        downDownloadBtnAnimations = [
+            Zanimo.transitionƒ("transform", "translate3d(0,-560px,0)", 250),
+            Zanimo.transitionƒ("transform", "translate3d(0,-510px,0)", 60, 'ease-in'),
+            Zanimo.transitionƒ("transform", "translate3d(0,-530px,0)", 60, 'ease-in-out'),
+            Zanimo.transitionƒ("transform", "translate3d(0,-520px,0)", 60, 'ease-in')
+        ],
         up = false;
 
     window.main = function () {
@@ -41,7 +46,10 @@
                                    .then(downAnimations[1])
                                    .then(downAnimations[2])
                 ]).then(function () { return Zanimo(downloadBtn) })
-                  .then(downDownloadBtnAnimation)
+                  .then(downDownloadBtnAnimations[0])
+                  .then(downDownloadBtnAnimations[1])
+                  .then(downDownloadBtnAnimations[2])
+                  .then(downDownloadBtnAnimations[3])
                   .then(function () { up = false; return up; });
             }
         }
@@ -58,11 +66,16 @@
             sign = $("span", circle)[0],
             downloadBtn = $(".download")[0];
 
-        Q.delay(1000)
-         .then(anim)
-         .then(function () {
-            circle.addEventListener("click", anim, false);
-        });
+        Zanimo(downloadBtn)
+            .then(downDownloadBtnAnimations[0])
+            .then(downDownloadBtnAnimations[1])
+            .then(downDownloadBtnAnimations[2])
+            .then(downDownloadBtnAnimations[3])
+            .delay(500)
+            .then(anim)
+            .then(function () {
+                circle.addEventListener("click", anim, false);
+            });
 
     };
 
