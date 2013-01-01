@@ -126,5 +126,11 @@ var Zanimo = (function () {
         };
     };
 
+    Z.ƒ = function (elt) {
+        return function () {
+            return Z(elt);
+        };
+    };
+
     return Z;
 })();
