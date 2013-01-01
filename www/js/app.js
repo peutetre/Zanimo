@@ -108,6 +108,10 @@
             });
         }
 
+        function onDownload(evt) {
+            window.location.href = "https://github.com/peutetre/Zanimo/archive/Q.zip";
+        }
+
         // FIXME
         var editor = ace.edit("editor");
         editor.setTheme("ace/theme/clouds");
@@ -133,6 +137,7 @@
                 circle.addEventListener("click", anim, false);
                 run.addEventListener("click", onRun, false);
                 reset.addEventListener("click", onReset, false);
+                downloadBtn.addEventListener("click", onDownload, false)
                 createStars();
             });
 
