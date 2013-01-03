@@ -5,7 +5,9 @@
 (function (doc) {
 
     var $ = function (s, ctx) { return (ctx || doc).querySelectorAll(s); },
-        upAnimation = Zanimo.transitionƒ("transform", "translate3d(0,-520px,0)", 400, 'ease-in-out'),
+        upAnimation = function (c) {
+            return Zanimo.transitionƒ("transform", "translate3d(0," + (- c.getBoundingClientRect().height + 190) + "px,0)", 400, 'ease-in-out');
+        },
         upArrowAnimation = Zanimo.transitionƒ("transform", "rotate(540deg)", 400, 'ease-in-out'),
         upArrowChangeShadow = function (elt) {
             elt.style.textShadow = "-1px -2px 1px rgba(150, 176, 216, 0.99)";
@@ -66,7 +68,7 @@
         function anim() {
             if (!up) {
                 return Q.all([
-                    Zanimo(curtain).then(upAnimation),
+                    Zanimo(curtain).then(upAnimation(curtain)).then(function () { console.log("toto");}),
                     Zanimo(sign).then(upArrowChangeShadow).then(upArrowAnimation)
                 ]).then(function () { return Zanimo(downloadBtn) })
                   .then(upDownloadBtnAnimations[0])
@@ -139,7 +141,11 @@
                 reset.addEventListener("click", onReset, false);
                 downloadBtn.addEventListener("click", onDownload, false)
                 createStars();
-            });
+            })
+            .fail(function (err) {
+                console.log(err);
+                console.log(err.stack);
+            })
 
     };
 
