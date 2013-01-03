@@ -8,7 +8,7 @@
         upAnimation = function (c) {
             return Zanimo.transitionƒ("transform", "translate3d(0," + (- c.getBoundingClientRect().height + 190) + "px,0)", 400, 'ease-in-out');
         },
-        upArrowAnimation = Zanimo.transitionƒ("transform", "rotate(540deg)", 400, 'ease-in-out'),
+        upArrowAnimation = Zanimo.transitionƒ("transform", "translate3d(0,27px,0) rotate(540deg)", 400, 'ease-in-out'),
         upArrowChangeShadow = function (elt) {
             elt.style.textShadow = "-1px -2px 1px rgba(150, 176, 216, 0.99)";
             return elt;
