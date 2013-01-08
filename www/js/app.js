@@ -22,7 +22,7 @@
             Zanimo.transitionƒ("transform", "translate3d(0,-15px,0)", 80, 'ease-in-out'),
             Zanimo.transitionƒ("transform", "translate3d(0,0px,0)", 60, 'ease-in')
         ],
-        downArrowAnimation = Zanimo.transitionƒ("transform", "rotate(0)", 440, 'ease-in-out'),
+        downArrowAnimation = Zanimo.transitionƒ("transform", "rotate(0) translate3d(0,20px,0)", 440, 'ease-in-out'),
         upDownloadBtnAnimations = [
             Zanimo.transitionƒ("transform", "translate3d(0,10px,0)", 100, 'ease-in'),
             Zanimo.transitionƒ("transform", "translate3d(0,-15px,0)", 80, 'ease-in-out'),
@@ -115,9 +115,11 @@
         }
 
         // FIXME
-        var editor = ace.edit("editor");
-        editor.setTheme("ace/theme/clouds");
-        editor.getSession().setMode("ace/mode/javascript");
+        var editor = CodeMirror.fromTextArea(document.getElementById("editor"), {
+                lineNumbers: true,
+                matchBrackets: true,
+                extraKeys: { "Enter" : "newlineAndIndentContinueComment" }
+            });
 
         window.edit = editor;
 

@@ -4,11 +4,10 @@
         <meta charset="utf-8">
         <title>Zanimo.js - promise based css transitions</title>
         <meta name="apple-mobile-web-app-capable" content="yes" />
-        <!--  <meta name="viewport" content="width=device-width"> -->
-        <!-- <meta name="viewport" content="user-scalable=yes"> -->
+        <meta name = "viewport" content = "width = device-width, initial-scale = 1, user-scalable = yes">
         <link rel="stylesheet" type="text/css" href="css/reset.css">
         <link rel="stylesheet" type="text/css" href="css/default.css">
-        <link rel="stylesheet" type="text/css" href="vendor/rainbow/solarized-light.css">
+        <link rel="stylesheet" href="vendor/codemirror/codemirror.css">
     </head>
     <body>
         <article>
@@ -43,10 +42,10 @@
                 <div class="code-content">
                     <button class="orange-button run">RUN</button>
                     <button class="orange-button reset">RESET</button>
-                    <a href="http://github.com/peutetre/Zanimo">Source code on github</a>
+                    <a href="https://github.com/peutetre/Zanimo">Source code on github</a>
                 </div>
                 <div class="editor-container">
-<div id="editor">/*
+<textarea id="editor" name="code">/*
  * Animate the first star
  */
 
@@ -77,7 +76,7 @@ Zanimo(stars[0]).then(animX200px)
         Zanimo(stars[9]).then(animY200px)
     ]);
  });
-</div>
+</textarea>
                 </div>
                 <footer>
                     <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://zani.mo" data-hashtags="js">Tweet</a>
@@ -87,10 +86,14 @@ Zanimo(stars[0]).then(animX200px)
             </section>
         </article>
 
-        <script src="vendor/rainbow/rainbow.min.js"></script>
         <script src="vendor/q-0.8.9.js"></script>
         <script src="vendor/zanimo-0.0.3.js"></script>
-        <script src="vendor/ace/ace.js"></script>
+
+        <script src="vendor/codemirror/codemirror.js"></script>
+        <script src="vendor/codemirror/matchbrackets.js"></script>
+        <script src="vendor/codemirror/continuecomment.js"></script>
+        <script src="vendor/codemirror/javascript.js"></script>
+
         <script src="js/app.js"></script>
     </body>
 </html>
