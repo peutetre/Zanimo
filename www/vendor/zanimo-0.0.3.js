@@ -86,7 +86,7 @@ var Zanimo = (function () {
     remove = function (domElt, attr, value, duration, timing) {
         attr = T.prefixProperty(attr);
         var props = domElt.style[T.transition].split(", "),
-            pos = props.lastIndexOf(attr + " " + duration + "ms " + (timing || "linear")),
+            pos = props.lastIndexOf(duration + "ms " + (timing || "linear")),
             newProps = props.filter(function (elt, idx) { return idx !== pos; });
         domElt.style[T.transition] = newProps.toString();
     };
