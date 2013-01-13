@@ -22,24 +22,26 @@ var Zanimo = (function () {
         } )();
     };
 
-    /**
-     * set up
+    /*
+     * Private helper dealing with prefix and normalizing
+     * css properties, transition/transform values.
      */
     var T = (function (doc) {
-        var transitionend = "transitionend",
-            prefix = null,
-            prefixed = { "transform": "transform" },
-            norm = function (p) {
-                var property = p[0] === "-" ? p.substr(1, p.length-1) : p;
-                return property.replace(/\-([a-z])/g,
-                    function(m, g) { return g.toUpperCase();});
-            },
-            _matchParenthesis = /(\(.+?\))/g,
+        var _matchParenthesis = /(\(.+?\))/g,
             _zeropixel = /^0px$/g,
             _zero = "0"
             _space = / /g,
+            _normRegex = /\-([a-z])/g,
             _emptyString = "",
-            normTransform = function (val) {
+            _transitionend = "transitionend",
+            _prefix = null,
+            _prefixed = { "transform": "" },
+            _norm = function (p) {
+                var property = p[0] === "-" ? p.substr(1, p.length-1) : p;
+                return property.replace(_normRegex,
+                    function(m, g) { return g.toUpperCase();});
+            },
+            _normTransform = function (val) {
                 return val.replace(
                     _matchParenthesis,
                     function (match) {
@@ -55,48 +57,76 @@ var Zanimo = (function () {
             };
 
             // detect transition feature
-            if('WebkitTransition' in doc.body.style && !("OTransition" in doc.body.style)) {
-                transitionend = 'webkitTransitionEnd'; prefix = "webkit";
+            if( 'WebkitTransition' in doc.body.style
+                && !("OTransition" in doc.body.style) ) {
+                _transitionend = 'webkitTransitionEnd';
+                _prefix = "webkit";
             }
 
-            for (var p in prefixed)
-                prefixed[p] = prefix ? "-" + prefix + "-" + prefixed[p] : prefixed[p];
+            // set _prefixed with founded prefix
+            for (var p in _prefixed)
+                _prefixed[p] = _prefix ? "-" + _prefix + "-" + p : p;
 
         return {
-            transition : norm(prefix ? prefix + "-" + "transition" : "transition"),
-            transitionend : transitionend,
-            norm : norm,
-            prefixProperty : function (p) { return prefixed[p] ? prefixed[p] : p; },
-            repr : function (a, d, t) { return a + " " + d + "ms " + (t || "linear") },
-            normTransform : normTransform
+            // prefixed transition string
+            t : _norm(_prefix ? _prefix + "-" + "transition" : "transition"),
+            // prefixed transition end event string
+            transitionend : _transitionend,
+            // normalize css property
+            norm : _norm,
+            // prefix a css property if needed
+            prefix : function (p) {
+                return _prefixed[p] ? _prefixed[p] : p;
+            },
+            // returns a transition representation string
+            repr : function (v, d, t) {
+                return v + " " + d + "ms " + (t || "linear")
+            },
+            // normalize a css transformation string like
+            // "translate(340px, 0px, 230px) rotate(340deg )"
+            // -> "translate(340px,0,230px) rotate(340deg)"
+            normTransform : _normTransform
         };
     })(window.document),
 
+    /**
+     * Returns a fulfilled promise wrapping the given DOM element.
+     */
     Z = function (domElt) {
         return Q.fcall(function () {
             return domElt;
         });
     },
 
+    // private helper to add a transition
     add = function (domElt, attr, value, duration, timing) {
-        attr = T.prefixProperty(attr);
-        if (domElt.style[T.transition]) {
-            domElt.style[T.transition] = domElt.style[T.transition] + ", " + T.repr(attr, duration, timing);
+        attr = T.prefix(attr);
+        if (domElt.style[T.t]) {
+            domElt.style[T.t] = domElt.style[T.t]
+                                + ", "
+                                + T.repr(attr, duration, timing);
         }
         else {
-            domElt.style[T.transition] = T.repr(attr, duration, timing);
+            domElt.style[T.t] = T.repr(attr, duration, timing);
         }
         domElt.style[T.norm(attr)] = value;
     },
 
+    // private helper to remove a transition
     remove = function (domElt, attr, value, duration, timing) {
-        attr = T.prefixProperty(attr);
-        var props = domElt.style[T.transition].split(", "),
+        attr = T.prefix(attr);
+        var props = domElt.style[T.t].split(", "),
             pos = props.lastIndexOf(T.repr(attr, duration, timing)),
-            newProps = props.filter(function (elt, idx) { return idx !== pos; });
-        domElt.style[T.transition] = newProps.toString();
+            newProps = props.filter(function (elt, idx) {
+                return idx !== pos;
+            });
+        domElt.style[T.t] = newProps.toString();
     };
 
+    /**
+     * Starts a transition on the given DOM element and returns
+     * a promise wrapping the DOM element.
+     */
     Z.transition = function (domElt, attr, value, duration, timing) {
         var d = Q.defer(),
             timeout,
@@ -115,10 +145,13 @@ var Zanimo = (function () {
         domElt.addEventListener(T.transitionend, cb, false);
 
         window.requestAnimationFrame(function () {
+            // apply the transition
             add(domElt, attr, value, duration, timing);
+            // by pass `transitionend` event or reject.
             timeout = setTimeout(function() {
-                var domVal = T.normTransform(domElt.style[T.prefixProperty(attr)]),
+                var domVal = T.normTransform(domElt.style[T.prefix(attr)]),
                     givenVal = T.normTransform(value);
+                // if DOM element reflects the given value: success
                 if (domVal == givenVal) {
                     cb();
                     d.resolve(domElt);
@@ -130,18 +163,26 @@ var Zanimo = (function () {
                             + attr + ":" + givenVal
                             + " DOM value: [" + domVal + "]"
                 ));
+            // giving the browser 20 ms to trigger the `transitionend` event
             }, duration + 20 );
         }, domElt);
 
         return d.promise;
     };
 
+    /**
+     * A function wrapping Zanimo.transition().
+     */
     Z.transitionf = function (attr, value, duration, timing) {
         return function (elt) {
             return Z.transition(elt, attr, value, duration, timing);
         };
     };
 
+    /**
+     * Apply a CSS3 transform value to a given DOM element
+     * and returns a promise wrapping the DOM element.
+     */
     Z.transform = function (elt, value) {
         var d = Q.defer();
         window.requestAnimationFrame(function () {
@@ -151,12 +192,18 @@ var Zanimo = (function () {
         return d.promise;
     };
 
+    /**
+     * A function wrapping Zanimo.transform().
+     */
     Z.transformf = function (value) {
         return function (elt) {
             return Z.transform(elt, value);
         };
     };
 
+    /**
+     * A function wrapping Zanimo().
+     */
     Z.f = function (elt) {
         return function () {
             return Z(elt);
