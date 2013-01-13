@@ -1,9 +1,7 @@
-# Zanimo.js
+# Zanimo.js - Promise based CSS3 transition
 
-Zanimo.js is the promise based css3 transition library.
-
-Zanimo.js allows to chain transitions in a promise based way.
-It depends on Kris Kowal's [Q.js][] library.
+Allows to chain transitions in a promise based way.
+It depends on Kris Kowal's Q.js: https://github.com/kriskowal/q library.
 
 Zanimo.js is licensed under the terms of the MIT License.
 
@@ -65,5 +63,3 @@ Usefull for chaining.
 ~~~ javascript
 Zanimo(myDomElt).then(Zanimo.transformf("scale(2)"));
 ~~~
-
-    [Q.js]: https://github.com/kriskowal/q
