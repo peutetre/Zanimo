@@ -183,10 +183,11 @@ var Zanimo = (function () {
      * Apply a CSS3 transform value to a given DOM element
      * and returns a promise wrapping the DOM element.
      */
-    Z.transform = function (elt, value) {
+    Z.transform = function (elt, value, overwrite) {
         var d = Q.defer();
         window.requestAnimationFrame(function () {
-            elt.style[T.prefixed["transform"]] = value;
+            elt.style[T.prefixed["transform"]] =
+                overwrite ? elt.style[T.prefixed["transform"]] + value : value;
             d.resolve(elt);
         }, elt);
         return d.promise;
@@ -195,9 +196,9 @@ var Zanimo = (function () {
     /**
      * A function wrapping Zanimo.transform().
      */
-    Z.transformf = function (value) {
+    Z.transformf = function (value, overwrite) {
         return function (elt) {
-            return Z.transform(elt, value);
+            return Z.transform(elt, value, overwrite);
         };
     };
 
