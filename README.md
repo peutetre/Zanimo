@@ -1,13 +1,13 @@
-# Zanimo.js - Promise based CSS3 transition
+# Zanimo.js - Promise based CSS3 transitions
 
-Allows to chain transitions in a promise based way.
-It depends on Kris Kowal's Q.js: https://github.com/kriskowal/q library.
+Allows chaining of transitions in a promise based way.
+It depends on Kris Kowal's Q.js library (https://github.com/kriskowal/q).
 
 Zanimo.js is licensed under the terms of the MIT License.
 
 ## API
 
-### Zanimo(domElement) ➜  promise [domElement]
+### Zanimo(elt) ➜  promise [elt]
 
 Take a DOM element and returns a fulfilled promise wrapping the given DOM element.
 
@@ -15,7 +15,7 @@ Take a DOM element and returns a fulfilled promise wrapping the given DOM elemen
 Zanimo(myDomElement).then(...)
 ~~~
 
-### Zanimo.f(domElement) ➜  function() : promise [domElement]
+### Zanimo.f(elt) ➜  function() : promise [elt]
 
 Wrap the `Zanimo()` in a function.
 Usefull to change the passed DOM element along a promises chain.
@@ -27,7 +27,7 @@ Zanimo(myDomElement)
     .then(anim200pxLeft)
 ~~~
 
-### Zanimo.transition(domElement, property, value, duration, timingFunction)  ➜  promise [domElement]
+### Zanimo.transition(elt, property, value, duration, timingFunction)  ➜  promise [elt]
 
 Start a transition on the given DOM element and returns a promise
 
@@ -36,7 +36,7 @@ Zanimo.transition(myDomElement, "width", "200px", 200, "ease-in")
       .then(function (domElt) { console.log("Done..."); });
 ~~~
 
-### Zanimo.transitionf(property, value, duration, timingFunction)  ➜  function() : promise [domElement]
+### Zanimo.transitionf(property, value, duration, timingFunction)  ➜  function() : promise [elt]
 
 Wrap `Zanimo.transition()` in a function.
 Usefull for chaining.
@@ -46,7 +46,7 @@ Zanimo.transition(myDomElement, "width", "200px", 200, "ease-in")
       .then(Zanimo.transitionf("height", "300px", 200, "ease-in"));
 ~~~
 
-### Zanimo.transform(domElement, value)  ➜  promise [domElement]
+### Zanimo.transform(elt, value)  ➜  promise [elt]
 
 Apply a css transform on the given DOM element.
 
@@ -55,7 +55,7 @@ Zanimo.transform(myDomElement, "translate3d(200px, 200px, 0)")
       .then(function (domElt) { console.log("Done..."); });
 ~~~
 
-### Zanimo.transformf(value)  ➜  function() : promise [domElement]
+### Zanimo.transformf(value)  ➜  function() : promise [elt]
 
 Wrap `Zanimo.transform()` in a function.
 Usefull for chaining.
