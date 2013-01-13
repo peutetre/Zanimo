@@ -6,9 +6,9 @@
 
     var $ = function (s, ctx) { return (ctx || doc).querySelectorAll(s); },
         upAnimation = function (c) {
-            return Zanimo.transitionƒ("transform", "translate3d(0," + (- c.getBoundingClientRect().height + 190) + "px,0)", 400, 'ease-in-out');
+            return Zanimo.transitionf("transform", "translate(0," + (- c.getBoundingClientRect().height + 190) + "px)", 400, 'ease-in-out');
         },
-        upArrowAnimation = Zanimo.transitionƒ("transform", "translate3d(0,27px,0) rotate(540deg)", 400, 'ease-in-out'),
+        upArrowAnimation = Zanimo.transitionf("transform", "translate(0,27px) rotate(540deg)", 400, 'ease-in-out'),
         upArrowChangeShadow = function (elt) {
             elt.style.textShadow = "-1px -2px 1px rgba(150, 176, 216, 0.99)";
             return elt;
@@ -18,21 +18,21 @@
             return elt;
         },
         downAnimations = [
-            Zanimo.transitionƒ("transform", "translate3d(0,10px,0)", 300, 'ease-in'),
-            Zanimo.transitionƒ("transform", "translate3d(0,-15px,0)", 80, 'ease-in-out'),
-            Zanimo.transitionƒ("transform", "translate3d(0,0px,0)", 60, 'ease-in')
+            Zanimo.transitionf("transform", "translate(0,10px)", 300, 'ease-in'),
+            Zanimo.transitionf("transform", "translate(0,-15px)", 80, 'ease-in-out'),
+            Zanimo.transitionf("transform", "translate(0,0px)", 60, 'ease-in')
         ],
-        downArrowAnimation = Zanimo.transitionƒ("transform", "rotate(0) translate3d(0,20px,0)", 440, 'ease-in-out'),
+        downArrowAnimation = Zanimo.transitionf("transform", "rotate(0) translate(0,20px)", 440, 'ease-in-out'),
         upDownloadBtnAnimations = [
-            Zanimo.transitionƒ("transform", "translate3d(0,10px,0)", 100, 'ease-in'),
-            Zanimo.transitionƒ("transform", "translate3d(0,-15px,0)", 80, 'ease-in-out'),
-            Zanimo.transitionƒ("transform", "translate3d(0,0px,0)", 60, 'ease-in')
+            Zanimo.transitionf("transform", "translate(0,10px)", 100, 'ease-in'),
+            Zanimo.transitionf("transform", "translate(0,-15px)", 80, 'ease-in-out'),
+            Zanimo.transitionf("transform", "translate(0,0px)", 60, 'ease-in')
         ],
         downDownloadBtnAnimations = [
-            Zanimo.transitionƒ("transform", "translate3d(0,-560px,0)", 250),
-            Zanimo.transitionƒ("transform", "translate3d(0,-510px,0)", 60, 'ease-in'),
-            Zanimo.transitionƒ("transform", "translate3d(0,-530px,0)", 60, 'ease-in-out'),
-            Zanimo.transitionƒ("transform", "translate3d(0,-520px,0)", 60, 'ease-in')
+            Zanimo.transitionf("transform", "translate(0,-560px)", 250),
+            Zanimo.transitionf("transform", "translate(0,-510px)", 60, 'ease-in'),
+            Zanimo.transitionf("transform", "translate(0,-530px)", 60, 'ease-in-out'),
+            Zanimo.transitionf("transform", "translate(0,-520px)", 60, 'ease-in')
         ],
         stars = [],
         starPositions = [],
@@ -52,14 +52,14 @@
             for (var i=0,j=10; i<j; i++) {
                 currentStar = g("star-"+i);
                 stars.push(currentStar);
-                starPositions.push("translate3d(" + (10 + i*8) + "px," + (10 + i*4) +"px,0) rotate(" + (15*i)+ "deg)");
+                starPositions.push("translate(" + (10 + i*8) + "px," + (10 + i*4) +"px) rotate(" + (15*i)+ "deg)");
                 doc.body.appendChild(currentStar);
             }
 
             setTimeout(function () {
                 stars.forEach(function (star, idx) {
                     Zanimo(star)
-                        .then(Zanimo.transitionƒ("transform", starPositions[idx], 100, "ease-in-out"))
+                        .then(Zanimo.transitionf("transform", starPositions[idx], 100, "ease-in-out"))
                         .fail(function (err) { console.log(err.stack); });
                 });
             }, 200);
@@ -105,7 +105,7 @@
         function onReset(evt) {
             stars.forEach(function (star, idx) {
                 Zanimo(star)
-                    .then(Zanimo.transitionƒ("transform", starPositions[idx], 100, "ease-in-out"))
+                    .then(Zanimo.transitionf("transform", starPositions[idx], 100, "ease-in-out"))
                     .fail(function (err) { console.log(err.stack); });
             });
         }

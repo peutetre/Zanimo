@@ -26,7 +26,7 @@
                         <br>&nbsp;&nbsp;&nbsp;&nbsp;timingF <span>/* timing function */ </span>
                         <br>) ➡ promise</h2>
                     <p>Start a transition</p>
-                    <h2>Zanimo.transitionƒ(attr, val, t, timingF) ➡ function</h2>
+                    <h2>Zanimo.transitionf(attr, val, t, timingF) ➡ function</h2>
                     <p>Returns a function wrapping Zanimo.transition wich is conviniant for chaining</p>
                 </section>
                 <section class="header">
@@ -49,19 +49,19 @@
  * Animate the first star
  */
 
-var animX200px = Zanimo.transitionƒ("transform", "translate3d(200px, 0, 0)", 200, 'ease-in-out'),
-    animY200px = Zanimo.transitionƒ("transform", "translate3d(0, 200px, 0)", 200, 'ease-in-out');
+var animX200px = Zanimo.transitionf("transform", "translate(200px, 0)", 200, 'ease-in-out'),
+    animY200px = Zanimo.transitionf("transform", "translate(0, 200px)", 200, 'ease-in-out');
 
 Zanimo(stars[0]).then(animX200px)
- .then(Zanimo.ƒ(stars[1])).then(animX200px)
- .then(Zanimo.ƒ(stars[2])).then(animX200px)
- .then(Zanimo.ƒ(stars[3])).then(animX200px)
- .then(Zanimo.ƒ(stars[4])).then(animX200px)
- .then(Zanimo.ƒ(stars[5])).then(animX200px)
- .then(Zanimo.ƒ(stars[6])).then(animX200px)
- .then(Zanimo.ƒ(stars[7])).then(animX200px)
- .then(Zanimo.ƒ(stars[8])).then(animX200px)
- .then(Zanimo.ƒ(stars[9])).then(animX200px)
+ .then(Zanimo.f(stars[1])).then(animX200px)
+ .then(Zanimo.f(stars[2])).then(animX200px)
+ .then(Zanimo.f(stars[3])).then(animX200px)
+ .then(Zanimo.f(stars[4])).then(animX200px)
+ .then(Zanimo.f(stars[5])).then(animX200px)
+ .then(Zanimo.f(stars[6])).then(animX200px)
+ .then(Zanimo.f(stars[7])).then(animX200px)
+ .then(Zanimo.f(stars[8])).then(animX200px)
+ .then(Zanimo.f(stars[9])).then(animX200px)
  .then(function () {
     return Q.all([
         Zanimo(stars[0]).then(animY200px),
@@ -87,7 +87,7 @@ Zanimo(stars[0]).then(animX200px)
         </article>
 
         <script src="vendor/q-0.8.9.js"></script>
-        <script src="vendor/zanimo-0.0.3.js"></script>
+        <script src="vendor/zanimo-0.0.4.js"></script>
 
         <script src="vendor/codemirror/codemirror.js"></script>
         <script src="vendor/codemirror/matchbrackets.js"></script>
