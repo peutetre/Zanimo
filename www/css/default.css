@@ -14,6 +14,7 @@ html, body {
     background: #F0F3F9;
     color: rgb(18, 29, 65);
     min-width: 320px;
+    -webkit-font-smoothing: antialiased;
 }
 
 * {
