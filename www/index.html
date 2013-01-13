@@ -13,21 +13,42 @@
         <article>
             <div class="curtain">
                 <section class="documentation">
-                    <h1>Documentation</h1>
-                    <p>Zanimo is a promise based css transition library and take adventage of the transitionend event which occurs after a transition. The specs defines case where a transition should not work, like trying to make a transition from a state A to the stae A; this implies error handling and Zanimo give you the controle!</p>
-                    <p>Zanimo use the library Q <a href="https://github.com/kriskowal/q">https://github.com/kriskowal/q</a> </p>
-                    <h2>Zanimo(elt) ➡ promise</h2>
-                    <p> Takes a DOM element and returns a resolved promise of the element.</p>
-                    <h2>Zanimo.transition(
-                        <br>&nbsp;&nbsp;&nbsp;&nbsp;elt, &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   <span>/* DOM element */     </span>
-                        <br>&nbsp;&nbsp;&nbsp;&nbsp;attr, &nbsp;&nbsp;&nbsp;&nbsp;        <span>/* CSS attribute */ </span>
-                        <br>&nbsp;&nbsp;&nbsp;&nbsp;val,  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  <span>/* CSS attribute's value */ </span>
-                        <br>&nbsp;&nbsp;&nbsp;&nbsp;t, &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  <span>/* transition time in milisecond */ </span>
-                        <br>&nbsp;&nbsp;&nbsp;&nbsp;timingF <span>/* timing function */ </span>
-                        <br>) ➡ promise</h2>
-                    <p>Start a transition</p>
-                    <h2>Zanimo.transitionf(attr, val, t, timingF) ➡ function</h2>
-                    <p>Returns a function wrapping Zanimo.transition wich is conviniant for chaining</p>
+                    <h1>Zanimo.js - Promise based CSS3 transitions</h1>
+                    <p>Allows chaining of transitions in a promise based way. It depends on Kris Kowal's Q.js library
+                        (<a href="https://github.com/kriskowal/q">https://github.com/kriskowal/q</a>).
+                    </p>
+                    <p>Zanimo.js is licensed under the terms of the MIT License.</p>
+
+                    <h2>API</h2>
+
+                    <h3><pre>Zanimo(elt) ➜  promise [elt]</pre></h3>
+                    <p> Take a DOM element and returns a fulfilled promise wrapping the given DOM element. </p>
+                    <h3><pre>Zanimo.f(elt) ➜  function() : promise [elt]</pre></h3>
+                    <p> Wrap the `Zanimo()` in a function. Usefull to change the passed DOM element along a promises' chain. </p>
+                    <h3>
+<pre>Zanimo.transition(
+    elt,    <span>/* DOM element */</span>
+    property,   <span>/* CSS property */ </span>
+    val,    <span>/* CSS property's value */ </span>
+    t,      <span>/* transition time in milisecond */ </span>
+    timingF <span>/* timing function */ </span>
+) ➜  promise [elt]
+</pre></h3>
+                    <p>Start a transition on the given DOM element and returns a promise</p>
+                    <h3>
+<pre>
+Zanimo.transitionf(
+    property,
+    value,
+    duration,
+    timingFunction
+)  ➜  function() : promise [elt]
+</pre></h3>
+                    <p>Wrap `Zanimo.transition()` in a function.</p>
+                    <h3><pre>Zanimo.transform(elt, value)  ➜  promise [elt]</pre></h3>
+                    <p>Apply a css transform on the given DOM element.</p>
+                    <h3><pre>Zanimo.transformf(value)  ➜  function() : promise [elt]</pre></h3>
+                    <p>Wrap `Zanimo.transform()` in a function.</p>
                 </section>
                 <section class="header">
                     <h1>Zanimo</h1>
@@ -40,12 +61,37 @@
             </div>
             <section class="code">
                 <div class="code-content">
+                    <select>
+                        <option value="default">default</option>
+                        <option value="001">001</option>
+                        <option value="002">002</option>
+                        <option value="003">003</option>
+                        <option value="004">004</option>
+                    </select>
                     <button class="orange-button run">RUN</button>
                     <button class="orange-button reset">RESET</button>
                     <a href="https://github.com/peutetre/Zanimo">Source code on github</a>
                 </div>
                 <div class="editor-container">
-<textarea id="editor" name="code">/*
+                    <textarea id="editor" name="code"></textarea>
+                </div>
+                <footer>
+                    <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://zani.mo" data-hashtags="js">Tweet</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="http://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+                    <span>by <a href="http://42loops.com">42loops</a></span>
+                </footer>
+            </section>
+        </article>
+
+        <script src="vendor/q-0.8.9.js"></script>
+        <script src="vendor/zanimo-0.0.4.js"></script>
+
+        <script src="vendor/codemirror/codemirror.js"></script>
+        <script src="vendor/codemirror/matchbrackets.js"></script>
+        <script src="vendor/codemirror/continuecomment.js"></script>
+        <script src="vendor/codemirror/javascript.js"></script>
+
+<script type="text/txt" id="script-default">/*
  * Animate the first star
  */
 
@@ -76,23 +122,35 @@ Zanimo(stars[0]).then(animX200px)
         Zanimo(stars[9]).then(animY200px)
     ]);
  });
-</textarea>
-                </div>
-                <footer>
-                    <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://zani.mo" data-hashtags="js">Tweet</a>
-<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="http://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
-                    <span>by <a href="http://42loops.com">42loops</a></span>
-                </footer>
-            </section>
-        </article>
+</script>
 
-        <script src="vendor/q-0.8.9.js"></script>
-        <script src="vendor/zanimo-0.0.4.js"></script>
+<script type="text/txt" id="script-001">/*
+ * Animate the first star
+ */
 
-        <script src="vendor/codemirror/codemirror.js"></script>
-        <script src="vendor/codemirror/matchbrackets.js"></script>
-        <script src="vendor/codemirror/continuecomment.js"></script>
-        <script src="vendor/codemirror/javascript.js"></script>
+var a = 1;
+</script>
+
+<script type="text/txt" id="script-002">/*
+ * Animate the first star
+ */
+
+var b = 1;
+</script>
+
+<script type="text/txt" id="script-003">/*
+ * Animate the first star
+ */
+
+var c = 1;
+</script>
+
+<script type="text/txt" id="script-004">/*
+ * Animate the first star
+ */
+
+var d = 1;
+</script>
 
         <script src="js/app.js"></script>
     </body>

@@ -14,7 +14,6 @@ html, body {
     background: #F0F3F9;
     color: rgb(18, 29, 65);
     min-width: 320px;
-    -webkit-font-smoothing: antialiased;
 }
 
 * {
@@ -148,8 +147,6 @@ section.header button.download {
 }
 
 section.documentation {
-    margin: 10px 6px 0 10px;
-    font-family: BanglaSangamMN;
     overflow: auto;
     height: 390px;
     box-sizing: border-box;
@@ -158,6 +155,7 @@ section.documentation {
     color: rgb(18, 29, 65);
     position: absolute;
     bottom: 215px;
+    width: 100%;
 }
 
 section.documentation::-webkit-scrollbar {
@@ -193,10 +191,19 @@ section.documentation h2 {
     color: rgb(242, 245, 255);
     -moz-text-shadow:    0px 2px 4px rgba(0,0,0,0.50);
     -webkit-text-shadow: 0px 2px 4px rgba(0,0,0,0.50);
+    font-size: 27px;
+    margin: 5px 0 15px 0;
+}
+
+section.documentation h3 {
+    font-family: Futura-Medium;
+    color: rgb(242, 245, 255);
+    -moz-text-shadow:    0px 2px 4px rgba(0,0,0,0.50);
+    -webkit-text-shadow: 0px 2px 4px rgba(0,0,0,0.50);
     font-size: 24px;
 }
 
-section.documentation h2 span {
+section.documentation h3 span {
     font-family: BanglaSangamMN;
     font-size: 18px;
     color: rgb(30, 50, 111);
@@ -230,16 +237,6 @@ section.documentation a:hover {
     text-decoration:none;
 }
 
-section.documentation pre {
-    margin: 0;
-    padding: 0 0 20px 15px;
-    font-size: 18px;
-    border-bottom-left-radius: 5px;
-    border-bottom-right-radius: 5px;
-    box-shadow: 1px 1px 1px rgba(150, 176, 216, 0.99);
-    -moz-box-shadow: 1px 1px 1px rgba(150, 176, 216, 0.99);
-}
-
 section.code {
     background: #F0F3F9;
     width:100%;
@@ -257,6 +254,42 @@ section.code div.code-content {
     padding: 210px 0 0 0;
     box-sizing: border-box;
     -moz-box-sizing: border-box;
+}
+
+section.code select {
+
+    background-image: -moz-linear-gradient(180deg, #FFD180 0%, #EE9E12 100%);
+    background-image: -webkit-linear-gradient(-90deg, #FFD180 0%, #EE9E12 100%);
+    background-image: linear-gradient(180deg, rgb(255, 209, 128) 0%, rgb(238, 158, 18) 100%);
+    
+
+    border: 2px solid #D18D17;
+    -moz-box-shadow:    0px 1px 0px rgba(54,44,26,0.66);
+    -webkit-box-shadow: 0px 1px 0px rgba(54,44,26,0.66);
+    box-shadow:         0px 1px 0px rgba(54,44,26,0.66);
+    font-family: Futura-CondensedExtraBold;
+    font-size: 25px;
+    color: #625032;
+    -moz-text-shadow:    inset 0px 1px 0px rgba(103,103,103,0.31);
+    -webkit-text-shadow: inset 0px 1px 0px rgba(103,103,103,0.31);
+    text-shadow:         inset 0px 1px 0px rgba(103,103,103,0.31);
+    
+
+    width: 150px;
+    
+
+    padding: 5px 0 0 10px;
+    
+
+    margin: 0 20px 0 0;
+    vertical-align: baseline;
+
+    height: 42px;
+
+    text-align: center;
+
+    -webkit-appearance: none;
+
 }
 
 section.code button.orange-button {
@@ -278,7 +311,10 @@ section.code button.orange-button {
     width: 80px;
     padding: 5px 0 0 0;
     margin: 0 20px 0 0;
+    height: 42px;
     vertical-align: baseline;
+    position: relative;
+    left: 30px;
 }
 section.code button.orange-button.reset {
     width: 100px;

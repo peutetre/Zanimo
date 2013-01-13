@@ -29,7 +29,7 @@ Zanimo(myDomElement)
 
 ### Zanimo.transition(elt, property, value, duration, timingFunction)  ➜  promise [elt]
 
-Start a transition on the given DOM element and returns a promise
+Start a transition on the given DOM element and returns a promise.
 
 ~~~ javascript
 Zanimo.transition(myDomElement, "width", "200px", 200, "ease-in")

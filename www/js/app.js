@@ -123,11 +123,20 @@
 
         window.edit = editor;
 
+        function loadJS(value) {
+            editor.setValue($(value ? "#script-" + value : "#script-default")[0].innerHTML);
+        }
+
+        function onSelect(evt) {
+            loadJS(evt.target.value);
+        }
+
         var circle = $(".circle")[0],
             curtain = $(".curtain")[0],
             sign = $("span", circle)[0],
             run = $("button.run")[0],
             reset = $("button.reset")[0],
+            select = $("select")[0],
             downloadBtn = $(".download")[0];
 
         Zanimo(downloadBtn)
@@ -143,16 +152,15 @@
                 reset.addEventListener("click", onReset, false);
                 downloadBtn.addEventListener("click", onDownload, false)
                 createStars();
+                loadJS();
+                select.addEventListener("change", onSelect, false);
             })
             .fail(function (err) {
                 console.log(err);
                 console.log(err.stack);
-            })
+            });
 
     };
-
-
-    window.$ = $;
 
 })(window.document);
 
