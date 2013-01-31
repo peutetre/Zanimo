@@ -36,24 +36,23 @@ var Zanimo = (function () {
             _transitionend = "transitionend",
             _prefix = null,
             _prefixed = { "transform": "" },
+            _normReplacef = function(m, g) { return g.toUpperCase(); },
+            _normTransf = function (match) {
+                var args = match.substr(1, match.length-2).split(","),
+                    rst = [];
+                args.forEach(function (arg) {
+                    rst.push(arg.replace(_space, _emptyString)
+                                .replace(_zeropixel, _zero));
+                });
+                return "(" + rst.join(",") + ")";
+            },
             _norm = function (p) {
                 var property = p[0] === "-" ? p.substr(1, p.length-1) : p;
-                return property.replace(_normRegex,
-                    function(m, g) { return g.toUpperCase();});
+                return property.replace(_normRegex, _normReplacef);
             },
             _normTransform = function (val) {
-                return isNaN(val) ? val.replace(
-                    _matchParenthesis,
-                    function (match) {
-                        var args = match.substr(1, match.length-2).split(","),
-                            rst = [];
-                        args.forEach(function (arg) {
-                            rst.push(arg.replace(_space, _emptyString)
-                                        .replace(_zeropixel, _zero));
-                        });
-                        return "(" + rst.join(",") + ")";
-                    }
-                ) : val;
+                return isNaN(val) ?
+                    val.replace(_matchParenthesis, _normTransf) : val;
             };
 
             // detect transition feature
