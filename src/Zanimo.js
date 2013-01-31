@@ -42,7 +42,7 @@ var Zanimo = (function () {
                     function(m, g) { return g.toUpperCase();});
             },
             _normTransform = function (val) {
-                return val.replace(
+                return isNaN(val) ? val.replace(
                     _matchParenthesis,
                     function (match) {
                         var args = match.substr(1, match.length-2).split(","),
@@ -53,7 +53,7 @@ var Zanimo = (function () {
                         });
                         return "(" + rst.join(",") + ")";
                     }
-                );
+                ) : val;
             };
 
             // detect transition feature
