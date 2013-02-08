@@ -11,6 +11,9 @@ build: cat
 cat:
 	@@cat ${FILES} > ${BUILDDIR}/${ZANIMO}-${VERSION}.js;
 
+test:
+	@@cd test && phantomjs specs.js
+
 www:
 	@@cp ${BUILDDIR}/${ZANIMO}-${VERSION}.min.js www/vendor/${ZANIMO}-${VERSION}.min.js
 	@@cp ${BUILDDIR}/${ZANIMO}-${VERSION}.js www/vendor/${ZANIMO}-${VERSION}.js
@@ -23,4 +26,4 @@ clean:
 	@@rm www/vendor/q-0.8.9.min.js
 	@@rm www/vendor/q-0.8.9.js
 
-.PHONY: www
+.PHONY: www test
