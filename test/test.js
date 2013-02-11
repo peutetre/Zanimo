@@ -2,24 +2,22 @@
  * test.js - testing Zanimo on phantom.js
  */
 
-if (!phantom.injectJs('../vendor/q-e3a927d.js')) {
-    console.log("Oops Q.js not loaded");
-    phantom.exit();
-}
-
-if (!phantom.injectJs('../build/zanimo-0.0.4.js')) {
-    console.log("Oops Zanimo.js not loaded");
-    phantom.exit();
-}
-
 var success = 0,
+    results = [],
     tests = [];
 
 function createSquare(id) {
     var elt = document.createElement("div");
     elt.id = id;
+    elt.style.width = "100px";
+    elt.style.height = "200px";
+    elt.style.backgroundColor = "red";
     document.body.appendChild(elt);
     return elt;
+}
+
+function removeSquare(id) {
+    document.body.removeChild(document.getElementById(id));
 }
 
 function test(name, f) {
@@ -44,23 +42,24 @@ function done() { return true; }
 function fail(err) { return err; }
 
 function doneMessage(msg) {
-    console.log("\033[32m✔\033[0m " + msg);
+    results.push("✔" + msg)
 }
 
 function failMessage(name, msg) {
-    console.log("\033[31m☁ \033[0m FAIL: " + name + " " + msg);
+    results.push("✘ FAIL: " + name + " " + msg);
 }
 
-function start() {
+window.start = function() {
+    results = [];
     success = tests.reduce(function (acc, f) {
         return acc.then(f);
     }, Q.resolve(0));
 
-    success.then(function (val) {
-        console.log("\n\033[36mNumber of successed tests: " + val + "\033[0m");
-        phantom.exit();
+    return success.then(function (val) {
+        results.push("Number of successed tests: " + val);
+        return results;
     }, function (err) {
-        console.log(err);
-        phantom.exit();
-    }).done();
-}
+        results.push(err);
+        return results;
+    });
+};
