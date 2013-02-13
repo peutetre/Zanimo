@@ -81,7 +81,7 @@
         var elt = document.createElement("div");
         elt.id = id;
         elt.style.width = "100px";
-        elt.style.height = "200px";
+        elt.style.height = "100px";
         elt.style.backgroundColor = "red";
         document.body.appendChild(elt);
         return elt;
