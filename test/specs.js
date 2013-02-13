@@ -1,37 +1,93 @@
-/*
- * specs.js
+/**
+ * specs.js - testing Zanimo on phantom.js
  */
 
-test("Opacity transition from 1 to 0 in 2000ms", function (name) {
+(function (specs) {
 
-    function setUp () {
-        return createSquare("opacity-1");
+    var success = 0,
+        results = [],
+        tests = [];
+
+    specs.test = function test(name, f) {
+        tests.push(function testf(acc) {
+            return f(name).then(function (result) {
+                if(result === true) {
+                    doneMessage(name);
+                    return acc + 1;
+                }
+                else {
+                    failMessage(name, result.message);
+                    return acc;
+                }
+            }, function (err) {
+                failMessage(name, err.message);
+                return acc;
+            });
+        });
     }
 
-    function setDown (val) {
-        removeSquare("opacity-1");
-        return val;
+    specs.done = function done() { return true; }
+    specs.fail = function fail(err) { return err; }
+
+    function doneMessage(msg) { results.push("✔" + msg) }
+
+    function failMessage(name, msg) {
+        results.push("✘ FAIL: " + name + " " + msg);
     }
 
-    return Zanimo(setUp())
-            .then(Zanimo.transitionf("opacity", 0, 2000))
-            .then(done, fail)
-            .then(setDown, setDown);
-});
+    function start () {
+        results = [];
+        success = tests.reduce(function (acc, f) {
+            return acc.then(f);
+        }, Q.resolve(0));
 
-test("This should failed", function (name) {
+        return success.then(function (val) {
+            results.push("Number of successed tests: " + val);
+            return results;
+        }, function (err) {
+            results.push(err);
+            return results;
+        });
+    };
 
-    function setUp () {
-        return createSquare("opacity-2");
+    function init () {
+
+        var startbtn = document.getElementById("start"),
+            result = document.getElementById("result"),
+            clearbtn = document.getElementById("clear"),
+            browserlog = function (r) {
+                result.innerHTML = r.join("<br>");
+            };
+
+        startbtn.addEventListener("click", function () {
+            start().done(function(r) { browserlog(r); });
+        }, false);
+
+        clearbtn.addEventListener("click", function () {
+            result.innerHTML = "";
+        }, false);
+
+        window.launchTest = function () {
+            start().done(function(r) { window.callPhantom(r); });
+        };
     }
 
-    function setDown (val) {
-        removeSquare("opacity-2");
-        return val;
-    }
+    window.document.addEventListener("DOMContentLoaded", init, false);
 
-    return Zanimo(setUp())
-            .then(Zanimo.transitionf("display", 1, 100))
-            .then(done, fail)
-            .then(setDown, setDown);
-});
+}(window.Specs = {}));
+
+(function (helper) {
+    helper.createSquare = function createSquare(id) {
+        var elt = document.createElement("div");
+        elt.id = id;
+        elt.style.width = "100px";
+        elt.style.height = "200px";
+        elt.style.backgroundColor = "red";
+        document.body.appendChild(elt);
+        return elt;
+    };
+
+    helper.removeSquare = function removeSquare(id) {
+        document.body.removeChild(document.getElementById(id));
+    };
+}(window.Specs.Helper = {}));
