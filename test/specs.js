@@ -11,28 +11,35 @@
     specs.test = function test(name, f) {
         tests.push(function testf(acc) {
             return f(name).then(function (result) {
-                if(result === true) {
-                    doneMessage(name);
-                    return acc + 1;
-                }
-                else {
-                    failMessage(name, result.message);
-                    return acc;
+                switch(result.type) {
+                    case "error":
+                        failMessage(name, result.msg + " " + result.val);
+                        return acc;
+                    case "success":
+                        doneMessage(name, result.msg + " " + result.val);
+                        return acc + 1;
+                    default:
+                        failMessage(name, "Something went wrong...");
+                        return acc;
                 }
             }, function (err) {
-                failMessage(name, err.message);
+                failMessage(name, err && err.message);
                 return acc;
             });
         });
     }
 
-    specs.done = function done() { return true; }
-    specs.fail = function fail(err) { return err; }
+    specs.done = function done(msg) {
+        return function (val) { return { type : "success", val : val, msg: msg }; };
+    };
+     specs.fail = function fail(msg) {
+        return function (val) { return { type : "error", val : val, msg: msg }; };
+    };
 
-    function doneMessage(msg) { results.push("✔" + msg) }
+    function doneMessage(name, msg) { results.push("✔" + name + " ▶ " + msg) }
 
     function failMessage(name, msg) {
-        results.push("✘ FAIL: " + name + " " + msg);
+        results.push("✘ FAIL: " + name + " ▶ " + msg);
     }
 
     function start () {
@@ -90,4 +97,4 @@
     helper.removeSquare = function removeSquare(id) {
         document.body.removeChild(document.getElementById(id));
     };
-}(window.Specs.Helper = {}));
+}(window.Helper = {}));
