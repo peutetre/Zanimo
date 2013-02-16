@@ -83,6 +83,25 @@ Specs.test(
     }
 );
 
+Specs.test(
+    "Zanimo.transition: call with wrong DOM element",
+    function () {
+        return Zanimo
+                .transition("Oops", "opacity", 1, 100)
+                .then(Specs.fail("Resolve"), Specs.done("Reject"));
+    }
+);
+
+Specs.test(
+    "Zanimo.transition: call with wrong transition property",
+    function () {
+        return Zanimo
+                .transition(setUp1(), "toto", "test", 100)
+                .then(Specs.fail("Resolve"), Specs.done("Reject"))
+                .then(setDown1, setDown1);
+    }
+);
+
 /*
  * Testing Zanimo.transitionf()
  */
