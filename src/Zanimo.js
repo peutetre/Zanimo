@@ -126,16 +126,15 @@ var Zanimo = (function () {
      * a promise wrapping the DOM element.
      */
     Z.transition = function (domElt, attr, value, duration, timing) {
-        var d = Q.defer(),
-            timeout,
+        var d = Q.defer(), timeout,
             cb = function () {
                 if (timeout) { clearTimeout(timeout); timeout = null; }
                 remove(domElt, attr, value, duration, timing);
                 domElt.removeEventListener(T.transitionend, cb, false);
-                d.resolve(domElt);
-            };
+            },
+            cbTransitionend = function () { cb(); d.resolve(domElt); };
 
-        if (!domElt || !domElt.nodeType || !(domElt.nodeType >= 0)) {
+        if (!(domElt instanceof HTMLElement)) {
             d.reject(new Error("Zanimo transition: no DOM element!"));
             return d.promise;
         }
@@ -145,30 +144,37 @@ var Zanimo = (function () {
             return d.promise;
         }
 
-        domElt.addEventListener(T.transitionend, cb, false);
+        domElt.addEventListener(T.transitionend, cbTransitionend, false);
 
         window.requestAnimationFrame(function () {
-            // apply the transition
             add(domElt, attr, value, duration, timing);
-            // by pass `transitionend` event or reject.
-            timeout = setTimeout(function() {
+            timeout = setTimeout(function () {
                 var rawVal = domElt.style.getPropertyValue(T.prefix(attr)),
                     domVal = T.normTransform(rawVal),
                     givenVal = T.normTransform(value);
-                // if DOM element reflects the given value: success
-                if (domVal == givenVal) {
-                    cb();
+                if (domVal === givenVal) {
                     d.resolve(domElt);
-                    return;
                 }
-                d.reject(
-                    new Error("Zanimo transition: "
-                            + domElt.id + " with "
-                            + attr + " = " + givenVal
-                            + ", DOM value = " + domVal
-                ));
-            // giving the browser 20 ms to trigger the `transitionend` event
+                else {
+                    d.reject( new Error("Zanimo transition: "
+                        + domElt.id + " with " + attr + " = " + givenVal
+                        + ", DOM value=" + domVal
+                    ));
+                }
+                cb();
             }, duration + 20 );
+
+            domElt._zanimo = domElt._zanimo || { };
+            if(domElt._zanimo[attr]) {
+                domElt._zanimo[attr].defer.reject(new Error("Zanimo transition "
+                    + domElt.id + " with "
+                    + attr + "=" + domElt._zanimo[attr].value
+                    + " stopped by transition with " + attr + "=" + value
+                ));
+                domElt._zanimo[attr].cb();
+            }
+            domElt._zanimo[attr] = {cb: cb, value: value, defer: d};
+
         }, domElt);
 
         return d.promise;
