@@ -102,6 +102,16 @@ Specs.test(
     }
 );
 
+Specs.test(
+    "Zanimo.transition: call with wrong time value",
+    function () {
+        return Zanimo
+                .transition(setUp1(), "opacity", 0.5, "oops", "linear")
+                .then(Specs.fail("Resolve"), Specs.done("Reject"))
+                .then(setDown1, setDown1);
+    }
+);
+
 /*
  * Testing Zanimo.transitionf()
  */

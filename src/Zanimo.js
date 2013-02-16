@@ -140,6 +140,11 @@ var Zanimo = (function () {
             return d.promise;
         }
 
+        if(window.isNaN(parseInt(duration, 10))) {
+            d.reject(new Error("Zanimo transition: duration must be an integer!"));
+            return d.promise;
+        }
+
         domElt.addEventListener(T.transitionend, cb, false);
 
         window.requestAnimationFrame(function () {
