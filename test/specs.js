@@ -42,7 +42,7 @@
         }, Q.resolve(0));
 
         return success.then(function (val) {
-            results.push("Number of successed tests: " + val);
+            results.push("Number of successed tests: " + val + "/" + results.length);
             return results;
         }, function (err) {
             results.push(err);
