@@ -147,7 +147,8 @@ var Zanimo = (function () {
             add(domElt, attr, value, duration, timing);
             // by pass `transitionend` event or reject.
             timeout = setTimeout(function() {
-                var domVal = T.normTransform(domElt.style[T.prefix(attr)]),
+                var rawVal = domElt.style.getPropertyValue(T.prefix(attr)),
+                    domVal = T.normTransform(rawVal),
                     givenVal = T.normTransform(value);
                 // if DOM element reflects the given value: success
                 if (domVal == givenVal) {
@@ -158,8 +159,8 @@ var Zanimo = (function () {
                 d.reject(
                     new Error("Zanimo transition: "
                             + domElt.id + " with "
-                            + attr + ":" + givenVal
-                            + " DOM value: [" + domVal + "]"
+                            + attr + " = " + givenVal
+                            + ", DOM value = " + domVal
                 ));
             // giving the browser 20 ms to trigger the `transitionend` event
             }, duration + 20 );
