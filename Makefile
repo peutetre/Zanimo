@@ -13,6 +13,7 @@ cat:
 
 test:
 	@@cd test && phantomjs launch.js
+	@@exit $?
 
 www:
 	@@cp ${BUILDDIR}/${ZANIMO}-${VERSION}.min.js www/vendor/${ZANIMO}-${VERSION}.min.js

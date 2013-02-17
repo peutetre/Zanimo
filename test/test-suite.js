@@ -335,7 +335,7 @@ Specs.test(
         return Zanimo(setUp1())
                 .then(Zanimo.transitionf("opacity", 0.5, 100, "ease-in"))
                 .then(Zanimo.f())
-                .then(Specs.fail("Resolve"), Specs.done("Reject"))
+                .then(Specs.done("Resolve"), Specs.fail("Reject"))
                 .then(setDown1, setDown1);
     }
 );
