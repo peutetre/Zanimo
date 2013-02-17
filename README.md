@@ -5,6 +5,18 @@ It depends on Kris Kowal's Q.js library (https://github.com/kriskowal/q).
 
 Zanimo.js is licensed under the terms of the MIT License.
 
+## Build
+
+~~~ bash
+make
+~~~
+
+## execute tests with phantomjs
+
+~~~ bash
+make test
+~~~
+
 ## API
 
 ### Zanimo(elt) ➜  promise [elt]
