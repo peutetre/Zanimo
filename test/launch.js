@@ -17,6 +17,13 @@ var page = require('webpage').create(),
         }
     };
 
+console.log(
+    "Phantom.js version: " +
+    [ phantom.version.major,
+      phantom.version.minor,
+      phantom.version.patch ].join(".")
+);
+
 page.open(url, function (s) {
     page.evaluateAsync(function () { window.launchTest(); });
 });
