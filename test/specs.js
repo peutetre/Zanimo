@@ -1,5 +1,5 @@
 /**
- * specs.js - testing Zanimo on phantom.js
+ * specs.js - testing Zanimo
  */
 
 (function (specs) {
@@ -27,12 +27,12 @@
                 return acc;
             });
         });
-    }
+    };
 
     specs.done = function done(msg) {
         return function (val) { return { type : "success", val : val, msg: msg }; };
     };
-     specs.fail = function fail(msg) {
+    specs.fail = function fail(msg) {
         return function (val) { return { type : "error", val : val, msg: msg }; };
     };
 
@@ -42,7 +42,7 @@
         results.push("✘ FAIL: " + name + " ▶ " + msg);
     }
 
-    function start () {
+    window.start = function () {
         results = [];
         success = tests.reduce(function (acc, f) {
             return acc.then(f);
@@ -79,11 +79,6 @@
         clearbtn.addEventListener("click", function () {
             result.innerHTML = "";
         }, false);
-
-        window.launchTest = function () {
-            start().done(function(r) { window.callPhantom(r); });
-        };
-        window.start = start;
     }
 
     window.document.addEventListener("DOMContentLoaded", init, false);

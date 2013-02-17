@@ -1,4 +1,4 @@
-// Zanimo.js - a tiny css3 transition library
+// Zanimo.js - Promise based CSS3 transitions
 // (c) 2011-2013 Paul Panserrieu
 
 var Zanimo = (function () {
