@@ -7,13 +7,13 @@ Zanimo.js is licensed under the terms of the MIT License.
 
 ## Build
 
-~~~ bash
+~~~ sh
 make
 ~~~
 
-## execute tests with phantomjs
+## Launch tests with phantomjs
 
-~~~ bash
+~~~ sh
 make test
 ~~~
 
