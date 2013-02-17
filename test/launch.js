@@ -22,10 +22,18 @@ page.open(url, function (s) {
 });
 
 page.onCallback = function(result) {
+    var s = 0;
     result.forEach(function(r) {
-        if (r.indexOf("✔") !== -1) Log.success(r);
-        else if (r.indexOf("✘") !== -1) Log.fail(r);
-        else Log.log(r);
+        if (r.indexOf("✔") !== -1) {
+            s++;
+            Log.success(r);
+        }
+        else if (r.indexOf("✘") !== -1) {
+            Log.fail(r);
+        }
+        else {
+            Log.log(r);
+        }
     });
-    phantom.exit();
+    phantom.exit(result.length-1 === s ? 0 : 1);
 };
