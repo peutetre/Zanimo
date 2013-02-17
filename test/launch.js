@@ -28,6 +28,8 @@ page.open(url, function (s) {
     page.evaluateAsync(function () { window.launchTest(); });
 });
 
+phantom.exit();
+
 page.onCallback = function(result) {
     var s = 0;
     result.forEach(function(r) {
