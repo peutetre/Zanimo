@@ -12,7 +12,7 @@ cat:
 	@@cat ${FILES} > ${BUILDDIR}/${ZANIMO}-${VERSION}.js;
 
 test:
-	@@cd test && phantomjs launch.js
+	@@phantomjs test/launch.js
 
 www:
 	@@cp ${BUILDDIR}/${ZANIMO}-${VERSION}.min.js www/vendor/${ZANIMO}-${VERSION}.min.js

@@ -3,7 +3,7 @@
  */
 
 var page = require('webpage').create(),
-    url = 'index.html',
+    url = 'test/index.html',
     color = function (m) { return m.replace(/▶ /g, "\n  \033[36m▶ \033[0m"); },
     Log = {
         log : function log (message) {
