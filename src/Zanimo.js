@@ -52,7 +52,7 @@ var Zanimo = (function () {
             },
             _normTransform = function (val) {
                 return isNaN(val) ?
-                    val.replace(_matchParenthesis, _normTransf) : val;
+                    val.replace(_matchParenthesis, _normTransf) : "" + val;
             };
 
             // detect transition feature
