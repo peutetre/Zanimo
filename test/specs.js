@@ -49,7 +49,7 @@
         }, Q.resolve(0));
 
         return success.then(function (val) {
-            results.push("Number of successed tests: " + val + "/" + results.length);
+            results.push(val + "/" + results.length + " tests passed!");
             return results;
         }, function (err) {
             results.push(err);
@@ -64,10 +64,16 @@
             clearbtn = document.getElementById("clear"),
             browserlog = function (r) {
                 result.innerHTML = r.join("<br>");
-            };
+            },
+            testLock = false;
 
         startbtn.addEventListener("click", function () {
-            start().done(function(r) { browserlog(r); });
+            if (testLock) return;
+            testLock = true;
+            start().done(function(r) {
+                browserlog(r);
+                testLock = false;
+            });
         }, false);
 
         clearbtn.addEventListener("click", function () {

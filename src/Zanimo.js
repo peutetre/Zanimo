@@ -69,6 +69,8 @@ var Zanimo = (function () {
         return {
             // prefixed transition string
             t : _norm(_prefix ? _prefix + "-" + "transition" : "transition"),
+            // transform attr
+            transform : _norm(_prefixed["transform"]),
             // prefixed transition end event string
             transitionend : _transitionend,
             // normalize css property
@@ -195,9 +197,24 @@ var Zanimo = (function () {
      */
     Z.transform = function (elt, value, overwrite) {
         var d = Q.defer();
+
+        if (!(elt instanceof HTMLElement)) {
+            d.reject(new Error("Zanimo transform: no DOM element!"));
+            return d.promise;
+        }
+
+        if(elt._zanimo && elt._zanimo.hasOwnProperty("transform")) {
+            elt._zanimo["transform"].defer.reject(new Error(
+                "Zanimo transition " + elt.id + " with transform="
+                + elt._zanimo["transform"].value
+                + " stopped by transform=" + value
+            ));
+            elt._zanimo["transform"].cb();
+        }
+
         window.requestAnimationFrame(function () {
-            elt.style[T.prefixed["transform"]] =
-                overwrite ? elt.style[T.prefixed["transform"]] + value : value;
+            elt.style[T.transform] =
+                !overwrite ? elt.style[T.transform] + " " + value : value;
             d.resolve(elt);
         }, elt);
         return d.promise;
@@ -220,6 +237,8 @@ var Zanimo = (function () {
             return Z(elt);
         };
     };
+
+    Z._T = T;
 
     return Z;
 })();

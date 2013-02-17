@@ -74,9 +74,9 @@ Specs.test(
                 setDown1();
                 return setDown2(r);
             };
-        return Zanimo.transition(elt1, "transform", "translate3d(200px, 0, 0)", 300)
+        return Zanimo.transition(elt1, "transform", "translate(200px, 0)", 300)
                 .then(function () {
-                    return Zanimo.transition(elt2, "transform", "translate3d(0, 200px, 0)", 100);
+                    return Zanimo.transition(elt2, "transform", "translate(0, 200px)", 100);
                 })
                 .then(Specs.done("Resolve"), Specs.fail("Reject"))
                 .then(down, down);
@@ -131,10 +131,10 @@ Specs.test("display can't handle transitions!", function () {
             .then(setDown1, setDown1);
 });
 
-Specs.test("translate3d(200px, 0, 0) 200ms", function () {
+Specs.test("translate(200px, 0) 200ms", function () {
 
     return Zanimo(setUp1())
-            .then(Zanimo.transitionf("transform", "translate3d(200px, 0, 0)", 200))
+            .then(Zanimo.transitionf("transform", "translate(200px, 0)", 200))
             .then(Specs.done("Resolve"), Specs.fail("Reject"))
             .then(setDown1, setDown1);
 });
@@ -154,8 +154,8 @@ Specs.test(
     "Zanimo.transition: 2 same transitions on the same element, part 1",
     function () {
         var elt = setUp1(),
-            transition1 = Zanimo.transitionf("transform", "translate3d(200px, 0, 0)", 400),
-            transition2 = Zanimo.transitionf("transform", "translate3d(100px, 300px, 0)", 100);
+            transition1 = Zanimo.transitionf("transform", "translate(200px, 0)", 400),
+            transition2 = Zanimo.transitionf("transform", "translate(100px, 300px)", 100);
 
             Zanimo(elt).delay(100).then(transition2)
 
@@ -170,8 +170,8 @@ Specs.test(
     "Zanimo.transition: 2 same transitions on the same element, part 2",
     function () {
         var elt = setUp1(),
-            transition1 = Zanimo.transitionf("transform", "translate3d(200px, 0, 0)", 400),
-            transition2 = Zanimo.transitionf("transform", "translate3d(100px, 300px, 0)", 100);
+            transition1 = Zanimo.transitionf("transform", "translate(200px, 0)", 400),
+            transition2 = Zanimo.transitionf("transform", "translate(100px, 300px)", 100);
 
         Zanimo(elt).then(transition1);
 
@@ -187,10 +187,53 @@ Specs.test(
  * Test Zanimo.transform()
  */
 Specs.test(
-    "TODO Testing Zanimo.transform()",
+    "Zanimo.transform() with no DOM element",
     function () {
-        return Q.reject(new Error("not implemented"))
-                .then(Specs.done("Resolve"), Specs.fail("Reject"));
+        return Zanimo
+                .transform("Oops", "translate(100px, 0)")
+                .then(Specs.fail("Resolve"), Specs.done("Reject"));
+    }
+);
+
+Specs.test(
+    "Zanimo.transform() with translate(200px, 0)",
+    function () {
+        var elt = setUp1();
+        return Zanimo
+                .transform(elt, "translate(200px, 0)")
+                .then(Specs.done("Resolve"), Specs.fail("Reject"))
+                .then(setDown1, setDown1);
+    }
+);
+
+Specs.test(
+    "Testing Zanimo.transform() and transition:transform on the same element part 1",
+    function () {
+        var elt = setUp1();
+
+        Zanimo(elt)
+            .then(Zanimo.transition("transform", "translate(200px, 0)", 400));
+
+        return Zanimo
+                .transform(elt, "translate(00px, 200px)")
+                .then(Specs.done("Resolve"), Specs.fail("Reject"))
+                .then(setDown1, setDown1);
+    }
+);
+
+Specs.test(
+    "Testing Zanimo.transform() and transition:transform on the same element part 2",
+    function () {
+        var elt = setUp1();
+
+        Q.delay(100).then(function () {
+             Zanimo.transform(elt, "translate(00px, 200px)");
+        });
+
+        return Zanimo(elt)
+                .then(Zanimo.transitionf("transform", "translate(200px, 0)", 400))
+                .then(Specs.fail("Resolve"), Specs.done("Reject"))
+                .then(setDown1, setDown1);
     }
 );
 
@@ -198,10 +241,72 @@ Specs.test(
  * Test Zanimo.transformf()
  */
 Specs.test(
-    "TODO Testing Zanimo.transformf()",
+    "Zanimo.transformf() 'scale(2.0)'",
     function () {
-        return Q.reject(new Error("not implemented"))
-                .then(Specs.done("Resolve"), Specs.fail("Reject"));
+        return Zanimo(setUp1())
+                .then(Zanimo.transformf("scale(2.0)"))
+                .then(Specs.done("Resolve"), Specs.fail("Reject"))
+                .then(setDown1, setDown1);
+    }
+);
+
+Specs.test(
+    "Zanimo.transformf(): overwrite=true on animated elt",
+    function () {
+        var elt = setUp1();
+
+        Zanimo(elt)
+            .then(Zanimo.transitionf("transform", "translate(200px, 0)", 400));
+
+        return Q.delay(100)
+                .then(Zanimo.f(elt))
+                .then(Zanimo.transformf("translate(0, 200px)", true))
+                .then(function (elt) {
+                    var d = Q.defer();
+                    if (Zanimo._T.normTransform(elt.style[Zanimo._T.transform])
+                        === Zanimo._T.normTransform("translate(0, 200px)")) {
+                        d.resolve(elt);
+                    }
+                    else {
+                        d.reject(new Error("Fail: "
+                            + Zanimo._T.normTransform(elt.style[Zanimo._T.transform])
+                            + " " + Zanimo._T.normTransform("translate(200px, 0)")
+                        ));
+                    }
+                    return d.promise;
+                })
+                .then(Specs.done("Resolve"), Specs.fail("Reject"))
+                .then(setDown1, setDown1);
+    }
+);
+
+Specs.test(
+    "Zanimo.transformf(): overwrite=false on animated elt",
+    function () {
+        var elt = setUp1();
+
+        Zanimo(elt)
+            .then(Zanimo.transitionf("transform", "translate(200px, 0)", 400));
+
+        return Q.delay(100)
+                .then(Zanimo.f(elt))
+                .then(Zanimo.transformf("translate(0, 200px)"))
+                .then(function (elt) {
+                    var d = Q.defer();
+                    if (Zanimo._T.normTransform(elt.style[Zanimo._T.transform])
+                        === Zanimo._T.normTransform("translate(200px, 0) translate(0, 200px)")) {
+                        d.resolve(elt);
+                    }
+                    else {
+                        d.reject(new Error("Fail: "
+                            + Zanimo._T.normTransform(elt.style[Zanimo._T.transform])
+                            + " " + Zanimo._T.normTransform("translate(200px, 0) translate(200px, 0)")
+                        ));
+                    }
+                    return d.promise;
+                })
+                .then(Specs.done("Resolve"), Specs.fail("Reject"))
+                .then(setDown1, setDown1);
     }
 );
 
