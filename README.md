@@ -7,7 +7,7 @@ Zanimo.js is licensed under the terms of the MIT License.
 
 ## Building
 
-[![Build Status](https://secure.travis-ci.org/peutetre/Zanimo.png?branch=Q)](http://travis-ci.org/peutetre/Zanimo)
+[![Build Status](https://secure.travis-ci.org/peutetre/Zanimo.png?branch=Q)](http://travis-ci.org/peutetre/Zanimo) (currently crashing PhantomJS on Travis CI)
 
 ~~~ sh
 $ make
