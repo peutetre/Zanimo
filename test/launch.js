@@ -15,6 +15,9 @@ var page = require('webpage').create(),
         success : function doneMessage (msg) {
             console.log("\033[32m✔\033[0m " + color(msg.substr(1,msg.length)));
         }
+    },
+    exit = function (nbr) {
+        phantom.exit(nbr);
     };
 
 console.log(
@@ -27,8 +30,6 @@ console.log(
 page.open(url, function (s) {
     page.evaluateAsync(function () { window.launchTest(); });
 });
-
-phantom.exit();
 
 page.onCallback = function(result) {
     var s = 0;
@@ -44,5 +45,5 @@ page.onCallback = function(result) {
             Log.log(r);
         }
     });
-    phantom.exit(result.length-1 === s ? 0 : 1);
+    exit(result.length-1 === s ? 0 : 1);
 };
