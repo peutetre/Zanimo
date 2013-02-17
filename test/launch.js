@@ -27,13 +27,11 @@ console.log(
       phantom.version.patch ].join(".")
 );
 
-page.open(url, function (s) {
-    page.evaluateAsync(function () { window.launchTest(); });
-});
+
 
 page.onCallback = function(result) {
-    var s = 0;
-    result.forEach(function(r) {
+   var s = 0;
+    /*result.forEach(function(r) {
         if (r.indexOf("✔") !== -1) {
             s++;
             Log.success(r);
@@ -45,5 +43,34 @@ page.onCallback = function(result) {
             Log.log(r);
         }
     });
-    exit(result.length-1 === s ? 0 : 1);
+    exit(result.length-1 === s ? 0 : 1);*/
+    return result;
 };
+
+page.onConsoleMessage = function(msg) {
+    if (msg.indexOf("EXIT") !== -1 ) phantom.exit(parseInt(msg.replace(/EXIT/, ""), 10));
+    else if (msg.indexOf("✔") !== -1) {
+        Log.success(msg);
+    }
+    else if (msg.indexOf("✘") !== -1) {
+        Log.fail(msg);
+    }
+    else {
+        Log.log(msg);
+    }
+};
+page.open(url, function (s) {
+    page.evaluate(function() {
+        window.start()
+              .then(function(r) {
+                 var fail = 0;
+                 r.forEach(function (m) {
+                    console.log(m);
+                    if (m.indexOf("✘") !== -1) fail++;
+                 });
+                 return fail;
+              })
+              .done(function (failure) { console.log("EXIT " + failure); } );
+    });
+});
+

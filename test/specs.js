@@ -83,6 +83,7 @@
         window.launchTest = function () {
             start().done(function(r) { window.callPhantom(r); });
         };
+        window.start = start;
     }
 
     window.document.addEventListener("DOMContentLoaded", init, false);
