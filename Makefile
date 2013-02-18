@@ -3,7 +3,7 @@ BUILDDIR = build
 VERSION = `cat VERSION`
 FILES = src/Zanimo.js
 
-all: build www www2
+all: build www
 
 build: cat
 	@@java -jar bin/compiler.jar --js ${BUILDDIR}/${ZANIMO}-${VERSION}.js --js_output_file ${BUILDDIR}/${ZANIMO}-${VERSION}.min.js
