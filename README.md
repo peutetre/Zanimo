@@ -1,7 +1,7 @@
 # Zanimo.js - Promise based CSS3 transitions
 
 Allows chaining of transitions in a promise based way.
-It depends on Kris Kowal's [Q.js library][1].
+It depends on Kris Kowal's [Q.js library](https://github.com/kriskowal/q).
 
 Zanimo.js is licensed under the terms of the MIT License.
 
@@ -25,7 +25,7 @@ $ make
 
 ## Launch tests
 
-To run tests in your shell, you need [phantomjs][2].
+To run tests in your shell, you need [phantomjs](http://code.google.com/p/phantomjs/wiki/Installation).
 
 ~~~ sh
 $ make test
@@ -97,7 +97,3 @@ Usefull for chaining.
 Zanimo(myDomElt)
     .then(Zanimo.transformf("scale(2)", true));
 ~~~
-
-
-    [1]: https://github.com/kriskowal/q "Q.js"
-    [2]: http://code.google.com/p/phantomjs/wiki/Installation "Phantom.js"
