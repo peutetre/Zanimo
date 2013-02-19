@@ -81,7 +81,7 @@ var Zanimo = (function () {
             },
             // returns a transition representation string
             repr : function (v, d, t) {
-                return v + " " + d + "ms " + (t || "linear")
+                return v + " " + d + "ms " + (t || "linear") + " 0s";
             },
             // normalize a css transformation string like
             // "translate(340px, 0px, 230px) rotate(340deg )"
@@ -132,7 +132,7 @@ var Zanimo = (function () {
             cb = function (clear) {
                 if (timeout) { clearTimeout(timeout); timeout = null; }
                 remove(domElt, attr, value, duration, timing);
-                domElt.removeEventListener(T.transitionend, cbTransitionend, false);
+                domElt.removeEventListener(T.transitionend, cbTransitionend);
                 if (clear) { delete domElt._zanimo[attr]; }
             },
             cbTransitionend = function () { cb(true); d.resolve(domElt); };
@@ -147,7 +147,7 @@ var Zanimo = (function () {
             return d.promise;
         }
 
-        domElt.addEventListener(T.transitionend, cbTransitionend, false);
+        domElt.addEventListener(T.transitionend, cbTransitionend);
 
         window.requestAnimationFrame(function () {
             add(domElt, attr, value, duration, timing);
@@ -157,9 +157,7 @@ var Zanimo = (function () {
                     givenVal = T.normTransform(value);
 
                 cb(true);
-                if (domVal === givenVal) {
-                    d.resolve(domElt);
-                }
+                if (domVal === givenVal) { d.resolve(domElt); }
                 else {
                     d.reject( new Error("Zanimo transition: "
                         + domElt.id + " with " + attr + " = " + givenVal

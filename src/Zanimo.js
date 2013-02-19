@@ -81,7 +81,7 @@ var Zanimo = (function () {
             },
             // returns a transition representation string
             repr : function (v, d, t) {
-                return v + " " + d + "ms " + (t || "linear")
+                return v + " " + d + "ms " + (t || "linear") + " 0s";
             },
             // normalize a css transformation string like
             // "translate(340px, 0px, 230px) rotate(340deg )"
