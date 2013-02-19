@@ -339,3 +339,46 @@ Specs.test(
                 .then(setDown1, setDown1);
     }
 );
+
+Specs.test(
+    "Zanimo.transition: make 4 same transitions sequentially with the same element (opacity)",
+    function () {
+        var elt = setUp1(),
+            transition1 = Zanimo.transitionf("opacity", 0, 200),
+            opacity1 = function (elt) {
+                elt.style.opacity = 1;
+                return elt;
+            };
+
+        return Zanimo(elt)
+                .then(transition1)
+                .then(opacity1)
+                .then(transition1)
+                .then(opacity1)
+                .then(transition1)
+                .then(opacity1)
+                .then(transition1)
+                .then(Specs.done("Resolve"), Specs.fail("Reject"))
+                .then(setDown1, setDown1);
+    }
+);
+
+Specs.test(
+    "Zanimo.transition: make 4 same transitions sequentially with the same element (transform)",
+    function () {
+        var elt = setUp1(),
+            transition1 = Zanimo.transitionf("transform", "translate(200px, 0)", 500),
+            transform1 = Zanimo.transformf("translate(0,0)", true);
+
+        return Zanimo(elt)
+                .then(transition1)
+                .then(transform1)
+                .then(transition1)
+                .then(transform1)
+                .then(transition1)
+                .then(transform1)
+                .then(transition1)
+                .then(Specs.done("Resolve"), Specs.fail("Reject"))
+                .then(setDown1, setDown1);
+    }
+);

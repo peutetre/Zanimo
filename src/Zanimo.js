@@ -129,12 +129,13 @@ var Zanimo = (function () {
      */
     Z.transition = function (domElt, attr, value, duration, timing) {
         var d = Q.defer(), timeout,
-            cb = function () {
+            cb = function (clear) {
                 if (timeout) { clearTimeout(timeout); timeout = null; }
                 remove(domElt, attr, value, duration, timing);
-                domElt.removeEventListener(T.transitionend, cb, false);
+                domElt.removeEventListener(T.transitionend, cbTransitionend);
+                if (clear) { delete domElt._zanimo[attr]; }
             },
-            cbTransitionend = function () { cb(); d.resolve(domElt); };
+            cbTransitionend = function () { cb(true); d.resolve(domElt); };
 
         if (!(domElt instanceof HTMLElement)) {
             d.reject(new Error("Zanimo transition: no DOM element!"));
@@ -146,7 +147,7 @@ var Zanimo = (function () {
             return d.promise;
         }
 
-        domElt.addEventListener(T.transitionend, cbTransitionend, false);
+        domElt.addEventListener(T.transitionend, cbTransitionend);
 
         window.requestAnimationFrame(function () {
             add(domElt, attr, value, duration, timing);
@@ -154,16 +155,15 @@ var Zanimo = (function () {
                 var rawVal = domElt.style.getPropertyValue(T.prefix(attr)),
                     domVal = T.normTransform(rawVal),
                     givenVal = T.normTransform(value);
-                if (domVal === givenVal) {
-                    d.resolve(domElt);
-                }
+
+                cb(true);
+                if (domVal === givenVal) { d.resolve(domElt); }
                 else {
                     d.reject( new Error("Zanimo transition: "
                         + domElt.id + " with " + attr + " = " + givenVal
                         + ", DOM value=" + domVal
                     ));
                 }
-                cb();
             }, duration + 20 );
 
             domElt._zanimo = domElt._zanimo || { };
