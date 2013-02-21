@@ -11,7 +11,6 @@ Zanimo targets the following platforms:
 
 * Safari
 * Firefox
-* Opera
 * Chrome
 * Internet Explorer 10
 
