@@ -34,7 +34,13 @@ var Zanimo = (function () {
             _normRegex = /\-([a-z])/g,
             _emptyString = "",
             _transitionend = "transitionend",
+            _transition = "transition",
             _prefix = null,
+            _dummy = null,
+            _dummyTransition = "opacity 100ms linear 0s",
+            _repr = function (v, d, t) {
+                return v + " " + d + "ms " + (t || "linear");
+            },
             _prefixed = { "transform": "" },
             _normReplacef = function(m, g) { return g.toUpperCase(); },
             _normTransf = function (match) {
@@ -56,19 +62,30 @@ var Zanimo = (function () {
             };
 
             // detect transition feature
-            if( 'WebkitTransition' in doc.body.style
-                && !("OTransition" in doc.body.style) ) {
+            if( 'WebkitTransition' in doc.body.style ) {
                 _transitionend = 'webkitTransitionEnd';
                 _prefix = "webkit";
             }
 
-            // set _prefixed with founded prefix
             for (var p in _prefixed)
                 _prefixed[p] = _prefix ? "-" + _prefix + "-" + p : p;
 
+            _transition = _prefix ? _prefix + "-" + _transition : _transition
+            _transition = _norm(_transition);
+            _dummy = doc.createElement("div");
+            _dummyTransition = _normTransform(_dummyTransition);
+            _dummy.style[_transition] = _dummyTransition;
+            _dummy = _normTransform(_dummy.style[_transition]);
+
+            if (_dummy === _dummyTransition) {
+                _repr = function (v, d, t) {
+                    return v + " " + d + "ms " + (t || "linear") + " 0s";
+                };
+            }
+
         return {
             // prefixed transition string
-            t : _norm(_prefix ? _prefix + "-" + "transition" : "transition"),
+            t : _transition,
             // transform attr
             transform : _norm(_prefixed["transform"]),
             // prefixed transition end event string
@@ -76,13 +93,8 @@ var Zanimo = (function () {
             // normalize css property
             norm : _norm,
             // prefix a css property if needed
-            prefix : function (p) {
-                return _prefixed[p] ? _prefixed[p] : p;
-            },
-            // returns a transition representation string
-            repr : function (v, d, t) {
-                return v + " " + d + "ms " + (t || "linear") + " 0s";
-            },
+            prefix : function (p) { return _prefixed[p] ? _prefixed[p] : p; },
+            repr : _repr,
             // normalize a css transformation string like
             // "translate(340px, 0px, 230px) rotate(340deg )"
             // -> "translate(340px,0,230px) rotate(340deg)"
@@ -141,7 +153,6 @@ var Zanimo = (function () {
             d.reject(new Error("Zanimo transition: no DOM element!"));
             return d.promise;
         }
-
         if(window.isNaN(parseInt(duration, 10))) {
             d.reject(new Error("Zanimo transition: duration must be an integer!"));
             return d.promise;
