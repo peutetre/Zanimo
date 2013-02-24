@@ -1,0 +1,125 @@
+/*
+ * style.styl
+ */
+body,
+html {
+  background: #808080;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  overflow: hidden;
+}
+.documentation {
+  z-index: 1;
+  background: #f0f1f3;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+}
+.documentation section.content {
+  height: -webkit-calc(100% - 30px);
+  height: -moz-calc(100% - 30px);
+  height: -ms-calc(100% - 30px);
+  height: calc(100% - 30px);
+  width: 100%;
+  position: relative;
+}
+.documentation section.content header {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 50px;
+}
+.documentation section.content header h1 {
+  margin: 0 0 0 10px;
+  width: 100%;
+  font-size: 28px;
+}
+.documentation section.content header h1 span {
+  font-size: 16px;
+}
+.documentation div.active-area {
+  height: 30px;
+  width: 100%;
+  text-align: center;
+  position: relative;
+  background: #76bdff;
+  border-bottom: 1px solid #75acdf;
+}
+.documentation div.active-area div.chip {
+  background: #76bdff;
+  position: relative;
+  width: 40px;
+  height: 40px;
+  margin: auto;
+  top: -20px;
+  border-radius: 40px;
+}
+.documentation div.active-area div.chip span {
+  position: relative;
+  top: 9px;
+  font-size: 20px;
+  top: -2px;
+  font-size: 30px;
+  color: #f0f1f3;
+}
+.documentation div.active-area a.twitter {
+  text-decoration: none;
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  color: #f0f1f3;
+}
+.documentation div.active-area a.github {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  text-decoration: none;
+  color: #f0f1f3;
+}
+.editor {
+  z-index: 0;
+  background: #f3f3f3;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+}
+.editor div.toolbar {
+  height: 50px;
+  position: absolute;
+  top: 30px;
+  width: 100%;
+  color: #f00;
+  line-height: 50px;
+  padding: 0 0 0 0px;
+}
+.editor div.toolbar .button {
+  -webkit-appearance: none;
+  border: none;
+  background: #f3f3f3;
+  height: 26px;
+  width: 26px;
+  border-radius: 0;
+  float: left;
+  font-size: 21px;
+  margin: 12px 0 0 10px;
+  padding: 0;
+  color: #76bdff;
+}
+.editor div.toolbar .select {
+  width: 120px;
+  font-size: 14px;
+  padding: 0 0 0 5px;
+  color: #000;
+}
+.editor .CodeMirror {
+  position: absolute;
+  background: #fff;
+  top: 80px;
+  width: 100%;
+  height: -webkit-calc(100% - 70px);
+  height: -moz-calc(100% - 70px);
+  height: -ms-calc(100% - 70px);
+  height: calc(100% - 70px);
+  border-top: 1px solid #dadada;
+}

@@ -3,7 +3,7 @@ BUILDDIR = build
 VERSION = `cat VERSION`
 FILES = src/Zanimo.js
 
-all: build www
+all: build www3
 
 build: cat
 	@@java -jar bin/compiler.jar --js ${BUILDDIR}/${ZANIMO}-${VERSION}.js --js_output_file ${BUILDDIR}/${ZANIMO}-${VERSION}.min.js
@@ -14,22 +14,17 @@ cat:
 test:
 	@@phantomjs test/launch.js
 
-www:
-	@@cp ${BUILDDIR}/${ZANIMO}-${VERSION}.min.js www/vendor/${ZANIMO}-${VERSION}.min.js
-	@@cp ${BUILDDIR}/${ZANIMO}-${VERSION}.js www/vendor/${ZANIMO}-${VERSION}.js
-	@@cp vendor/q-0.8.9.min.js www/vendor/q-0.8.9.min.js
-	@@cp vendor/q-0.8.9.js www/vendor/q-0.8.9.js
-
-www2:
-	@@cp ${BUILDDIR}/${ZANIMO}-${VERSION}.min.js www2/vendor/${ZANIMO}-${VERSION}.min.js
-	@@cp ${BUILDDIR}/${ZANIMO}-${VERSION}.js www2/vendor/${ZANIMO}-${VERSION}.js
-	@@cp vendor/q-0.8.9.min.js www2/vendor/q-0.8.9.min.js
-	@@cp vendor/q-0.8.9.js www2/vendor/q-0.8.9.js
+www3:
+	@@stylus www3/css/style.styl
+	@@cp ${BUILDDIR}/${ZANIMO}-${VERSION}.min.js www3/vendor/${ZANIMO}-${VERSION}.min.js
+	@@cp ${BUILDDIR}/${ZANIMO}-${VERSION}.js www3/vendor/${ZANIMO}-${VERSION}.js
+	@@cp vendor/q-0.8.11.min.js www3/vendor/q-0.8.11.min.js
+	@@cp vendor/q-0.8.11.js www3/vendor/q-0.8.11.js
 
 clean:
-	@@rm www/vendor/${ZANIMO}-${VERSION}.min.js
-	@@rm www/vendor/${ZANIMO}-${VERSION}.js
-	@@rm www/vendor/q-0.8.9.min.js
-	@@rm www/vendor/q-0.8.9.js
+	@@rm www3/vendor/${ZANIMO}-${VERSION}.min.js
+	@@rm www3/vendor/${ZANIMO}-${VERSION}.js
+	@@rm www3/vendor/q-0.8.11.min.js
+	@@rm www3/vendor/q-0.8.11.js
 
-.PHONY: www test www2
+.PHONY: test www3

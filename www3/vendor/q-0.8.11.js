@@ -1,9 +1,4 @@
 // vim:ts=4:sts=4:sw=4:
-/*jshint browser: true, node: true,
-  curly: true, eqeqeq: true, noarg: true, nonew: true, trailing: true,
-  undef: true */
-/*global define: false, Q: true, msSetImmediate: false, setImmediate: false,
-  ReturnValue: false, cajaVM: false, ses: false */
 /*!
  *
  * Copyright 2009-2012 Kris Kowal under the terms of the MIT
@@ -29,33 +24,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * With formatStackTrace and formatSourcePosition functions
- * Copyright 2006-2008 the V8 project authors. All rights reserved.
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are
- * met:
- *
- *     * Redistributions of source code must retain the above copyright
- *       notice, this list of conditions and the following disclaimer.
- *     * Redistributions in binary form must reproduce the above
- *       copyright notice, this list of conditions and the following
- *       disclaimer in the documentation and/or other materials provided
- *       with the distribution.
- *     * Neither the name of Google Inc. nor the names of its
- *       contributors may be used to endorse or promote products derived
- *       from this software without specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
- * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
- * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
- * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
- * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
- * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
- * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
- * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
- * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
 (function (definition) {
@@ -124,12 +92,8 @@ var nextTick;
 if (typeof process !== "undefined") {
     // node
     nextTick = process.nextTick;
-} else if (typeof msSetImmediate === "function") {
-    // IE 10 only, at the moment
-    // And yes, ``bind``ing to ``window`` is necessary O_o.
-    nextTick = msSetImmediate.bind(window);
 } else if (typeof setImmediate === "function") {
-    // https://github.com/NobleJS/setImmediate
+    // In IE10, or use https://github.com/NobleJS/setImmediate
     nextTick = setImmediate;
 } else if (typeof MessageChannel !== "undefined") {
     // modern browsers
@@ -269,133 +233,55 @@ if (typeof ReturnValue !== "undefined") {
 
 // long stack traces
 
-function formatStackTrace(error, frames) {
-    var lines = [];
-    try {
-        lines.push(error.toString());
-    } catch (e) {
-        try {
-            lines.push("<error: " + e + ">");
-        } catch (ee) {
-            lines.push("<error>");
-        }
-    }
-    for (var i = 0; i < frames.length; i++) {
-        var frame = frames[i];
-        var line;
+var STACK_JUMP_SEPARATOR = "From previous event:";
 
-        // <Inserted by @domenic>
-        if (typeof frame === "string") {
-            lines.push(frame);
-        // </Inserted by @domenic>
-        } else {
-            try {
-                line = formatSourcePosition(frame);
-            } catch (e) {
-                try {
-                    line = "<error: " + e + ">";
-                } catch (ee) {
-                    // Any code that reaches this point is seriously nasty!
-                    line = "<error>";
-                }
-            }
-            lines.push("    at " + line);
-        }
+function makeStackTraceLong(error, promise) {
+    // If possible (that is, if in V8), transform the error stack
+    // trace by removing Node and Q cruft, then concatenating with
+    // the stack trace of the promise we are ``done``ing. See #57.
+    if (promise.stack &&
+        typeof error === "object" &&
+        error !== null &&
+        error.stack &&
+        error.stack.indexOf(STACK_JUMP_SEPARATOR) === -1
+    ) {
+        error.stack = filterStackString(error.stack) +
+            "\n" + STACK_JUMP_SEPARATOR + "\n" +
+            filterStackString(promise.stack);
     }
-    return lines.join("\n");
 }
 
-function formatSourcePosition(frame) {
-    var fileLocation = "";
-    if (frame.isNative()) {
-        fileLocation = "native";
-    } else if (frame.isEval()) {
-        fileLocation = "eval at " + frame.getEvalOrigin();
-    } else {
-        var fileName = frame.getFileName();
-        if (fileName) {
-            fileLocation += fileName;
-            var lineNumber = frame.getLineNumber();
-            if (lineNumber !== null) {
-                fileLocation += ":" + lineNumber;
-                var columnNumber = frame.getColumnNumber();
-                if (columnNumber) {
-                    fileLocation += ":" + columnNumber;
-                }
-            }
+function filterStackString(stackString) {
+    var lines = stackString.split("\n");
+    var desiredLines = [];
+    for (var i = 0; i < lines.length; ++i) {
+        var line = lines[i];
+
+        if (!isInternalFrame(line) && !isNodeFrame(line)) {
+            desiredLines.push(line);
         }
     }
-    if (!fileLocation) {
-        fileLocation = "unknown source";
-    }
-    var line = "";
-    var functionName = frame.getFunction().name;
-    var addPrefix = true;
-    var isConstructor = frame.isConstructor();
-    var isMethodCall = !(frame.isToplevel() || isConstructor);
-    if (isMethodCall) {
-        var methodName = frame.getMethodName();
-        line += frame.getTypeName() + ".";
-        if (functionName) {
-            line += functionName;
-            if (methodName && (methodName !== functionName)) {
-                line += " [as " + methodName + "]";
-            }
-        } else {
-            line += methodName || "<anonymous>";
-        }
-    } else if (isConstructor) {
-        line += "new " + (functionName || "<anonymous>");
-    } else if (functionName) {
-        line += functionName;
-    } else {
-        line += fileLocation;
-        addPrefix = false;
-    }
-    if (addPrefix) {
-        line += " (" + fileLocation + ")";
-    }
-    return line;
+    return desiredLines.join("\n");
 }
 
-function isInternalFrame(fileName, frame) {
-    if (fileName !== qFileName) {
+function isNodeFrame(stackLine) {
+    return stackLine.indexOf("(module.js:") !== -1 ||
+           stackLine.indexOf("(node.js:") !== -1;
+}
+
+function isInternalFrame(stackLine) {
+    var pieces = /at .+ \((.*):(\d+):\d+\)/.exec(stackLine);
+
+    if (!pieces) {
         return false;
     }
-    var line = frame.getLineNumber();
-    return line >= qStartingLine && line <= qEndingLine;
-}
 
-/*
- * Retrieves an array of structured stack frames parsed from the ``stack``
- * property of a given object.
- *
- * @param objectWithStack {Object} an object with a ``stack`` property: usually
- * an error or promise.
- *
- * @returns an array of stack frame objects. For more information, see
- * [V8's JavaScript stack trace API documentation](http://code.google.com/p/v8/wiki/JavaScriptStackTraceApi).
- */
-function getStackFrames(objectWithStack) {
-    var oldPrepareStackTrace = Error.prepareStackTrace;
+    var fileName = pieces[1];
+    var lineNumber = pieces[2];
 
-    Error.prepareStackTrace = function (error, frames) {
-        // Filter out frames from the innards of Node and Q.
-        return frames.filter(function (frame) {
-            var fileName = frame.getFileName();
-            return (
-                fileName !== "module.js" &&
-                fileName !== "node.js" &&
-                !isInternalFrame(fileName, frame)
-            );
-        });
-    };
-
-    var stack = objectWithStack.stack;
-
-    Error.prepareStackTrace = oldPrepareStackTrace;
-
-    return stack;
+    return fileName === qFileName &&
+        lineNumber >= qStartingLine &&
+        lineNumber <= qEndingLine;
 }
 
 // discover own file name and line number range for filtering stack
@@ -485,6 +371,11 @@ function defer() {
 
     if (Error.captureStackTrace) {
         Error.captureStackTrace(promise, defer);
+
+        // Reify the stack into a string by using the accessor; this prevents
+        // memory leaks as per GH-111. At the same time, cut off the first line;
+        // it's always just "[object Promise]\n", as per the `toString`.
+        promise.stack = promise.stack.substring(promise.stack.indexOf("\n") + 1);
     }
 
     function become(resolvedValue) {
@@ -499,7 +390,6 @@ function defer() {
         }, void 0);
         pending = void 0;
         progressListeners = void 0;
-        return value;
     }
 
     defend(promise);
@@ -507,15 +397,13 @@ function defer() {
     deferred.promise = promise;
     deferred.resolve = become;
     deferred.reject = function (exception) {
-        return become(reject(exception));
+        become(reject(exception));
     };
-    deferred.notify = function () {
+    deferred.notify = function (progress) {
         if (pending) {
-            var args = arguments;
-
             array_reduce(progressListeners, function (undefined, progressListener) {
                 nextTick(function () {
-                    progressListener.apply(void 0, args);
+                    progressListener(progress);
                 });
             }, void 0);
         }
@@ -618,6 +506,10 @@ makePromise.prototype.then = function (fulfilled, rejected, progressed) {
     return when(this, fulfilled, rejected, progressed);
 };
 
+makePromise.prototype.thenResolve = function (value) {
+    return when(this, function () { return value; });
+};
+
 // Chainable methods
 array_reduce(
     [
@@ -631,10 +523,11 @@ array_reduce(
         "all", "allResolved",
         "view", "viewInfo",
         "timeout", "delay",
-        "catch", "finally", "fail", "fin", "progress", "end",
+        "catch", "finally", "fail", "fin", "progress", "end", "done",
+        "nfcall", "nfapply", "nfbind",
         "ncall", "napply", "nbind",
         "npost", "ninvoke",
-        "nend"
+        "nend", "nodeify"
     ],
     function (undefined, name) {
         makePromise.prototype[name] = function () {
@@ -668,15 +561,10 @@ defend(makePromise.prototype);
  */
 exports.nearer = valueOf;
 function valueOf(value) {
-    // if !Object.isObject(value)
-    // generates a known JSHint "constructor invocation without new" warning
-    // supposed to be fixed, but isn't? https://github.com/jshint/jshint/issues/392
-    /*jshint newcap: false */
-    if (Object(value) !== value) {
-        return value;
-    } else {
+    if (isPromise(value)) {
         return value.valueOf();
     }
+    return value;
 }
 
 /**
@@ -938,11 +826,19 @@ function when(value, fulfilled, rejected, progressed) {
     }
 
     function _rejected(exception) {
-        try {
-            return rejected ? rejected(exception) : reject(exception);
-        } catch (newException) {
-            return reject(newException);
+        if (rejected) {
+            makeStackTraceLong(exception, resolvedValue);
+            try {
+                return rejected(exception);
+            } catch (newException) {
+                return reject(newException);
+            }
         }
+        return reject(exception);
+    }
+
+    function _progressed(value) {
+        return progressed ? progressed(value) : value;
     }
 
     var resolvedValue = resolve(value);
@@ -964,10 +860,10 @@ function when(value, fulfilled, rejected, progressed) {
         });
     });
 
-    // Progress listeners need to be attached in the current tick.
-    if (progressed) {
-        resolvedValue.promiseSend("when", void 0, void 0, progressed);
-    }
+    // Progress propagator need to be attached in the current tick.
+    resolvedValue.promiseSend("when", void 0, void 0, function (value) {
+        deferred.notify(_progressed(value));
+    });
 
     return deferred.promise;
 }
@@ -987,7 +883,7 @@ function spread(promise, fulfilled, rejected) {
     return when(promise, function (valuesOrPromises) {
         return all(valuesOrPromises).then(function (values) {
             return fulfilled.apply(void 0, values);
-        });
+        }, rejected);
     }, rejected);
 }
 
@@ -1374,8 +1270,7 @@ function fail(promise, rejected) {
  */
 exports.progress = progress;
 function progress(promise, progressed) {
-    when(promise, void 0, void 0, progressed);
-    return promise;
+    return when(promise, void 0, void 0, progressed);
 }
 
 /**
@@ -1409,33 +1304,29 @@ function fin(promise, callback) {
  * @param {Any*} promise at the end of a chain of promises
  * @returns nothing
  */
-exports.end = end; // XXX stopgap
-function end(promise) {
-    when(promise, void 0, function (error) {
+exports.end = deprecate(done, "end", "done"); // XXX deprecated, use done
+exports.done = done;
+function done(promise, fulfilled, rejected, progress) {
+    function onUnhandledError(error) {
         // forward to a future turn so that ``when``
         // does not catch it and turn it into a rejection.
         nextTick(function () {
-            // If possible (that is, if in V8), transform the error stack
-            // trace by removing Node and Q cruft, then concatenating with
-            // the stack trace of the promise we are ``end``ing. See #57.
-            var errorStackFrames;
-            if (
-                Error.captureStackTrace &&
-                typeof error === "object" &&
-                (errorStackFrames = getStackFrames(error))
-            ) {
-                var promiseStackFrames = getStackFrames(promise);
+            makeStackTraceLong(error, promise);
 
-                var combinedStackFrames = errorStackFrames.concat(
-                    "From previous event:",
-                    promiseStackFrames
-                );
-                error.stack = formatStackTrace(error, combinedStackFrames);
+            if (exports.onerror) {
+                exports.onerror(error);
+            } else {
+                throw error;
             }
-
-            throw error;
         });
-    });
+    }
+
+    // Avoid unnecessary `nextTick`ing via an unnecessary `when`.
+    var promiseToHandle = fulfilled || rejected || progress ?
+        when(promise, fulfilled, rejected, progress) :
+        promise;
+
+    fail(promiseToHandle, onUnhandledError);
 }
 
 /**
@@ -1456,7 +1347,11 @@ function timeout(promise, ms) {
     when(promise, function (value) {
         clearTimeout(timeoutId);
         deferred.resolve(value);
-    }, deferred.reject);
+    }, function (exception) {
+        clearTimeout(timeoutId);
+        deferred.reject(exception);
+    });
+
     return deferred.promise;
 }
 
@@ -1482,6 +1377,68 @@ function delay(promise, timeout) {
 }
 
 /**
+ * Passes a continuation to a Node function, which is called with the given
+ * arguments provided as an array, and returns a promise.
+ *
+ *      var readFile = require("fs").readFile;
+ *      Q.nfapply(readFile, [__filename])
+ *      .then(function (content) {
+ *      })
+ *
+ */
+exports.nfapply = nfapply;
+function nfapply(callback, args) {
+    var nodeArgs = array_slice(args);
+    var deferred = defer();
+    nodeArgs.push(deferred.makeNodeResolver());
+
+    fapply(callback, nodeArgs).fail(deferred.reject);
+    return deferred.promise;
+}
+
+/**
+ * Passes a continuation to a Node function, which is called with the given
+ * arguments provided individually, and returns a promise.
+ *
+ *      var readFile = require("fs").readFile;
+ *      Q.nfcall(readFile, __filename)
+ *      .then(function (content) {
+ *      })
+ *
+ */
+exports.nfcall = nfcall;
+function nfcall(callback/*, ...args */) {
+    var nodeArgs = array_slice(arguments, 1);
+    var deferred = defer();
+    nodeArgs.push(deferred.makeNodeResolver());
+
+    fapply(callback, nodeArgs).fail(deferred.reject);
+    return deferred.promise;
+}
+
+/**
+ * Wraps a NodeJS continuation passing function and returns an equivalent
+ * version that returns a promise.
+ *
+ *      Q.nfbind(FS.readFile, __filename)("utf-8")
+ *      .then(console.log)
+ *      .done()
+ *
+ */
+exports.nfbind = nfbind;
+function nfbind(callback/*, ...args */) {
+    var baseArgs = array_slice(arguments, 1);
+    return function () {
+        var nodeArgs = baseArgs.concat(array_slice(arguments));
+        var deferred = defer();
+        nodeArgs.push(deferred.makeNodeResolver());
+
+        fapply(callback, nodeArgs).fail(deferred.reject);
+        return deferred.promise;
+    };
+}
+
+/**
  * Passes a continuation to a Node function, which is called with a given
  * `this` value and arguments provided as an array, and returns a promise.
  *
@@ -1491,7 +1448,7 @@ function delay(promise, timeout) {
  *      })
  *
  */
-exports.napply = napply;
+exports.napply = deprecate(napply, "napply", "npost");
 function napply(callback, thisp, args) {
     return nbind(callback, thisp).apply(void 0, args);
 }
@@ -1506,7 +1463,7 @@ function napply(callback, thisp, args) {
  *      })
  *
  */
-exports.ncall = ncall;
+exports.ncall = deprecate(ncall, "ncall", "ninvoke");
 function ncall(callback, thisp /*, ...args*/) {
     var args = array_slice(arguments, 2);
     return napply(callback, thisp, args);
@@ -1518,10 +1475,10 @@ function ncall(callback, thisp /*, ...args*/) {
  *
  *      Q.nbind(FS.readFile, FS)(__filename)
  *      .then(console.log)
- *      .end()
+ *      .done()
  *
  */
-exports.nbind = nbind;
+exports.nbind = deprecate(nbind, "nbind", "nfbind");
 function nbind(callback /* thisp, ...args*/) {
     if (arguments.length > 1) {
         var thisp = arguments[1];
@@ -1556,7 +1513,12 @@ function nbind(callback /* thisp, ...args*/) {
  */
 exports.npost = npost;
 function npost(object, name, args) {
-    return napply(object[name], object, args);
+    var nodeArgs = array_slice(args);
+    var deferred = defer();
+    nodeArgs.push(deferred.makeNodeResolver());
+
+    post(object, name, nodeArgs).fail(deferred.reject);
+    return deferred.promise;
 }
 
 /**
@@ -1571,32 +1533,31 @@ function npost(object, name, args) {
  */
 exports.ninvoke = ninvoke;
 function ninvoke(object, name /*, ...args*/) {
-    var args = array_slice(arguments, 2);
-    return napply(object[name], object, args);
+    var nodeArgs = array_slice(arguments, 2);
+    var deferred = defer();
+    nodeArgs.push(deferred.makeNodeResolver());
+
+    post(object, name, nodeArgs).fail(deferred.reject);
+    return deferred.promise;
 }
 
-exports.nend = nend;
-function nend(promise, nodeback) {
+exports.nend = deprecate(nodeify, "nend", "nodeify"); // XXX deprecated, use nodeify
+exports.nodeify = nodeify;
+function nodeify(promise, nodeback) {
     if (nodeback) {
-        var deferred = defer();
         promise.then(function (value) {
             nextTick(function () {
-                deferred.resolve();
                 nodeback(null, value);
             });
         }, function (error) {
             nextTick(function () {
-                deferred.resolve();
                 nodeback(error);
             });
         });
-        return deferred.promise;
     } else {
         return promise;
     }
 }
-
-defend(exports);
 
 // All code before this point will be filtered from stack traces.
 var qEndingLine = captureLine();
