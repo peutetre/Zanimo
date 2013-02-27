@@ -49,32 +49,25 @@ html {
 .documentation div.active-area div.chip {
   background: #76bdff;
   position: relative;
-  width: 40px;
-  height: 40px;
+  width: 100px;
+  height: 50px;
   margin: auto;
   top: -20px;
   border-radius: 40px;
 }
 .documentation div.active-area div.chip span {
-  position: relative;
-  top: 9px;
+  position: absolute;
   font-size: 20px;
-  top: -2px;
   font-size: 30px;
   color: #f0f1f3;
+  top: -2px;
+  left: 38px;
 }
-.documentation div.active-area a.twitter {
+.documentation div.active-area a.github {
   text-decoration: none;
   position: absolute;
   top: 6px;
   right: 6px;
-  color: #f0f1f3;
-}
-.documentation div.active-area a.github {
-  position: absolute;
-  top: 6px;
-  left: 6px;
-  text-decoration: none;
   color: #f0f1f3;
 }
 .editor {
@@ -122,4 +115,5 @@ html {
   height: -ms-calc(100% - 70px);
   height: calc(100% - 70px);
   border-top: 1px solid #dadada;
+  background: #fdfdfd;
 }
