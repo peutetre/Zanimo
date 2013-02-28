@@ -42,7 +42,7 @@
             );
         },
         closeCurtain = Zanimo.transitionf("transform", "translate3d(0,0,0)", 400, "ease-in-out"),
-        downStar = Zanimo.transitionf("transform", "translate3d(0,15px,0) rotate(150deg)", 200, "ease-in-out"),
+        downStar = Zanimo.transitionf("transform", "translate3d(0,18px,0) rotate(150deg)", 200, "ease-in-out"),
         upStar = Zanimo.transitionf("transform", "translate3d(0,0,0)", 200, "ease-in-out"),
         errorLog = function (err) { console.log(err, err.stack); new Error(err.message); };
 
