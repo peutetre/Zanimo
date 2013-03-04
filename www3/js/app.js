@@ -61,6 +61,8 @@
             extraKeys: { "Enter" : "newlineAndIndentContinueComment" }
         });
 
+        app.animateCurtainToNextState().then(app.animateCurtainToNextState);
+
         $docActiveArea.addEventListener(isTouchable ? "touchstart" : "click", app.activeAreaAction);
         window.addEventListener("resize", app.resizeCurtain);
         window.addEventListener("orientationchange", app.resizeCurtain);
@@ -68,14 +70,11 @@
 
     app.resizeCurtain = function () {
         switch(curtainState) {
-            case 0:
-                return Q.resolve($documentation);
             case 1:
-                return Zanimo($documentation)
-                        .then(openCurtain).done(empty, empty);
+                Zanimo($documentation).then(openCurtain).done(empty, empty);
+                break;
             case 2:
-                return Zanimo($documentation)
-                        .then(hideCurtain).done(empty, empty);
+                Zanimo($documentation).then(hideCurtain).done(empty, empty);
         }
     };
 
@@ -83,8 +82,7 @@
         switch(curtainState) {
             case 0:
                 curtainState ++;
-                return Zanimo($documentation)
-                        .then(openCurtain, errorLog);
+                return Zanimo($documentation).then(openCurtain, errorLog);
             case 1:
                 curtainState ++;
                 return Zanimo($documentation)
@@ -98,7 +96,7 @@
                         .then(Zanimo.f($star))
                         .then(upStar, errorLog);
             default:
-                new Error("Unknow state in app.animateCurtainToNextState");
+                return Q.resolve();
         }
     };
 
