@@ -12,6 +12,10 @@ body, html
     width 100%
     position absolute
     overflow hidden
+    -webkit-font-smoothing: antialiased;
+
+a
+    color rgb(82, 122, 160)
 
 .documentation
     z-index 1
@@ -36,15 +40,69 @@ body, html
             -webkit-overflow-scrolling:touch;
             max-width 1280px
             margin auto
+            a.download
+                width: 140px;
+                line-height: 40px;
+                margin: 15px auto;
+                display: block;
+                text-align: center;
+                background: rgb(118, 189, 255);
+                font-family: Anaheim, sans-serif;
+                font-size: 16px;
+                border-radius: 6px;
+                color: rgb(240, 241, 243);
+                font-weight: bold;
+                border: 1px solid rgb(117, 172, 223);
+                text-decoration none
             p
-                margin:10px 0
+                margin:5px 10px
+                font-family: 'Roboto', sans-serif;
+                font-size 14px
+                color rgb(86, 89, 97)
+            p.description
+                font-size:16px;
+                margin 10px
+            ul
+                margin: 0 0 5px 30px;
+                list-style: disc;
+                color rgb(94, 128, 158)
+            img
+                margin: 0 0 0 10px;
+                position: relative;
+                top: 4px;
+            li
+                margin 0 0 0 10px
+                font-family: 'Roboto', sans-serif;
+                font-size 12px
             h3
                 color: rgb(53, 71, 87);
                 font-weight: bold;
+                font-size: 20px;
+                margin:15px 10px 10px 10px;
+                font-family Anaheim, sans-serif;
+                text-shadow: 1px 1px 2px rgb(209, 209, 209);
+            h3.building
+                display:inline-block;
             h2
                 color: rgb(94, 128, 158);
                 font-weight: bold;
+                font-family Anaheim, sans-serif;
+                margin: 10px 0 0 10px;
+                text-shadow: 2px 1px 2px white;
+                font-size: 40px;
+            pre
+                font-family: "Monaco", sans-serif;
+                margin: 0 0 0 10px;
+                padding: 10px 10px 10px 0;
+                background: rgba(118, 189, 255, 0.05);
+                overflow: scroll;
+                color rgb(86, 89, 97)
+            p.about
+                float right
+                position relative
+                right 10px
         header
+            -webkit-user-select:none;
             position absolute
             bottom 0
             width 100%
@@ -58,6 +116,7 @@ body, html
                 font-weight bold
                 font-style italic
                 display inline
+                color rgb(86, 89, 97)
             span
                 font-size 15px
                 font-family: 'Anaheim', sans-serif;
@@ -65,6 +124,7 @@ body, html
                 margin: 0 0 0 6px;
 
     div.active-area
+        -webkit-user-select:none;
         height 30px;
         width 100%
         text-align center
@@ -100,6 +160,7 @@ body, html
     width 100%
     position absolute
     div.toolbar
+        -webkit-user-select:none;
         height 50px
         position absolute
         top 30px
@@ -120,6 +181,10 @@ body, html
             margin: 12px 0 0 10px;
             padding 0
             color rgb(118, 189, 255)
+        .button.icon-github-alt
+            float: right;
+            right: 10px;
+            position: relative;
         .select
             width 120px
             font-size: 14px;

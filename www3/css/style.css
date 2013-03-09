@@ -8,6 +8,10 @@ html {
   width: 100%;
   position: absolute;
   overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+a {
+  color: #527aa0;
 }
 .documentation {
   z-index: 1;
@@ -34,18 +38,80 @@ html {
   max-width: 1280px;
   margin: auto;
 }
+.documentation section.content div.doc-content a.download {
+  width: 140px;
+  line-height: 40px;
+  margin: 15px auto;
+  display: block;
+  text-align: center;
+  background: #76bdff;
+  font-family: Anaheim, sans-serif;
+  font-size: 16px;
+  border-radius: 6px;
+  color: #f0f1f3;
+  font-weight: bold;
+  border: 1px solid #75acdf;
+  text-decoration: none;
+}
 .documentation section.content div.doc-content p {
-  margin: 10px 0;
+  margin: 5px 10px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  color: #565961;
+}
+.documentation section.content div.doc-content p.description {
+  font-size: 16px;
+  margin: 10px;
+}
+.documentation section.content div.doc-content ul {
+  margin: 0 0 5px 30px;
+  list-style: disc;
+  color: #5e809e;
+}
+.documentation section.content div.doc-content img {
+  margin: 0 0 0 10px;
+  position: relative;
+  top: 4px;
+}
+.documentation section.content div.doc-content li {
+  margin: 0 0 0 10px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 12px;
 }
 .documentation section.content div.doc-content h3 {
   color: #354757;
   font-weight: bold;
+  font-size: 20px;
+  margin: 15px 10px 10px 10px;
+  font-family: Anaheim, sans-serif;
+  text-shadow: 1px 1px 2px #d1d1d1;
+}
+.documentation section.content div.doc-content h3.building {
+  display: inline-block;
 }
 .documentation section.content div.doc-content h2 {
   color: #5e809e;
   font-weight: bold;
+  font-family: Anaheim, sans-serif;
+  margin: 10px 0 0 10px;
+  text-shadow: 2px 1px 2px #fff;
+  font-size: 40px;
+}
+.documentation section.content div.doc-content pre {
+  font-family: "Monaco", sans-serif;
+  margin: 0 0 0 10px;
+  padding: 10px 10px 10px 0;
+  background: rgba(118,189,255,0.05);
+  overflow: scroll;
+  color: #565961;
+}
+.documentation section.content div.doc-content p.about {
+  float: right;
+  position: relative;
+  right: 10px;
 }
 .documentation section.content header {
+  -webkit-user-select: none;
   position: absolute;
   bottom: 0;
   width: 100%;
@@ -60,6 +126,7 @@ html {
   font-weight: bold;
   font-style: italic;
   display: inline;
+  color: #565961;
 }
 .documentation section.content header span {
   font-size: 15px;
@@ -68,6 +135,7 @@ html {
   margin: 0 0 0 6px;
 }
 .documentation div.active-area {
+  -webkit-user-select: none;
   height: 30px;
   width: 100%;
   text-align: center;
@@ -107,6 +175,7 @@ html {
   position: absolute;
 }
 .editor div.toolbar {
+  -webkit-user-select: none;
   height: 50px;
   position: absolute;
   top: 30px;
@@ -127,6 +196,11 @@ html {
   margin: 12px 0 0 10px;
   padding: 0;
   color: #76bdff;
+}
+.editor div.toolbar .button.icon-github-alt {
+  float: right;
+  right: 10px;
+  position: relative;
 }
 .editor div.toolbar .select {
   width: 120px;

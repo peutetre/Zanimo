@@ -63,7 +63,7 @@
 
         app.animateCurtainToNextState().then(app.animateCurtainToNextState);
 
-        $docActiveArea.addEventListener(isTouchable ? "touchstart" : "click", app.activeAreaAction);
+        $docActiveArea.addEventListener(isTouchable ? "touchstart" : "click", app.activeAreaAction, false);
         window.addEventListener("resize", app.resizeCurtain);
         window.addEventListener("orientationchange", app.resizeCurtain);
     };
@@ -101,9 +101,6 @@
     };
 
     app.activeAreaAction = function (evt) {
-        var clsName = evt.target.className;
-        if (clsName !== "github" && clsName !== "icon-github-alt")
-            evt.preventDefault();
         $hiddenA.focus();
         app.animateCurtainToNextState();
     };
