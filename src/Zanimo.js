@@ -106,8 +106,15 @@ var Zanimo = (function () {
      * Returns a fulfilled promise wrapping the given DOM element.
      */
     Z = function (domElt) {
-        if (domElt instanceof HTMLElement) return Q.resolve(domElt);
-        else return Q.reject(new Error("Zanimo require an HTMLElement"));
+        if (domElt instanceof HTMLElement) {
+            return Q.resolve(domElt);
+        }
+        else if(Q.isPromise(domElt)) {
+            return domElt.then(Z);
+        }
+        else {
+            return Q.reject(new Error("Zanimo require an HTMLElement, or a promise of an HTMLElement"));
+        }
     },
 
     // private helper to add a transition
