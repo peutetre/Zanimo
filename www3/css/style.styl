@@ -96,6 +96,7 @@ a
                 padding: 10px 10px 10px 0;
                 background: rgba(118, 189, 255, 0.05);
                 overflow: scroll;
+                overflow-y: hidden;
                 color rgb(86, 89, 97)
             p.about
                 float right
@@ -178,18 +179,35 @@ a
             border-radius: 0;
             float left
             font-size 21px;
-            margin: 12px 0 0 10px;
+            margin: 13px 0 0 10px;
             padding 0
             color rgb(118, 189, 255)
         .button.icon-github-alt
             float: right;
             right: 10px;
             position: relative;
-        .select
-            width 120px
-            font-size: 14px;
-            padding: 0 0 0 5px;
-            color black
+        .select-container
+            background: url(../images/arrow@2x.png) 90% 5px no-repeat;
+            color rgb(118, 189, 255)
+            background-size: 14px;
+            height: 26px;
+            width: 120px;
+            float left
+            margin: 12px 0 0 10px;
+            padding 0
+            overflow hidden
+            z-index: 1;
+            border: 1px solid rgb(209, 209, 209);
+            border-radius: 4px 4px 4px 4px;
+            background-color: rgb(230, 230, 230);
+            .select
+                width: 140px;
+                font-size: 14px;
+                padding: 0 0 0 10px;
+                color: inherit;
+                margin: 0;
+                z-index: 0;
+                background: transparent;
 
     .CodeMirror
         position absolute
