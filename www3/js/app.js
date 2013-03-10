@@ -4,7 +4,7 @@
 
 (function (app) {
 
-    var VERSION = "0001",
+    var VERSION = "0004",
         EMPTY_SCRIPT,
         storageKey = "zanimo-examples" + VERSION;
 
@@ -25,6 +25,7 @@
         $saveBtn,
         $trashBtn,
         $githubBtn,
+        $animScreen,
         examplesKeys = [],
         openedCurtainLenght = function () { return window.innerHeight - 80; },
         hidedCurtainLenght = function () { return window.innerHeight - 30; },
@@ -72,6 +73,7 @@
         $trashBtn = $("button.icon-trash", $editor);
         $githubBtn = $("button.icon-github-alt", $editor);
         EMPTY_SCRIPT = $("#empty-script-help").innerHTML;
+        $animScreen = $("article.anim-screen");
 
         editor = CodeMirror.fromTextArea($("textarea", $editor), {
             lineNumbers: true,
@@ -189,12 +191,98 @@
     };
 
     app.onPlay = function () {
-        app.runCode($select.value);
+        try {
+            app.runCode(editor.getValue());
+        } catch(err) {
+            alert(err.stack);
+        }
     };
 
-    app.runCode = function (name) {
-        console.log("run " + name);
-    }
+    app.clean = function () {
+        try {
+            if(app.cube) window.document.body.removeChild(app.cube);
+            if(app.disc) window.document.body.removeChild(app.disc);
+        } catch(err) {
+            console.log("oops");
+        }
+    };
+
+    app.runCode = function (code) {
+        this.currentf = new Function("cube", "disc", "container", "start", "done", "fail", "try{\n" +code+ "\n} catch(err){console.log('Oops');alert(err);}");
+        app.cube = document.createElement("div");
+        app.disc = document.createElement("div");
+        app.start = function (elt) {
+            $animScreen.style.display = "block";
+            return Zanimo.transition(
+                $animScreen,
+                "opacity",
+                1,
+                100
+            ).then(function () {
+                return elt;
+            }, function (err) {
+                return elt;
+            });
+        };
+        app.done = function (f, elts) {
+            return function () {
+                return Zanimo.transition(
+                    $animScreen,
+                    "opacity",
+                    0,
+                    100
+                ).then(function () {
+                    $animScreen.style.display = "none";
+                    try {
+                        f(elts);
+                    } catch(err) {
+                        app.clean();
+                        alert(err);
+                    }
+                },function () {
+                    $animScreen.style.display = "none";
+                    try {
+                        f(elts);
+                    } catch(err) {
+                        app.clean();
+                        alert(err);
+                    }
+                });
+            };
+        };
+        app.fail = function (f, elts) {
+            return function () {
+                return Zanimo.transition(
+                    $animScreen,
+                    "opacity",
+                    0,
+                    100
+                ).then(function () {
+                    try {
+                        f(elts);
+                    } catch(err) {
+                        app.clean();
+                        alert(err);
+                    }
+                });
+            };
+        };
+
+        app.cube.style.width = "100px";
+        app.cube.style.height = "100px";
+        app.cube.style.position = "absolute";
+        app.cube.style.backgroundColor = "red";
+        app.cube.style.zIndex = 1000;
+
+        app.disc.style.width = "100px";
+        app.disc.style.height = "100px";
+        app.disc.style.borderRadius = "100px";
+        app.disc.style.position = "absolute";
+        app.disc.style.zIndex = 1000;
+        app.disc.style.backgroundColor = "green";
+
+        this.currentf.call({}, app.cube, app.disc, window.document.body, app.start, app.done, app.fail);
+    };
 
     app.onSave = function () {
         app.saveScript($select.value, editor.getValue());
@@ -249,6 +337,10 @@
     app.activeAreaAction = function (evt) {
         $hiddenA.focus();
         app.animateCurtainToNextState();
+    };
+
+    window.onerror = function (err) {
+        alert(err.toString());
     };
 
     window.document.addEventListener("DOMContentLoaded", app.init);

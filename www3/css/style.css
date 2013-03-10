@@ -13,6 +13,17 @@ html {
 a {
   color: #527aa0;
 }
+.anim-screen {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 999;
+  background: #ff0;
+  display: none;
+  opacity: 0;
+}
 .documentation {
   z-index: 1;
   background: #f0f1f3;
