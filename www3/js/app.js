@@ -13,7 +13,7 @@
     function empty() { }
 
     var curtainState = 0,
-        curtainScript = 0,
+        currentScript = 0,
         $documentation,
         $docActiveArea,
         $hiddenA,
@@ -95,9 +95,9 @@
 
         app.setupExamples();
         examplesKeys = window.Examples.map(function (e) { return e.name; });
-        curtainScript = app.getFirstExampleName();
-        app.populateSelect(curtainScript);
-        app.loadExample(curtainScript);
+        currentScript = app.getFirstExampleName();
+        app.populateSelect(currentScript);
+        app.loadExample(currentScript);
     };
 
     app.loadExample = function (name) {
@@ -117,15 +117,15 @@
                     editor.setValue(EMPTY_SCRIPT);
                     app.saveScript(name, EMPTY_SCRIPT);
                     $select.value = name;
-                    curtainScript = name;
+                    currentScript = name;
                 }
                 else {
-                    $select.value = curtainScript;
+                    $select.value = currentScript;
                 }
                 break;
             default:
                 app.loadExample(evt.target.value);
-                curtainScript = evt.target.value;
+                currentScript = evt.target.value;
                 break;
         }
     };
@@ -271,7 +271,7 @@
         app.cube.style.width = "100px";
         app.cube.style.height = "100px";
         app.cube.style.position = "absolute";
-        app.cube.style.backgroundColor = "red";
+        app.cube.style.backgroundColor = "rgb(118, 189, 255)";
         app.cube.style.zIndex = 1000;
 
         app.disc.style.width = "100px";
@@ -279,7 +279,7 @@
         app.disc.style.borderRadius = "100px";
         app.disc.style.position = "absolute";
         app.disc.style.zIndex = 1000;
-        app.disc.style.backgroundColor = "green";
+        app.disc.style.backgroundColor = "rgb(118, 189, 255)";
 
         this.currentf.call({}, app.cube, app.disc, window.document.body, app.start, app.done, app.fail);
     };
