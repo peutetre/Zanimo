@@ -2,22 +2,160 @@
  * app.js
  */
 
+/* utils */
+function $(s, c) { return (c || document).querySelector(s); }
+function $$(s, c) { return (c || document).querySelectorAll(s); }
+function empty() { }
+var isTouchable = document.ontouchstart === null;
+
+/* the curtain */
+(function (app) {
+
+    var state = 0,
+        $documentation,
+        $activeArea,
+        $star,
+        openedLenght = function () {
+            return "translate3d(0, -" + (window.innerHeight - 80) + "px,0)";
+        },
+        hiddenLenght = function () {
+            return "translate3d(0, -" + (window.innerHeight - 30) + "px,0)";
+        },
+        open = function (elt) {
+            return Zanimo.transition(elt, "transform", openedLenght(), 400, "ease-in-out");
+        },
+        hide = function (elt) {
+            return Zanimo.transition(elt, "transform", hiddenLenght(), 400, "ease-in-out");
+        },
+        close = Zanimo.transitionf("transform", "translate3d(0,0,0)", 400, "ease-in-out"),
+        downStar = Zanimo.transitionf("transform", "translate3d(0,18px,0) rotate(150deg)", 200, "ease-in-out"),
+        upStar = Zanimo.transitionf("transform", "translate3d(0,0,0)", 200, "ease-in-out"),
+        errorLog = function (err) { console.log(err, err.stack); new Error(err.message); },
+        resize = function () {
+            if(state == 1)
+                Zanimo($documentation).then(open).done(empty, empty);
+            else if (state == 2)
+                Zanimo($documentation).then(hide).done(empty, empty);
+        },
+        animate = function () {
+            switch(state) {
+                case 0:
+                    state ++;
+                    return Zanimo($documentation).then(open, errorLog);
+                case 1:
+                    state ++;
+                    return Zanimo($documentation)
+                            .then(hide)
+                            .then(Zanimo.f($star))
+                            .then(downStar, errorLog);
+                case 2:
+                    state = 0;
+                    return Zanimo($documentation)
+                            .then(close)
+                            .then(Zanimo.f($star))
+                            .then(upStar, errorLog);
+                default:
+                    return Q.resolve();
+            }
+        },
+        activeAreaAction = function (evt) {
+            $hiddenA.focus();
+            animate();
+        };
+
+    app.Curtain = {
+        init : function (doc, activeArea, star, hidden) {
+            $documentation = doc;
+            $activeArea = activeArea;
+            $star = star;
+            $hiddenA = hidden;
+        },
+        bind : function () {
+             window.addEventListener("resize", resize);
+             window.addEventListener("orientationchange", resize);
+             $activeArea.addEventListener(isTouchable ? "touchstart" : "click", activeAreaAction);
+        },
+        animate : animate
+    };
+
+}(window.App = window.App || {}));
+
+/* the editor */
+(function (app) {
+
+    app.Editor = { };
+
+}(window.App = window.App || {}));
+
+/* the animation screen */
+(function (app) {
+
+    app.AnimationScreen = { };
+
+}(window.App = window.App || {}));
+
+/* the script runner */
+(function (app) {
+
+    app.ScriptRunner = { };
+
+}(window.App = window.App || {}));
+
+/* the code store */
 (function (app) {
 
     var VERSION = "0004",
-        EMPTY_SCRIPT,
         storageKey = "zanimo-examples" + VERSION;
 
-    function $(s, c) { return (c || document).querySelector(s); }
-    function $$(s, c) { return (c || document).querySelectorAll(s); }
-    function empty() { }
+    app.CodeStore = {
+        setup : function () {
+            if(window.localStorage.hasOwnProperty(storageKey)) return;
+            var output = {};
+            Examples.forEach(function (example) {
+                output[example.name] = example.f.toString();
+            });
+            window.localStorage.setItem(storageKey,JSON.stringify(output));
+        },
+        get : function (name) {
+            if(!window.localStorage.hasOwnProperty(storageKey)) return "";
+            var data = JSON.parse(window.localStorage.getItem(storageKey));
+            return data[name] || "";
+        },
+        getList : function () {
+            if(!window.localStorage.hasOwnProperty(storageKey)) return [];
+            var data = JSON.parse(window.localStorage.getItem(storageKey)),
+                keys = [], key;
+            for(key in data) { keys.push(key); }
+            return keys;
+        },
+        save : function (name, code) {
+            if (Examples.map(function (e) { return e.name; }).indexOf(name) !== -1) {
+                alert("Can't overwrite a example script...");
+                return;
+            }
+            var data = JSON.parse(window.localStorage.getItem(storageKey));
+            data[name] = code;
+            window.localStorage.setItem(storageKey, JSON.stringify(data));
+        },
+        trash : function (name) {
+            var data = JSON.parse(window.localStorage.getItem(storageKey));
+            delete data[name];
+            window.localStorage.setItem(storageKey, JSON.stringify(data));
+        },
+        head : function () {
+            return app.CodeStore.getList()[0];
+        }
+    };
 
-    var curtainState = 0,
-        currentScript = 0,
-        $documentation,
-        $docActiveArea,
+}(window.App = window.App || {}));
+
+/* the app */
+(function (app) {
+
+    var EMPTY_SCRIPT;
+
+    var currentScript = 0,
         $hiddenA,
-        $star,
         $editor,
         editor,
         $select,
@@ -26,47 +164,19 @@
         $trashBtn,
         $githubBtn,
         $animScreen,
-        examplesKeys = [],
-        openedCurtainLenght = function () { return window.innerHeight - 80; },
-        hidedCurtainLenght = function () { return window.innerHeight - 30; },
-        openCurtain = function (elt) {
-            return Zanimo.transition(
-                elt, "transform",
-                "translate3d(0, -" + openedCurtainLenght() + "px,0)",
-                400, "ease-in-out"
-            );
-        },
-        openCurtainTransform = function (elt) {
-            return Zanimo.transform(
-                elt, "translate3d(0, -" + openedCurtainLenght() + "px,0)", true
-            );
-        },
-        hideCurtain = function (elt) {
-            return Zanimo.transition(
-                elt, "transform",
-                "translate3d(0, -" + hidedCurtainLenght() + "px,0)",
-                400, "ease-in-out"
-            );
-        },
-        hideCurtainTransform = function (elt) {
-            return Zanimo.transform(
-                elt, "translate3d(0, -" + hidedCurtainLenght() + "px,0)", true
-            );
-        },
-        closeCurtain = Zanimo.transitionf("transform", "translate3d(0,0,0)", 400, "ease-in-out"),
-        downStar = Zanimo.transitionf("transform", "translate3d(0,18px,0) rotate(150deg)", 200, "ease-in-out"),
-        upStar = Zanimo.transitionf("transform", "translate3d(0,0,0)", 200, "ease-in-out"),
-        errorLog = function (err) { console.log(err, err.stack); new Error(err.message); };
+        examplesKeys = [];
 
     app.init = function () {
-        var isTouchable = document.ontouchstart === null;
-
-        $documentation = $("article.documentation");
-        $docActiveArea = $("div.active-area", $documentation);
-        $editor = $("article.editor");
         $hiddenA = $("#hidden-a");
-        $star = $(".chip span", $docActiveArea);
 
+        app.Curtain.init(
+            $("article.documentation"),
+            $("div.active-area"),
+            $(".chip span"),
+            $hiddenA
+        );
+
+        $editor = $("article.editor");
         $select = $("select", $editor);
         $playBtn = $("button.icon-play", $editor);
         $saveBtn = $("button.icon-save", $editor);
@@ -81,31 +191,25 @@
             extraKeys: { "Enter" : "newlineAndIndentContinueComment" }
         });
 
-        app.animateCurtainToNextState()
-           .then(app.animateCurtainToNextState);
-
-        window.addEventListener("resize", app.resizeCurtain);
-        window.addEventListener("orientationchange", app.resizeCurtain);
-        $docActiveArea.addEventListener(isTouchable ? "touchstart" : "click", app.activeAreaAction);
         $playBtn.addEventListener(isTouchable ? "touchend" : "click", app.onPlay);
         $saveBtn.addEventListener(isTouchable ? "touchend" : "click", app.onSave);
         $trashBtn.addEventListener(isTouchable ? "touchend" : "click", app.onTrash);
         $githubBtn.addEventListener(isTouchable ? "touchend" : "click", app.onGithub);
         $select.addEventListener("change", app.onSelect);
 
-        app.setupExamples();
+        app.CodeStore.setup();
         examplesKeys = window.Examples.map(function (e) { return e.name; });
-        currentScript = app.getFirstExampleName();
+        currentScript = app.CodeStore.head();
         app.populateSelect(currentScript);
         app.loadExample(currentScript);
+
+        app.Curtain.animate()
+           .then(app.Curtain.animate)
+           .then(app.Curtain.bind);
     };
 
     app.loadExample = function (name) {
-        editor.setValue(app.getCode(name));
-    };
-
-    app.getFirstExampleName = function () {
-        return app.getCodeList()[0];
+        editor.setValue(app.CodeStore.get(name));
     };
 
     app.onSelect = function (evt) {
@@ -115,7 +219,8 @@
                 var name = window.prompt("Script name:", "my-test");
                 if (name !== null && name.toString().replace(/ /g,'').length > 1) {
                     editor.setValue(EMPTY_SCRIPT);
-                    app.saveScript(name, EMPTY_SCRIPT);
+                    app.CodeStore.save(name, EMPTY_SCRIPT);
+                    app.populateSelect(name);
                     $select.value = name;
                     currentScript = name;
                 }
@@ -131,7 +236,7 @@
     };
 
     app.populateSelect = function (name) {
-        var items = app.getCodeList(),
+        var items = app.CodeStore.getList(),
             option = document.createElement("option");
         option.innerHTML = "New";
         option.value = "New";
@@ -144,50 +249,6 @@
             if (item == name) option.selected = "selected";
             $select.appendChild(option);
         });
-    };
-
-    app.getCode = function (name) {
-        if(!window.localStorage.hasOwnProperty(storageKey)) return "";
-        var data = JSON.parse(window.localStorage.getItem(storageKey));
-        return data[name] || "";
-    };
-
-    app.getCodeList = function () {
-        if(!window.localStorage.hasOwnProperty(storageKey)) return [];
-        var data = JSON.parse(window.localStorage.getItem(storageKey)),
-            keys = [], key;
-        for(key in data) { keys.push(key); }
-        return keys;
-    };
-
-
-    app.setupExamples = function () {
-        if(window.localStorage.hasOwnProperty(storageKey)) return;
-        var output = {};
-        Examples.forEach(function (example) {
-            output[example.name] = example.f.toString();
-        });
-        window.localStorage.setItem(storageKey,JSON.stringify(output));
-    };
-
-    app.saveScript = function (name, code) {
-        if (Examples.map(function (e) { return e.name; }).indexOf(name) !== -1) {
-            alert("Can't overwrite a example script...");
-            return;
-        }
-        var data = JSON.parse(window.localStorage.getItem(storageKey));
-        data[name] = code;
-        window.localStorage.setItem(storageKey, JSON.stringify(data));
-        app.populateSelect(name);
-    };
-
-    app.deleteScript = function (name) {
-        var data = JSON.parse(window.localStorage.getItem(storageKey)),
-            firstName = app.getFirstExampleName();
-        delete data[name];
-        window.localStorage.setItem(storageKey, JSON.stringify(data));
-        app.populateSelect(firstName);
-        app.loadExample(firstName);
     };
 
     app.onPlay = function () {
@@ -225,6 +286,9 @@
             });
         };
         app.done = function (f, elts) {
+            // FIXME in the wrong order...
+            // first call the f on the elements
+            // then fade the animation screen back to the editor
             return function () {
                 return Zanimo.transition(
                     $animScreen,
@@ -232,21 +296,21 @@
                     0,
                     100
                 ).then(function () {
-                    $animScreen.style.display = "none";
                     try {
                         f(elts);
                     } catch(err) {
                         app.clean();
                         alert(err);
                     }
+                    $animScreen.style.display = "none";
                 },function () {
-                    $animScreen.style.display = "none";
                     try {
                         f(elts);
                     } catch(err) {
                         app.clean();
                         alert(err);
                     }
+                    $animScreen.style.display = "none";
                 });
             };
         };
@@ -285,7 +349,8 @@
     };
 
     app.onSave = function () {
-        app.saveScript($select.value, editor.getValue());
+        app.CodeStore.save($select.value, editor.getValue());
+        app.populateSelect($select.value);
     };
 
     app.onTrash = function () {
@@ -294,49 +359,14 @@
             return;
         }
         if(window.confirm("Delete " + $select.value + "?"))
-            app.deleteScript($select.value);
+            app.CodeStore.trash($select.value);
+            app.populateSelect(app.CodeStore.head());
+            app.loadExample(app.CodeStore.head());
     };
 
     app.onGithub = function () {
         if(window.confirm("Visit on Github?"))
             window.location = "http://github.com/peutetre/Zanimo";
-    };
-
-    app.resizeCurtain = function () {
-        switch(curtainState) {
-            case 1:
-                Zanimo($documentation).then(openCurtain).done(empty, empty);
-                break;
-            case 2:
-                Zanimo($documentation).then(hideCurtain).done(empty, empty);
-        }
-    };
-
-    app.animateCurtainToNextState = function () {
-        switch(curtainState) {
-            case 0:
-                curtainState ++;
-                return Zanimo($documentation).then(openCurtain, errorLog);
-            case 1:
-                curtainState ++;
-                return Zanimo($documentation)
-                        .then(hideCurtain)
-                        .then(Zanimo.f($star))
-                        .then(downStar, errorLog);
-            case 2:
-                curtainState = 0;
-                return Zanimo($documentation)
-                        .then(closeCurtain)
-                        .then(Zanimo.f($star))
-                        .then(upStar, errorLog);
-            default:
-                return Q.resolve();
-        }
-    };
-
-    app.activeAreaAction = function (evt) {
-        $hiddenA.focus();
-        app.animateCurtainToNextState();
     };
 
     window.onerror = function (err) {
@@ -345,4 +375,4 @@
 
     window.document.addEventListener("DOMContentLoaded", app.init);
 
-}(window.App = {}));
+}(window.App = window.App || {}));
