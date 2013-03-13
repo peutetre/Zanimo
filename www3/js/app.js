@@ -1,155 +1,7 @@
 /*
- * app.js
+ * app.js - the Zanimo animation editor
  */
 
-/* utils */
-function $(s, c) { return (c || document).querySelector(s); }
-function $$(s, c) { return (c || document).querySelectorAll(s); }
-function empty() { }
-var isTouchable = document.ontouchstart === null;
-
-/* the curtain */
-(function (app) {
-
-    var state = 0,
-        $documentation,
-        $activeArea,
-        $star,
-        openedLenght = function () {
-            return "translate3d(0, -" + (window.innerHeight - 80) + "px,0)";
-        },
-        hiddenLenght = function () {
-            return "translate3d(0, -" + (window.innerHeight - 30) + "px,0)";
-        },
-        open = function (elt) {
-            return Zanimo.transition(elt, "transform", openedLenght(), 400, "ease-in-out");
-        },
-        hide = function (elt) {
-            return Zanimo.transition(elt, "transform", hiddenLenght(), 400, "ease-in-out");
-        },
-        close = Zanimo.transitionf("transform", "translate3d(0,0,0)", 400, "ease-in-out"),
-        downStar = Zanimo.transitionf("transform", "translate3d(0,18px,0) rotate(150deg)", 200, "ease-in-out"),
-        upStar = Zanimo.transitionf("transform", "translate3d(0,0,0)", 200, "ease-in-out"),
-        errorLog = function (err) { console.log(err, err.stack); new Error(err.message); },
-        resize = function () {
-            if(state == 1)
-                Zanimo($documentation).then(open).done(empty, empty);
-            else if (state == 2)
-                Zanimo($documentation).then(hide).done(empty, empty);
-        },
-        animate = function () {
-            switch(state) {
-                case 0:
-                    state ++;
-                    return Zanimo($documentation).then(open, errorLog);
-                case 1:
-                    state ++;
-                    return Zanimo($documentation)
-                            .then(hide)
-                            .then(Zanimo.f($star))
-                            .then(downStar, errorLog);
-                case 2:
-                    state = 0;
-                    return Zanimo($documentation)
-                            .then(close)
-                            .then(Zanimo.f($star))
-                            .then(upStar, errorLog);
-                default:
-                    return Q.resolve();
-            }
-        },
-        activeAreaAction = function (evt) {
-            $hiddenA.focus();
-            animate();
-        };
-
-    app.Curtain = {
-        init : function (doc, activeArea, star, hidden) {
-            $documentation = doc;
-            $activeArea = activeArea;
-            $star = star;
-            $hiddenA = hidden;
-        },
-        bind : function () {
-             window.addEventListener("resize", resize);
-             window.addEventListener("orientationchange", resize);
-             $activeArea.addEventListener(isTouchable ? "touchstart" : "click", activeAreaAction);
-        },
-        animate : animate
-    };
-
-}(window.App = window.App || {}));
-
-/* the editor */
-(function (app) {
-
-    app.Editor = { };
-
-}(window.App = window.App || {}));
-
-/* the animation screen */
-(function (app) {
-
-    app.AnimationScreen = { };
-
-}(window.App = window.App || {}));
-
-/* the script runner */
-(function (app) {
-
-    app.ScriptRunner = { };
-
-}(window.App = window.App || {}));
-
-/* the code store */
-(function (app) {
-
-    var VERSION = "0004",
-        storageKey = "zanimo-examples" + VERSION;
-
-    app.CodeStore = {
-        setup : function () {
-            if(window.localStorage.hasOwnProperty(storageKey)) return;
-            var output = {};
-            Examples.forEach(function (example) {
-                output[example.name] = example.f.toString();
-            });
-            window.localStorage.setItem(storageKey,JSON.stringify(output));
-        },
-        get : function (name) {
-            if(!window.localStorage.hasOwnProperty(storageKey)) return "";
-            var data = JSON.parse(window.localStorage.getItem(storageKey));
-            return data[name] || "";
-        },
-        getList : function () {
-            if(!window.localStorage.hasOwnProperty(storageKey)) return [];
-            var data = JSON.parse(window.localStorage.getItem(storageKey)),
-                keys = [], key;
-            for(key in data) { keys.push(key); }
-            return keys;
-        },
-        save : function (name, code) {
-            if (Examples.map(function (e) { return e.name; }).indexOf(name) !== -1) {
-                alert("Can't overwrite a example script...");
-                return;
-            }
-            var data = JSON.parse(window.localStorage.getItem(storageKey));
-            data[name] = code;
-            window.localStorage.setItem(storageKey, JSON.stringify(data));
-        },
-        trash : function (name) {
-            var data = JSON.parse(window.localStorage.getItem(storageKey));
-            delete data[name];
-            window.localStorage.setItem(storageKey, JSON.stringify(data));
-        },
-        head : function () {
-            return app.CodeStore.getList()[0];
-        }
-    };
-
-}(window.App = window.App || {}));
-
-/* the app */
 (function (app) {
 
     var EMPTY_SCRIPT;
@@ -163,8 +15,7 @@ var isTouchable = document.ontouchstart === null;
         $saveBtn,
         $trashBtn,
         $githubBtn,
-        $animScreen,
-        examplesKeys = [];
+        $animScreen;
 
     app.init = function () {
         $hiddenA = $("#hidden-a");
@@ -197,9 +48,8 @@ var isTouchable = document.ontouchstart === null;
         $githubBtn.addEventListener(isTouchable ? "touchend" : "click", app.onGithub);
         $select.addEventListener("change", app.onSelect);
 
-        app.CodeStore.setup();
-        examplesKeys = window.Examples.map(function (e) { return e.name; });
-        currentScript = app.CodeStore.head();
+        app.Store.setup();
+        currentScript = app.Store.head();
         app.populateSelect(currentScript);
         app.loadExample(currentScript);
 
@@ -209,7 +59,7 @@ var isTouchable = document.ontouchstart === null;
     };
 
     app.loadExample = function (name) {
-        editor.setValue(app.CodeStore.get(name));
+        editor.setValue(app.Store.get(name));
     };
 
     app.onSelect = function (evt) {
@@ -218,11 +68,16 @@ var isTouchable = document.ontouchstart === null;
             case "New":
                 var name = window.prompt("Script name:", "my-test");
                 if (name !== null && name.toString().replace(/ /g,'').length > 1) {
-                    editor.setValue(EMPTY_SCRIPT);
-                    app.CodeStore.save(name, EMPTY_SCRIPT);
-                    app.populateSelect(name);
-                    $select.value = name;
-                    currentScript = name;
+                    if (app.Store.save(name, EMPTY_SCRIPT)) {
+                        editor.setValue(EMPTY_SCRIPT);
+                        app.populateSelect(name);
+                        $select.value = name;
+                        currentScript = name;
+                    }
+                    else {
+                        $select.value = currentScript;
+                        alert("Can't overwrite an example script! Copy and paste it in a new script.");
+                    }
                 }
                 else {
                     $select.value = currentScript;
@@ -236,7 +91,7 @@ var isTouchable = document.ontouchstart === null;
     };
 
     app.populateSelect = function (name) {
-        var items = app.CodeStore.getList(),
+        var items = app.Store.getList(),
             option = document.createElement("option");
         option.innerHTML = "New";
         option.value = "New";
@@ -349,24 +204,25 @@ var isTouchable = document.ontouchstart === null;
     };
 
     app.onSave = function () {
-        app.CodeStore.save($select.value, editor.getValue());
-        app.populateSelect($select.value);
+        if(!app.Store.save($select.value, editor.getValue()))
+            alert("Can't overwrite an example script! Copy and paste it in a new script.");
     };
 
     app.onTrash = function () {
-        if (Examples.map(function (e) { return e.name; }).indexOf($select.value) !== -1) {
-            alert("Can not delete example scripts!");
+        if (app.Store.isDefaultExample($select.value)) {
+            alert("Can't delete an example script!");
             return;
         }
-        if(window.confirm("Delete " + $select.value + "?"))
-            app.CodeStore.trash($select.value);
-            app.populateSelect(app.CodeStore.head());
-            app.loadExample(app.CodeStore.head());
+        if(confirm("Delete " + $select.value + " ?")) {
+            app.Store.trash($select.value);
+            app.populateSelect(app.Store.head());
+            app.loadExample(app.Store.head());
+        }
     };
 
-    app.onGithub = function () {
-        if(window.confirm("Visit on Github?"))
-            window.location = "http://github.com/peutetre/Zanimo";
+    app.onGithub = function (evt) {
+        evt.preventDefault();
+        if(confirm("Visit on Github?")) location = "http://github.com/peutetre/Zanimo";
     };
 
     window.onerror = function (err) {

@@ -152,8 +152,8 @@ a {
   width: 100%;
   text-align: center;
   position: relative;
-  background: #76bdff;
-  border-bottom: 1px solid #75acdf;
+  background: rgb(118, 189, 255);
+  border-bottom: 1px solid rgb(117, 172, 223);
 }
 .documentation div.active-area div.chip {
   background: #76bdff;
