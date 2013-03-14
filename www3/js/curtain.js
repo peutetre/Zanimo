@@ -2,12 +2,13 @@
  * curtain.js - the curtain containing the documentation
  */
 
-(function (app) {
+(function (curtain) {
 
     var state = 0,
         $documentation,
         $activeArea,
         $star,
+        $hiddenA,
         openedLenght = function () {
             return "translate3d(0, -" + (window.innerHeight - 80) + "px,0)";
         },
@@ -56,19 +57,19 @@
             animate();
         };
 
-    app.Curtain = {
-        init : function (doc, activeArea, star, hidden) {
-            $documentation = doc;
-            $activeArea = activeArea;
-            $star = star;
-            $hiddenA = hidden;
-        },
-        bind : function () {
-             window.addEventListener("resize", resize);
-             window.addEventListener("orientationchange", resize);
-             $activeArea.addEventListener(isTouchable ? "touchstart" : "click", activeAreaAction);
-        },
-        animate : animate
+    curtain.init = function () {
+        $documentation = $("article.documentation");
+        $activeArea = $("div.active-area");
+        $star = $(".chip span");
+        $hiddenA = $("#hidden-a");
     };
 
-}(window.App = window.App || {}));
+    curtain.bind = function () {
+         window.addEventListener("resize", resize);
+         window.addEventListener("orientationchange", resize);
+         $activeArea.addEventListener(isTouchable ? "touchstart" : "click", activeAreaAction);
+    };
+
+    curtain.animate = animate;
+
+}(window.Curtain = window.Curtain || {}));
