@@ -20,7 +20,7 @@
     };
 
     runner.run = function (code) {
-        var currentf = new Function("cube", "disc", "container", "start", "done", "fail", "try{\n" +code+ "\n} catch(err){console.log('Oops');alert(err);}");
+        var currentf = new Function("cube", "disc", "container", "start", "done", "fail", code);
         runner.cube = DOM("div");
         runner.disc = DOM("div");
         runner.start = function (elt) {

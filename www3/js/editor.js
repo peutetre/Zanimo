@@ -15,6 +15,34 @@
         $trashBtn,
         $githubBtn;
 
+    editor.init = function () {
+        $hidden = $("#hidden-a");
+        $editor = $("article.editor");
+        $select = $("select", $editor);
+        $playBtn = $("button.icon-play", $editor);
+        $saveBtn = $("button.icon-save", $editor);
+        $trashBtn = $("button.icon-trash", $editor);
+        $githubBtn = $("button.icon-github-alt", $editor);
+
+        _editor = CodeMirror.fromTextArea($("textarea", $editor), {
+            lineNumbers: true,
+            matchBrackets: true,
+            extraKeys: { "Enter" : "newlineAndIndentContinueComment" }
+        });
+
+        EMPTY_SCRIPT = $("#empty-script-help").innerHTML;
+
+        currentScript = store.head();
+        editor.populateSelect(currentScript, store);
+        editor.loadExample(currentScript, store);
+
+        $playBtn.addEventListener(isTouchable ? "touchend" : "click", editor.onPlay);
+        $saveBtn.addEventListener(isTouchable ? "touchend" : "click", editor.onSave);
+        $trashBtn.addEventListener(isTouchable ? "touchend" : "click", editor.onTrash);
+        $githubBtn.addEventListener(isTouchable ? "touchend" : "click", editor.onGithub);
+        $select.addEventListener("change", editor.onSelect);
+    };
+
     editor.onPlay = function () {
         try {
             runner.run(_editor.getValue());
@@ -70,34 +98,6 @@
             editor.loadExample(evt.target.value, store);
             currentScript = evt.target.value;
         }
-    };
-
-    editor.init = function () {
-        $hidden = $("#hidden-a");
-        $editor = $("article.editor");
-        $select = $("select", $editor);
-        $playBtn = $("button.icon-play", $editor);
-        $saveBtn = $("button.icon-save", $editor);
-        $trashBtn = $("button.icon-trash", $editor);
-        $githubBtn = $("button.icon-github-alt", $editor);
-
-        _editor = CodeMirror.fromTextArea($("textarea", $editor), {
-            lineNumbers: true,
-            matchBrackets: true,
-            extraKeys: { "Enter" : "newlineAndIndentContinueComment" }
-        });
-
-        EMPTY_SCRIPT = $("#empty-script-help").innerHTML;
-
-        currentScript = store.head();
-        editor.populateSelect(currentScript, store);
-        editor.loadExample(currentScript, store);
-
-        $playBtn.addEventListener(isTouchable ? "touchend" : "click", editor.onPlay);
-        $saveBtn.addEventListener(isTouchable ? "touchend" : "click", editor.onSave);
-        $trashBtn.addEventListener(isTouchable ? "touchend" : "click", editor.onTrash);
-        $githubBtn.addEventListener(isTouchable ? "touchend" : "click", editor.onGithub);
-        $select.addEventListener("change", editor.onSelect);
     };
 
     editor.populateSelect = function (name) {

@@ -10,7 +10,7 @@
         load = function () { return JSON.parse(storage.getItem(storageKey)); },
         hasKey = function () { return storage.hasOwnProperty(storageKey); };
 
-    store.setup = function () {
+    store.setup = function (version) {
         var scripts = $$("script[data-example-id]"), data = {},
             l = scripts.length, name = null, script = null, i = 0;
 
@@ -21,8 +21,9 @@
             defaultExamples.push(name);
         }
 
-        if(hasKey()) return;
+        if(hasKey() && parseInt(storage.getItem(storageKey+"VERSION"), 10) === version) return;
         storage.setItem(storageKey, JSON.stringify(data));
+        storage.setItem(storageKey+"VERSION", version);
     };
 
     store.isDefaultExample = function (name) {

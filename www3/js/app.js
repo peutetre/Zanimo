@@ -4,12 +4,14 @@
 
 (function (app, curtain, store, editor, runner) {
 
+    var VERSION = 4;
+
     app.init = function () {
 
         curtain.init();
-        store.setup();
-        editor.init();
+        store.setup(VERSION);
         runner.init();
+        editor.init();
 
         curtain.animate()
             .then(curtain.animate)
@@ -22,7 +24,8 @@
 
     window.document.addEventListener("DOMContentLoaded", app.init);
 
-}(  window.App = window.App || {},
+}(
+    window.App = window.App || {},
     window.Curtain,
     window.Store,
     window.Editor,

@@ -152,8 +152,8 @@ a {
   width: 100%;
   text-align: center;
   position: relative;
-  background: rgb(118, 189, 255);
-  border-bottom: 1px solid rgb(117, 172, 223);
+  background: #76bdff;
+  border-bottom: 1px solid #75acdf;
 }
 .documentation div.active-area div.chip {
   background: #76bdff;
@@ -232,7 +232,7 @@ a {
 .editor div.toolbar .select-container .select {
   width: 140px;
   font-size: 14px;
-  padding: 0 0 0 10px;
+  padding: 0 50px 0 10px;
   color: inherit;
   margin: 0;
   z-index: 0;
