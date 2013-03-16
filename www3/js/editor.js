@@ -44,6 +44,7 @@
     };
 
     editor.onPlay = function (evt) {
+        $hidden.focus();
         try {
             runner.run(_editor.getValue());
         } catch(err) {
@@ -52,12 +53,14 @@
     };
 
     editor.onSave = function (evt) {
+        $hidden.focus();
         if(!store.save($select.value, _editor.getValue()))
             alert("Will not overwrite an example script! Copy and paste it in a new script.");
         return false;
     };
 
     editor.onTrash = function (evt) {
+        $hidden.focus();
         if (store.isDefaultExample($select.value)) {
             alert("Will not delete an example script!");
             return false;
@@ -71,6 +74,7 @@
     };
 
     editor.onGithub = function (evt) {
+        $hidden.focus();
         if(confirm("Visit on Github?")) location = "http://github.com/peutetre/Zanimo";
         return false;
     };
