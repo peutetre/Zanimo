@@ -164,9 +164,29 @@ Zanimo(myDomElt).then(Zanimo.transformf("scale(2)", true));
         <script src="vendor/codemirror/javascript.js"></script>
 
 <script id="empty-script-help" type="text/tmpl">/*
- * Zanimo test example
+ * Zanimo script help:
  *
- * Only circle, square, container and Zanimo object are available
+ * 4 functions are provided in this animation runner: create, start, done and fail.
+ *
+ * [Optional] create: Helper to create DIV elements, takes an array of css attributes in camel case
+ * and returns a array of elements with the according style.
+ *
+ * [Mandatory] start: start the animation, takes a DOM element and returns a promise of the element.
+ *
+ * [Mandatory] done: finish the animation for the success case.
+ *
+ * [Mandatory] fail: finish the animation for the fail case.
+ *
+ * A tiny example:
+ *
+ * var cube = create([{ display:"none", left:"50px", top:"50px"}])[0],
+ *     show = function (el) { el.style.display="block"; return el;}
+ *     animate200pxToRight = Zanimo.transitionf("transform", "translate3d(200px,0,0)", 1000, "ease-in-out");
+ *
+ * Zanimo(start(cube))
+ *     .then(show)
+ *     .then(animate200pxToRight)
+ *     .then(done, fail);
  */
 </script>
 
