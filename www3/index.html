@@ -170,62 +170,22 @@ Zanimo(myDomElt).then(Zanimo.transformf("scale(2)", true));
  */
 </script>
 
-<script data-example-id="example 1" type="text/tmpl">
-    var setUp = function (elt) {
-        elt.style.top = "40px";
-        elt.style.left = "40px";
-        container.appendChild(elt);
-        return elt;
-    },
-    setDown = function (elts) {
-        container.removeChild(elts[0]);
-    },
-    animate1 = Zanimo.transitionf("transform", "translate3d(0,200px,0)", 600, "ease-in-out"),
-    animate2 = Zanimo.transitionf("transform", "translate3d(200px,200px,0)", 600, "ease-in-out"),
-    animate3 = Zanimo.transitionf("transform", "translate3d(200px,0,0)", 600, "ease-in-out"),
-    animate4 = Zanimo.transitionf("transform", "translate3d(0,0,0)", 600, "ease-in-out");
-
-Zanimo(start(cube))
-    .then(setUp)
-    .then(animate1)
-    .then(animate2)
-    .then(animate3)
-    .then(animate4)
-    .done(done(setDown, [cube]), fail(setDown, [cube]));
-</script>
-
-<script data-example-id="example 2" type="text/tmpl">
-var setPosition = function (c) { /* do oops */ return c; },
-    animate = Zanimo.transitionf("translate3d(0,200px,0)", 200, "ease-in-out");
-
-Zanimo(cube).then(setPosition);
-</script>
-
-<script data-example-id="new runner example" type="text/tmpl">/* define DOM elements used in the animation */
-var elts = start([
+<script data-example-id="example 1" type="text/tmpl">/* define DOM elements used in the animation */
+var elts = create([
         {
-             el : "cube",
-             css : {
-                 display : "none",
-                 left : "100px",
-                 top : "500px"
-            }
+             display : "none",
+             left : "100px",
+             top : "100px"
         },
         {
-             el : "circle",
-             css : {
-                 display : "none",
-                 left : "100px",
-                 top : "500px"
-            }
+             display : "none",
+             left : "200px",
+             top : "100px"
         },
         {
-             el : "star",
-             css : {
-                 display : "none",
-                 left : "100px",
-                 top : "500px"
-            }
+             display : "none",
+             left : "300px",
+             top : "100px"
         }
     ]),
     /* alias created elements */
@@ -249,7 +209,7 @@ var elts = start([
     animate4 = Zanimo.transitionf("transform", "translate3d(10px,20px,0)", 200);
 
 /* Start the animation */
-Zanimo(cube)
+Zanimo(start(cube))
     .then(show)
     .then(animate1)
     .then(hide)
@@ -261,7 +221,7 @@ Zanimo(cube)
     .then(show)
     .then(animate3)
     .then(hide)
-    .then(end, end)
+    .then(done, fail)
 
 </script>
 

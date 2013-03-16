@@ -4,107 +4,80 @@
 
 (function (runner) {
 
-    var $animScreen;
+    var $animScreen,
+        elements;
 
     runner.init = function () {
         $animScreen = $("article.anim-screen");
     };
 
-    runner.clean = function () {
-        try {
-            if(runner.cube) window.document.body.removeChild(runner.cube);
-            if(runner.disc) window.document.body.removeChild(runner.disc);
-        } catch(err) {
-            console.log("oops");
-        }
+    runner.hideScreen = function () {
+        $animScreen.style.display = "none";
+    };
+
+    runner.showScreen = function () {
+        $animScreen.style.display = "block";
     };
 
     runner.run = function (code) {
-        var currentf = new Function("cube", "disc", "container", "start", "done", "fail", code);
-        runner.cube = DOM("div");
-        runner.disc = DOM("div");
-        runner.start = function (elt) {
-            $animScreen.style.display = "block";
-            return Zanimo.transition(
-                $animScreen,
-                "opacity",
-                1,
-                100
-            ).then(function () {
-                return elt;
-            }, function (err) {
-                return elt;
-            });
-        };
-        runner.done = function (f, elts) {
-            // FIXME in the wrong order...
-            // first call the f on the elements
-            // then fade the animation screen back to the editor
-            return function () {
-                return Zanimo.transition(
-                    $animScreen,
-                    "opacity",
-                    0,
-                    100
-                ).then(function () {
-                    try {
-                        f(elts);
-                    } catch(err) {
-                        runner.clean();
-                        alert(err);
-                    }
-                    $animScreen.style.display = "none";
-                },function () {
-                    try {
-                        f(elts);
-                    } catch(err) {
-                        runner.clean();
-                        alert(err);
-                    }
-                    $animScreen.style.display = "none";
-                });
-            };
-        };
-        runner.fail = function (f, elts) {
-            return function () {
-                return Zanimo.transition(
-                    $animScreen,
-                    "opacity",
-                    0,
-                    100
-                ).then(function () {
-                    try {
-                        f(elts);
-                    } catch(err) {
-                        runner.clean();
-                        alert(err);
-                    }
-                });
-            };
-        };
-
-        runner.cube.style.width = "100px";
-        runner.cube.style.height = "100px";
-        runner.cube.style.position = "absolute";
-        runner.cube.style.backgroundColor = "rgb(118, 189, 255)";
-        runner.cube.style.zIndex = 1000;
-
-        runner.disc.style.width = "100px";
-        runner.disc.style.height = "100px";
-        runner.disc.style.borderRadius = "100px";
-        runner.disc.style.position = "absolute";
-        runner.disc.style.zIndex = 1000;
-        runner.disc.style.backgroundColor = "rgb(118, 189, 255)";
-
-        currentf.call(
+        (new Function ("create", "start", "done", "fail", code)).call(
             {},
-            runner.cube,
-            runner.disc,
-            window.document.body,
+            runner.create,
             runner.start,
             runner.done,
             runner.fail
         );
+    };
+
+    runner.create = function (definitions) {
+        var el, attr;
+        elements = [];
+        definitions.forEach(function (def) {
+            el = DOM("div");
+            el.style.width = "100px";
+            el.style.height = "100px";
+            el.style.position = "absolute";
+            el.style.backgroundColor = "rgb(118, 189, 255)";
+            el.style.zIndex = 10000;
+            for(attr in def) {
+                el.style[attr] = def[attr];
+            }
+            elements.push(el);
+            document.body.appendChild(el);
+        });
+        return elements;
+    };
+
+    runner.start = function (el) {
+        $animScreen.style.display = "block";
+        return Zanimo.transition($animScreen, "opacity", 1, 100)
+                     .then(function () { return el; });
+    };
+
+    runner.done = function () {
+        elements.forEach(function (el) {
+            window.document.body.removeChild(el);
+        });
+        return Zanimo.transition(
+            $animScreen,
+            "opacity",
+            0,
+            100
+        ).then(runner.hideScreen, runner.hideScreen);
+    };
+
+    runner.fail = function () {
+        elements.forEach(function (el) {
+            window.document.body.removeChild(el);
+        });
+        return Zanimo.transition(
+            $animScreen,
+            "opacity",
+            0,
+            100
+        ).then(runner.hideScreen, runner.hideScreen).then(function() {
+            alert(err);
+        });
     };
 
 }(window.Runner = {}));
