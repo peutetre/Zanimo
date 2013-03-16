@@ -20,13 +20,18 @@
     };
 
     runner.run = function (code) {
-        (new Function ("create", "start", "done", "fail", code)).call(
-            {},
-            runner.create,
-            runner.start,
-            runner.done,
-            runner.fail
-        );
+        try {
+            (new Function ("create", "start", "done", "fail", code)).call(
+                {},
+                runner.create,
+                runner.start,
+                runner.done,
+                runner.fail
+            );
+        } catch(err) {
+            alert(err);
+            setTimeout(runner.done, 10);
+        }
     };
 
     runner.create = function (definitions) {
