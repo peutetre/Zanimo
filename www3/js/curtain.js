@@ -53,8 +53,9 @@
             }
         },
         activeAreaAction = function (evt) {
+            evt.preventDefault();
             $hiddenA.focus();
-            animate();
+            setTimeout(animate, 500);
         };
 
     curtain.init = function () {
@@ -65,7 +66,7 @@
     };
 
     curtain.bind = function () {
-         window.addEventListener("resize", resize);
+         if(!isTouchable) window.addEventListener("resize", resize);
          window.addEventListener("orientationchange", resize);
          $activeArea.addEventListener(isTouchable ? "touchstart" : "click", activeAreaAction);
     };
