@@ -19,7 +19,7 @@
     };
 
     window.onerror = function (err) {
-        alert(err.toString());
+        alert(err);
     };
 
     window.document.addEventListener("DOMContentLoaded", app.init);

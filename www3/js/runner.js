@@ -50,8 +50,10 @@
 
     runner.start = function (el) {
         $animScreen.style.display = "block";
-        return Zanimo.transition($animScreen, "opacity", 1, 100)
-                     .then(function () { return el; });
+        return Q.delay(200)
+                .then(Zanimo.f($animScreen))
+                .then(Zanimo.transitionf("opacity", 1, 200))
+                .then(function () { return el; });
     };
 
     runner.done = function () {
