@@ -36,10 +36,10 @@
         editor.populateSelect(currentScript, store);
         editor.loadExample(currentScript, store);
 
-        $playBtn.addEventListener(isTouchable ? "touchend" : "click", editor.onPlay);
-        $saveBtn.addEventListener(isTouchable ? "touchend" : "click", editor.onSave);
-        $trashBtn.addEventListener(isTouchable ? "touchend" : "click", editor.onTrash);
-        $githubBtn.addEventListener(isTouchable ? "touchend" : "click", editor.onGithub);
+        $playBtn.addEventListener(isTouchable ? "touchstart" : "click", editor.onPlay);
+        $saveBtn.addEventListener(isTouchable ? "touchstart" : "click", editor.onSave);
+        $trashBtn.addEventListener(isTouchable ? "touchstart" : "click", editor.onTrash);
+        $githubBtn.addEventListener(isTouchable ? "touchstart" : "click", editor.onGithub);
         $select.addEventListener("change", editor.onSelect);
     };
 
@@ -54,15 +54,17 @@
 
     editor.onSave = function (evt) {
         $hidden.focus();
-        if(!store.save($select.value, _editor.getValue()))
-            alert("Will not overwrite an example script! Copy and paste it in a new script.");
+        if(!store.save($select.value, _editor.getValue())) {
+            alert("Can't overwrite example script!");
+            setTimeout(function () { console.log( "otot" ); }, 0);
+        }
         return false;
     };
 
     editor.onTrash = function (evt) {
         $hidden.focus();
         if (store.isDefaultExample($select.value)) {
-            alert("Will not delete an example script!");
+            alert("Can't delete example script!");
             return false;
         }
         if(confirm("Delete " + $select.value + " ?")) {
@@ -84,7 +86,7 @@
 
         if(evt.target.value === "New") {
             var name = window.prompt("Script name:", "my-test");
-            if (name !== null && name.toString().replace(/ /g,'').length > 1) {
+            if (name !== null && name.toString().replace(/ /g,'').length > 0) {
                 if (store.save(name, EMPTY_SCRIPT)) {
                     _editor.setValue(EMPTY_SCRIPT);
                     editor.populateSelect(name, store);
@@ -92,13 +94,17 @@
                     currentScript = name;
                 }
                 else {
-                    $select.value = currentScript;
-                    alert("Can't overwrite an example script! Copy and paste it in a new script.");
+                    alert("Can't overwrite example script!");
+                    setTimeout(function () {
+                        $select.value = currentScript;
+                    }, 10);
                 }
             }
             else {
-                $select.value = currentScript;
                 alert("Script name is invalid!");
+                setTimeout(function () {
+                    $select.value = currentScript;
+                }, 10);
             }
         } else {
             editor.loadExample(evt.target.value, store);
