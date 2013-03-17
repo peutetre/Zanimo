@@ -6,6 +6,24 @@ bodyColor = gray
 documentationColor = red
 editorColor = orange
 
+@font-face
+    font-family: 'Molle';
+    font-style: italic;
+    font-weight: 400;
+    src: local('Molle'), local('Molle-Regular'), url('fonts/molle.woff') format('woff');
+
+@font-face
+    font-family: 'Anaheim';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Anaheim'), local('Anaheim-Regular'), url('fonts/anaheim.woff') format('woff');
+
+@font-face
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Roboto Regular'), local('Roboto-Regular'), url('fonts/roboto.woff') format('woff');
+
 body, html
     background bodyColor
     height 100%
@@ -102,7 +120,6 @@ a
                 text-shadow: 1px 1px 2px rgb(209, 209, 209);
                 font-size: 40px;
             pre
-                border-left: 4px solid rgba(118, 189, 255, 0.23);
                 font-family: "Monaco", sans-serif;
                 margin: 0 10px 0 10px;
                 padding: 0;
@@ -110,7 +127,7 @@ a
                 overflow-y: hidden;
                 color: #354757;
                 font-weight: bold;
-                font-size: 15px;
+                font-size: 13px;
             p.about
                 float right
                 position relative
