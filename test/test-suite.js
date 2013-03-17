@@ -45,6 +45,36 @@ Specs.test("Zanimo() succeed with a DOM element", function () {
     });
 });
 
+Specs.test("Zanimo() succeed with a promise of a DOM element", function () {
+    var elt = setUp1(),
+        d = Q.defer();
+
+    setTimeout(function () {
+        d.resolve(elt);
+    }, 500);
+
+    return Q.when(Q.delay(200), function () {
+        return Zanimo(d.promise)
+                .then(Specs.done("Resolve"), Specs.fail("Reject"))
+                .then(setDown1, setDown1);
+    });
+});
+
+Specs.test("Zanimo() fail with a promise of a number", function () {
+    var elt = setUp1(),
+        d = Q.defer();
+
+    setTimeout(function () {
+        d.resolve(1);
+    }, 500);
+
+    return Q.when(Q.delay(200), function () {
+        return Zanimo(d.promise)
+                .then(Specs.fail("Resolve"), Specs.done("Reject"))
+                .then(setDown1, setDown1);
+    });
+});
+
 /*
  * Testing Zanimo.transition()
  */

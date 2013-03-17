@@ -34,9 +34,9 @@ Or open test/index.html in a web browser to run the tests.
 
 ## API
 
-### Zanimo(elt) ➜  promise[elt]
+### Zanimo(elt|promise[elt]) ➜  promise[elt]
 
-Take a DOM element and returns a fulfilled promise returning the given DOM element.
+Take a DOM element or a promise of a DOM element and returns a promise of the given element.
 
 ~~~ javascript
 Zanimo(myDomElement).then(function (elt) {
@@ -46,7 +46,7 @@ Zanimo(myDomElement).then(function (elt) {
 });
 ~~~
 
-### Zanimo.f(elt) ➜  ( function(elt) ➜  promise[elt] )
+### Zanimo.f(elt|promise[elt]) ➜  ( function(elt) ➜  promise[elt] )
 
 Usefull for changing a given DOM element along a promises chain.
 
