@@ -18,13 +18,13 @@ www:
 	@@stylus www/css/style.styl
 	@@cp ${BUILDDIR}/${ZANIMO}-${VERSION}.min.js www/vendor/${ZANIMO}-${VERSION}.min.js
 	@@cp ${BUILDDIR}/${ZANIMO}-${VERSION}.js www/vendor/${ZANIMO}-${VERSION}.js
-	@@cp vendor/q-0.8.11.min.js www/vendor/q-0.8.11.min.js
-	@@cp vendor/q-0.8.11.js www/vendor/q-0.8.11.js
+	@@cp vendor/q-0.9.1.min.js www/vendor/q-0.9.1.min.js
+	@@cp vendor/q-0.9.1.js www/vendor/q-0.9.1.js
 
 clean:
 	@@rm www/vendor/${ZANIMO}-${VERSION}.min.js
 	@@rm www/vendor/${ZANIMO}-${VERSION}.js
-	@@rm www/vendor/q-0.8.11.min.js
-	@@rm www/vendor/q-0.8.11.js
+	@@rm www/vendor/q-0.9.1.min.js
+	@@rm www/vendor/q-0.9.1.js
 
 .PHONY: test www
