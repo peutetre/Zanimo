@@ -56,6 +56,10 @@
             evt.preventDefault();
             editor.onSave();
         }
+        if((evt.metaKey || evt.ctrlKey) && evt.keyCode === 69) {
+            evt.preventDefault();
+            editor.onPlay();
+        }
     }
 
     editor.onTouchStart = function (evt) {
