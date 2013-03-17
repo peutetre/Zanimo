@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# version 10
+# version 11
 
 CACHE:
 index.html
@@ -17,7 +17,7 @@ www/css/fonts/roboto.woff
 www/css/fonts/anaheim.woff
 www/css/fonts/molle.woff
 
-www/vendor/q-0.8.11.js
+www/vendor/q-0.9.1.min.js
 www/vendor/zanimo-0.0.5.min.js
 www/vendor/codemirror/codemirror.css
 www/vendor/codemirror/codemirror.js
@@ -41,3 +41,4 @@ www/images/apple-touch-icon-144x144-precomposed.png
 
 NETWORK:
 https://api.travis-ci.org/peutetre/Zanimo.png?branch=Q
+http://www.google-analytics.com/ga.js
