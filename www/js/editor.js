@@ -14,7 +14,10 @@
         $playBtn,
         $saveBtn,
         $trashBtn,
-        $githubBtn;
+        $githubBtn,
+        $star,
+        toWhite = Zanimo.transitionf("color", "#F0F1F3", 100),
+        toGreen = Zanimo.transitionf("color", "green", 100);
 
     editor.init = function () {
         $hidden = $("#hidden-a");
@@ -24,6 +27,7 @@
         $saveBtn = $("button.icon-save", $editor);
         $trashBtn = $("button.icon-trash", $editor);
         $githubBtn = $("button.icon-github-alt", $editor);
+        $star = $(".chip span");
 
         _editor = CodeMirror.fromTextArea($("textarea", $editor), {
             lineNumbers: true,
@@ -71,8 +75,17 @@
 
     editor.onSave = function (evt) {
         $hidden.focus();
-        if(!store.save($select.value, _editor.getValue()))
+        if(!store.save($select.value, _editor.getValue())) {
             alert("Can't overwrite example script!");
+        } else {
+            Zanimo($star)
+                .then(toGreen)
+                .then(toWhite)
+                .then(toGreen)
+                .then(toWhite)
+                .then(toGreen)
+                .then(toWhite);
+        }
     };
 
     editor.onTrash = function (evt) {
