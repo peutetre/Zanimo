@@ -6,6 +6,7 @@
 
     var EMPTY_SCRIPT,
         currentScript = 0,
+        lastEditorTouchTS = 0,
         _editor,
         $editor,
         $hidden,
@@ -27,6 +28,7 @@
         _editor = CodeMirror.fromTextArea($("textarea", $editor), {
             lineNumbers: true,
             matchBrackets: true,
+            indentUnit: 4,
             extraKeys: { "Enter" : "newlineAndIndentContinueComment" }
         });
 
@@ -36,11 +38,18 @@
         editor.populateSelect(currentScript, store);
         editor.loadExample(currentScript, store);
 
+        if(isTouchable) $editor.addEventListener("touchstart", editor.onTouchStart);
         $playBtn.addEventListener(isTouchable ? "touchstart" : "click", editor.onPlay);
         $saveBtn.addEventListener(isTouchable ? "touchstart" : "click", editor.onSave);
         $trashBtn.addEventListener(isTouchable ? "touchstart" : "click", editor.onTrash);
         $githubBtn.addEventListener(isTouchable ? "touchstart" : "click", editor.onGithub);
         $select.addEventListener("change", editor.onSelect);
+    };
+
+    editor.onTouchStart = function (evt) {
+        var t = (new Date()).getTime();
+        if((t-lastEditorTouchTS) < 400) $hidden.focus();
+        lastEditorTouchTS = t;
     };
 
     editor.onPlay = function (evt) {

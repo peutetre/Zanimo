@@ -109,6 +109,7 @@ a {
   font-size: 40px;
 }
 .documentation section.content div.doc-content pre {
+  border-left: 4px solid rgba(118,189,255,0.23);
   font-family: "Monaco", sans-serif;
   margin: 0 10px 0 10px;
   padding: 0;
@@ -240,6 +241,7 @@ a {
   background: transparent;
 }
 .editor .CodeMirror {
+  -webkit-user-select: none;
   position: absolute;
   background: #fff;
   top: 80px;
