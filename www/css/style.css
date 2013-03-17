@@ -251,11 +251,12 @@ a {
 .editor div.toolbar .select-container .select {
   width: 140px;
   font-size: 14px;
-  padding: 0 50px 0 10px;
+  padding: 0 30px 0 10px;
   color: inherit;
   margin: 0;
   z-index: 0;
   background: transparent;
+  text-overflow: ellipsis;
 }
 .editor .CodeMirror {
   -webkit-user-select: none;
