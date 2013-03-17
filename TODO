@@ -1,0 +1,14 @@
+ROADMAP v0.0.6
+
+in progress - just the runner * refactoring www3
+* tests for Zanimo(promise[domElement])
+* extend doc for Zanimo(promise[domElement])
+* add custom errors and test it + document them
+* app cache
+* fix font iphone -> produce bug in code mirror
+* some good examples : for example a flower with petals animated
+* icone
+* splashscreen
+* ipad/iphone app
+* firefox os
+* android app

@@ -1,0 +1,253 @@
+/*
+ * style.styl
+ */
+
+bodyColor = gray
+documentationColor = red
+editorColor = orange
+
+@font-face
+    font-family: 'Molle';
+    font-style: italic;
+    font-weight: 400;
+    src: local('Molle'), local('Molle-Regular'), url('fonts/molle.woff') format('woff');
+
+@font-face
+    font-family: 'Anaheim';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Anaheim'), local('Anaheim-Regular'), url('fonts/anaheim.woff') format('woff');
+
+@font-face
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Roboto Regular'), local('Roboto-Regular'), url('fonts/roboto.woff') format('woff');
+
+body, html
+    background bodyColor
+    height 100%
+    width 100%
+    position absolute
+    overflow hidden
+    -webkit-font-smoothing: antialiased;
+
+a
+    color rgb(82, 122, 160)
+
+.anim-screen
+    position absolute
+    left 0
+    top 0
+    width 100%
+    height 100%
+    z-index 999
+    background rgb(240, 241, 243)
+    display none
+    opacity 0
+
+.documentation
+    z-index 1
+    background rgb(240, 241, 243)
+    height 100%
+    width 100%
+    position absolute
+
+    section.content
+        height: unquote('-webkit-calc(100% - 30px)');
+        height: unquote('-moz-calc(100% - 30px)');
+        height: unquote('-ms-calc(100% - 30px)');
+        height: unquote('calc(100% - 30px)');
+        width 100%
+        position relative
+        div.doc-content
+            height: unquote('-webkit-calc(100% - 65px)');
+            height: unquote('-moz-calc(100% - 65px)');
+            height: unquote('-ms-calc(100% - 65px)');
+            height: unquote('calc(100% - 65px)');
+            overflow:auto;
+            -webkit-overflow-scrolling:touch;
+            max-width 1280px
+            margin auto
+            a.download
+                width: 140px;
+                line-height: 40px;
+                margin: 15px auto;
+                display: block;
+                text-align: center;
+                background: rgb(118, 189, 255);
+                font-family: Anaheim, sans-serif;
+                font-size: 16px;
+                border-radius: 6px;
+                color: rgb(240, 241, 243);
+                font-weight: bold;
+                border: 1px solid rgb(117, 172, 223);
+                text-decoration none
+            p
+                margin:5px 10px
+                font-family: 'Roboto', sans-serif;
+                font-size 14px
+                color rgb(86, 89, 97)
+            p.description
+                font-size:16px;
+                margin 10px
+            ul
+                margin: 0 0 5px 30px;
+                list-style: disc;
+                color rgb(94, 128, 158)
+            img
+                margin: 0 0 0 10px;
+                position: relative;
+                top: 4px;
+            li
+                margin 0 0 0 10px
+                font-family: 'Roboto', sans-serif;
+                font-size 12px
+            h3
+                color: rgb(53, 71, 87);
+                font-weight: bold;
+                font-size: 20px;
+                margin:15px 10px 10px 10px;
+                font-family Anaheim, sans-serif;
+                text-shadow: 1px 1px 2px rgb(209, 209, 209);
+            h3.building
+                display:inline-block;
+            h2
+                color: rgb(53, 71, 87);
+                font-weight: bold;
+                font-family Anaheim, sans-serif;
+                margin: 20px 0 0 10px;
+                text-shadow: 1px 1px 2px rgb(209, 209, 209);
+                font-size: 40px;
+            pre
+                font-family: "Monaco", sans-serif;
+                margin: 0 10px 0 10px;
+                padding: 0;
+                overflow: scroll;
+                overflow-y: hidden;
+                color: #354757;
+                font-weight: bold;
+                font-size: 13px;
+            p.about
+                float right
+                position relative
+                right 10px
+        header
+            -webkit-user-select:none;
+            position absolute
+            bottom 0
+            width 100%
+            height: 65px;
+            padding: 15px 0 0 0;
+            h1
+                margin 0 0 0 10px
+                width 100%
+                font-size 25px
+                font-family: "Molle", cursive;
+                font-weight bold
+                font-style italic
+                display inline
+                color rgb(86, 89, 97)
+            span
+                font-size 15px
+                font-family: 'Anaheim', sans-serif;
+                font-style initial
+                margin: 0 0 0 6px;
+
+    div.active-area
+        -webkit-user-select:none;
+        height 30px;
+        width 100%
+        text-align center
+        position relative
+        background: rgb(118, 189, 255);
+        border-bottom: 1px solid rgb(117, 172, 223);
+        div.chip
+            background: rgb(118, 189, 255);
+            position: relative;
+            width: 100px;
+            height: 50px;
+            margin: auto;
+            top: -20px;
+            border-radius: 40px;
+            span
+                position absolute
+                font-size 20px
+                font-size: 30px;
+                color rgb(240, 241, 243)
+                top: -2px;
+                left: 38px;
+        a.github
+            text-decoration none
+            position absolute
+            top 6px
+            right 6px
+            color rgb(240, 241, 243)
+
+.editor
+    z-index 0
+    background rgb(243, 243, 243)
+    height 100%
+    width 100%
+    position absolute
+    div.toolbar
+        -webkit-user-select:none;
+        height 50px
+        position absolute
+        top 30px
+        width 100%
+        color red
+        line-height: 50px;
+        padding: 0 0 0 0px;
+        .button
+            -webkit-appearance: none;
+            border: none;
+            background: rgb(243, 243, 243);
+            //box-shadow: 0px 0px 1px rgb(119, 119, 119);
+            height: 26px;
+            width: 26px;
+            border-radius: 0;
+            float left
+            font-size 21px;
+            margin: 13px 0 0 10px;
+            padding 0
+            color rgb(118, 189, 255)
+        .button.icon-github-alt
+            float: right;
+            right: 10px;
+            position: relative;
+        .select-container
+            background: url(../images/arrow@2x.png) 90% 5px no-repeat;
+            color rgb(118, 189, 255)
+            background-size: 14px;
+            height: 26px;
+            width: 120px;
+            float left
+            margin: 12px 0 0 10px;
+            padding 0
+            overflow hidden
+            z-index: 1;
+            border: 1px solid rgb(209, 209, 209);
+            border-radius: 4px 4px 4px 4px;
+            background-color: rgb(230, 230, 230);
+            .select
+                width: 140px;
+                font-size: 14px;
+                padding: 0 50px 0 10px;
+                color: inherit;
+                margin: 0;
+                z-index: 0;
+                background: transparent;
+
+    .CodeMirror
+        -webkit-user-select : none;
+        position absolute
+        background #fff
+        top 80px
+        width 100%
+        height: unquote('-webkit-calc(100% - 80px)');
+        height: unquote('-moz-calc(100% - 80px)');
+        height: unquote('-ms-calc(100% - 80px)');
+        height: unquote('calc(100% - 80px)');
+        border-top: 1px solid rgb(218, 218, 218);
+        background:rgb(253, 253, 253);
