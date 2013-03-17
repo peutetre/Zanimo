@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# version 5
+# version 7
 
 CACHE:
 index.html
@@ -35,6 +35,9 @@ vendor/font-awesome/font/fontawesome-webfont.ttf?v=3.0.1
 vendor/font-awesome/font/fontawesome-webfont.woff?v=3.0.1
 
 images/arrow@2x.png
+images/apple-touch-icon-72x72-precomposed.png
+images/apple-touch-icon-114x114-precomposed.png
+images/apple-touch-icon-144x144-precomposed.png
 
 NETWORK:
 https://api.travis-ci.org/peutetre/Zanimo.png?branch=Q
