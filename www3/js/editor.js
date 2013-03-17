@@ -44,8 +44,8 @@
     };
 
     editor.onPlay = function (evt) {
-        $hidden.focus();
         try {
+            $hidden.focus();
             runner.run(_editor.getValue());
         } catch(err) {
             alert(err);
@@ -54,31 +54,26 @@
 
     editor.onSave = function (evt) {
         $hidden.focus();
-        if(!store.save($select.value, _editor.getValue())) {
+        if(!store.save($select.value, _editor.getValue()))
             alert("Can't overwrite example script!");
-            setTimeout(function () { console.log( "otot" ); }, 0);
-        }
-        return false;
     };
 
     editor.onTrash = function (evt) {
         $hidden.focus();
         if (store.isDefaultExample($select.value)) {
             alert("Can't delete example script!");
-            return false;
+            return;
         }
         if(confirm("Delete " + $select.value + " ?")) {
             store.trash($select.value);
             editor.populateSelect(store.head(), store);
             editor.loadExample(store.head(), store);
         }
-        return false;
     };
 
     editor.onGithub = function (evt) {
         $hidden.focus();
         if(confirm("Visit on Github?")) location = "http://github.com/peutetre/Zanimo";
-        return false;
     };
 
     editor.onSelect = function (evt) {
@@ -128,8 +123,6 @@
         });
     };
 
-    editor.loadExample = function (name) {
-        _editor.setValue(store.get(name));
-    };
+    editor.loadExample = function (name) { _editor.setValue(store.get(name)); };
 
 }(window.Editor = {}, window.Store, window.Runner));

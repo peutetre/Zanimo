@@ -101,21 +101,22 @@ a {
   display: inline-block;
 }
 .documentation section.content div.doc-content h2 {
-  color: #5e809e;
+  color: #354757;
   font-weight: bold;
   font-family: Anaheim, sans-serif;
-  margin: 10px 0 0 10px;
-  text-shadow: 2px 1px 2px #fff;
+  margin: 20px 0 0 10px;
+  text-shadow: 1px 1px 2px #d1d1d1;
   font-size: 40px;
 }
 .documentation section.content div.doc-content pre {
   font-family: "Monaco", sans-serif;
-  margin: 0 0 0 10px;
-  padding: 10px 10px 10px 0;
-  background: rgba(118,189,255,0.05);
+  margin: 0 10px 0 10px;
+  padding: 0;
   overflow: scroll;
   overflow-y: hidden;
-  color: #565961;
+  color: #354757;
+  font-weight: bold;
+  font-size: 15px;
 }
 .documentation section.content div.doc-content p.about {
   float: right;

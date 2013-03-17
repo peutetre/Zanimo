@@ -65,26 +65,17 @@
         elements.forEach(function (el) {
             window.document.body.removeChild(el);
         });
-        return Zanimo.transition(
-            $animScreen,
-            "opacity",
-            0,
-            100
-        ).then(runner.hideScreen, runner.hideScreen);
+        return Zanimo.transition($animScreen, "opacity", 0, 100)
+                     .then(runner.hideScreen, runner.hideScreen);
     };
 
     runner.fail = function () {
         elements.forEach(function (el) {
             window.document.body.removeChild(el);
         });
-        return Zanimo.transition(
-            $animScreen,
-            "opacity",
-            0,
-            100
-        ).then(runner.hideScreen, runner.hideScreen).then(function() {
-            alert(err);
-        });
+        return Zanimo.transition($animScreen, "opacity", 0, 100)
+                     .then(runner.hideScreen, runner.hideScreen)
+                     .then(function() { alert(err); });
     };
 
 }(window.Runner = {}));

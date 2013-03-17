@@ -18,10 +18,7 @@
             .then(curtain.bind);
     };
 
-    window.onerror = function (err) {
-        alert(err);
-    };
-
+    window.onerror = function (err) { alert(err); };
     window.document.addEventListener("DOMContentLoaded", app.init);
 
 }(
