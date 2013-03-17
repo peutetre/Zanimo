@@ -1,5 +1,5 @@
 ZANIMO = zanimo
-BUILDDIR = build
+BUILDDIR = dist
 VERSION = `cat VERSION`
 FILES = src/Zanimo.js
 
