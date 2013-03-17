@@ -44,7 +44,15 @@
         $trashBtn.addEventListener(isTouchable ? "touchstart" : "click", editor.onTrash);
         $githubBtn.addEventListener(isTouchable ? "touchstart" : "click", editor.onGithub);
         $select.addEventListener("change", editor.onSelect);
+        window.document.addEventListener("keydown", editor.onKeydown);
     };
+
+    editor.onKeydown = function (evt) {
+        if((evt.metaKey || evt.ctrlKey) && evt.keyCode === 83) {
+            evt.preventDefault();
+            editor.onSave();
+        }
+    }
 
     editor.onTouchStart = function (evt) {
         var t = (new Date()).getTime();
