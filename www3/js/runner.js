@@ -21,6 +21,7 @@
 
     runner.run = function (code) {
         try {
+            elements = [];
             (new Function ("create", "start", "done", "fail", code)).call(
                 {},
                 runner.create,
@@ -36,7 +37,6 @@
 
     runner.create = function (definitions) {
         var el, attr;
-        elements = [];
         definitions.forEach(function (def) {
             el = DOM("div");
             el.style.width = "100px";
