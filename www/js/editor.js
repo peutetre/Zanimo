@@ -100,8 +100,10 @@
         }
         if(confirm("Delete " + $select.value + " ?")) {
             store.trash($select.value);
-            editor.populateSelect(store.head(), store);
-            editor.loadExample(store.head(), store);
+            var head = store.head();
+            if(currentScript === $select.value) currentScript = head;
+            editor.populateSelect(head, store);
+            editor.loadExample(head, store);
         }
     };
 
@@ -114,26 +116,30 @@
         $hidden.focus();
 
         if(evt.target.value === "New") {
-            var name = window.prompt("Script name:", "my-test");
-            if (name !== null && name.toString().replace(/ /g,'').length > 0) {
-                if (store.save(name, EMPTY_SCRIPT)) {
+            var name = window.prompt("Script name:", "my-test"),
+                trimedName = "";
+            if (name && name.length > 0 && name.trim() !== "New") {
+                trimedName = name.trim();
+                if (store.save(trimedName, EMPTY_SCRIPT)) {
                     _editor.setValue(EMPTY_SCRIPT);
-                    editor.populateSelect(name, store);
-                    $select.value = name;
-                    currentScript = name;
+                    editor.populateSelect(trimedName, store);
+                    $select.value = trimedName;
+                    currentScript = trimedName;
                 }
                 else {
+                    $select.value = currentScript;
                     alert("Can't overwrite example script!");
                     setTimeout(function () {
                         $select.value = currentScript;
-                    }, 10);
+                    },10);
                 }
             }
             else {
+                $select.value = currentScript;
                 alert("Script name is invalid!");
                 setTimeout(function () {
                     $select.value = currentScript;
-                }, 10);
+                },10);
             }
         } else {
             editor.loadExample(evt.target.value, store);
