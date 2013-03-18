@@ -30,7 +30,7 @@ To run tests in your shell, you need [phantomjs](http://code.google.com/p/phanto
 $ make test
 ~~~
 
-Or open test/index.html in a web browser to run the tests.
+Or open [test/index.html](http://peutetre.github.com/Zanimo/test/index.html) in a web browser to run the tests.
 
 ## API
 
