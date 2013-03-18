@@ -25,10 +25,11 @@
             try {
                 running = true;
                 elements = [];
-                var p = (new Function ("create", "start", code)).call(
+                var p = (new Function ("create", "start", "window", "document", code)).call(
                     {},
                     runner.create,
-                    runner.start
+                    runner.start,
+                    {},{}
                 );
                 if(Q.isPromise(p)) return p.then(runner.done, runner.fail);
                 throw new Error("Runner exception, you need to return a promise!");
