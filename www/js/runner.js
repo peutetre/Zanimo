@@ -5,7 +5,8 @@
 (function (runner) {
 
     var $animScreen,
-        elements;
+        elements,
+        running = false;
 
     runner.init = function () {
         $animScreen = $("article.anim-screen");
@@ -20,18 +21,20 @@
     };
 
     runner.run = function (code) {
-        try {
-            elements = [];
-            (new Function ("create", "start", "done", "fail", code)).call(
-                {},
-                runner.create,
-                runner.start,
-                runner.done,
-                runner.fail
-            );
-        } catch(err) {
-            alert(err);
-            setTimeout(runner.done, 10);
+        if (!running) {
+            try {
+                running = true;
+                elements = [];
+                var p = (new Function ("create", "start", code)).call(
+                    {},
+                    runner.create,
+                    runner.start
+                );
+                if(Q.isPromise(p)) return p.then(runner.done, runner.fail);
+                throw new Error("Runner exception, you need to return a promise!");
+            } catch(err) {
+                runner.done().then(function () { alert(err); });
+            }
         }
     };
 
@@ -61,21 +64,24 @@
                 .then(function () { return el; });
     };
 
-    runner.done = function () {
+    runner.clean = function () {
         elements.forEach(function (el) {
             window.document.body.removeChild(el);
         });
-        return Zanimo.transition($animScreen, "opacity", 0, 100)
-                     .then(runner.hideScreen, runner.hideScreen);
+    };
+
+    runner.done = function () {
+        runner.clean();
+        return Zanimo.transition($animScreen, "opacity", 0, 200)
+                     .then(runner.hideScreen, runner.hideScreen)
+                     .then(function () { running = false; });
     };
 
     runner.fail = function () {
-        elements.forEach(function (el) {
-            window.document.body.removeChild(el);
-        });
-        return Zanimo.transition($animScreen, "opacity", 0, 100)
+        runner.clean();
+        return Zanimo.transition($animScreen, "opacity", 0, 200)
                      .then(runner.hideScreen, runner.hideScreen)
-                     .then(function() { alert(err); });
+                     .then(function() { running = false; alert(err); });
     };
 
 }(window.Runner = {}));

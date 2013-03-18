@@ -159,16 +159,13 @@ Zanimo(myDomElt).then(Zanimo.transformf("scale(2)", true));
 <script id="empty-script-help" type="text/tmpl">/*
  * Zanimo script help:
  *
- * 4 functions are provided in this animation runner: create, start, done and fail.
+ * A Zanimo script is the body of a function returning a promise and taking 2 arguments,
+ * which are helper functions provided by the animation runner: create and start.
  *
  * [Optional] create: Helper to create DIV elements, takes an array of css attributes in camel case
  * and returns a array of elements with the according style.
  *
  * [Mandatory] start: start the animation, takes a DOM element and returns a promise of the element.
- *
- * [Mandatory] done: finish the animation for the success case.
- *
- * [Mandatory] fail: finish the animation for the fail case.
  *
  * A tiny example:
  *
@@ -176,14 +173,36 @@ Zanimo(myDomElt).then(Zanimo.transformf("scale(2)", true));
  *     show = function (el) { el.style.display="block"; return el;}
  *     animate200pxToRight = Zanimo.transitionf("transform", "translate3d(200px,0,0)", 1000, "ease-in-out");
  *
- * Zanimo(start(cube))
- *     .then(show)
- *     .then(animate200pxToRight)
- *     .then(done, fail);
+ * return Zanimo(start(cube)).then(show).then(animate200pxToRight);
  */
 </script>
 
-<script data-example-id="example 1" type="text/tmpl">/* define DOM elements used in the animation */
+<script data-example-id="example 1" type="text/tmpl">/* Zanimo script help:
+ *
+ * A Zanimo script is the body of a function returning a promise and taking 2 arguments,
+ * which are helper functions provided by the animation runner: create and start.
+ *
+ * [Optional] create: Helper to create DIV elements, takes an array of css attributes in camel case
+ * and returns a array of elements with the according style.
+ *
+ * [Mandatory] start: start the animation, takes a DOM element and returns a promise of the element.
+ *
+ * A tiny example:
+ *
+ * var cube = create([{ display:"none", left:"50px", top:"50px"}])[0],
+ *     show = function (el) { el.style.display="block"; return el;}
+ *     animate200pxToRight = Zanimo.transitionf("transform", "translate3d(200px,0,0)", 1000, "ease-in-out");
+ *
+ * return Zanimo(start(cube)).then(show).then(animate200pxToRight);
+ */
+
+
+/*
+ * Example 1
+ */
+
+
+/* define DOM elements used in the animation */
 var elts = create([
         {
              display : "none",
@@ -222,19 +241,18 @@ var elts = create([
     animate4 = Zanimo.transitionf("transform", "translate3d(10px,20px,0)", 400);
 
 /* Start the animation */
-Zanimo(start(cube))
-    .then(show)
-    .then(animate1)
-    .then(hide)
-    .then(Zanimo.f(circle))
-    .then(show)
-    .then(animate2)
-    .then(hide)
-    .then(Zanimo.f(star))
-    .then(show)
-    .then(animate3)
-    .then(hide)
-    .then(done, fail)
+return Zanimo(start(cube))
+        .then(show)
+        .then(animate1)
+        .then(hide)
+        .then(Zanimo.f(circle))
+        .then(show)
+        .then(animate2)
+        .then(hide)
+        .then(Zanimo.f(star))
+        .then(show)
+        .then(animate3)
+        .then(hide);
 
 </script>
 
