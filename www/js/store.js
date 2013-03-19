@@ -11,7 +11,7 @@
         hasKey = function () { return storage.hasOwnProperty(storageKey); };
 
     store.setup = function (version) {
-        var scripts = $$("script[data-example-id]"), data = {},
+        var scripts = $$("script[data-example-id]"), data = {}, output = {},
             l = scripts.length, name = null, script = null, i = 0;
 
         for (i; i<l; i++) {
@@ -22,7 +22,15 @@
         }
 
         if(hasKey() && parseInt(storage.getItem(storageKey+"VERSION"), 10) === version) return;
-        storage.setItem(storageKey, JSON.stringify(data));
+        if (hasKey()) {
+            output = JSON.parse(storage.getItem(storageKey));
+            for(var d in data)
+                output[d] = data[d];
+        }
+        else {
+            output = data;
+        }
+        storage.setItem(storageKey, JSON.stringify(output));
         storage.setItem(storageKey+"VERSION", version);
     };
 
