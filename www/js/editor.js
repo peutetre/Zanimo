@@ -152,17 +152,38 @@
 
     editor.populateSelect = function (name) {
         var items = store.getList(),
-            option = DOM("option");
-        option.innerHTML = "New";
-        option.value = "New";
+            exampleScripts = items.filter(function (ex) {
+                return store.isDefaultExample(ex);
+            }),
+            userScripts = items.filter(function (ex) {
+                return !store.isDefaultExample(ex);
+            }),
+            createOption = function (val, container) {
+                var op = DOM("option");
+                op.innerHTML = val;
+                op.value = val;
+                container.appendChild(op);
+                return op;
+            },
+            optgroupCommands = DOM("optgroup"),
+            optgroupExamples = DOM("optgroup"),
+            optgroupUser = DOM("optgroup");
+
         $select.innerHTML = "";
-        $select.appendChild(option);
-        items.forEach(function (item) {
-            option = DOM("option");
-            option.innerHTML = item;
-            option.value = item;
-            if (item == name) option.selected = "selected";
-            $select.appendChild(option);
+        optgroupCommands.label = "Commands";
+        optgroupExamples.label = "Examples";
+        optgroupUser.label = "Scripts";
+        $select.appendChild(optgroupCommands);
+        createOption("New", $select);
+        $select.appendChild(optgroupExamples);
+        exampleScripts.forEach(function (ex) {
+            var op = createOption(ex, $select);
+            if (ex == name) op.selected = "selected";
+        });
+        $select.appendChild(optgroupUser);
+        userScripts.forEach(function (script) {
+            var op = createOption(script, $select);
+            if (script == name) op.selected = "selected";
         });
     };
 
