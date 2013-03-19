@@ -134,6 +134,9 @@
                     },10);
                 }
             }
+            else if (name == null) {
+                $select.value = currentScript;
+            }
             else {
                 $select.value = currentScript;
                 alert("Script name is invalid!");
