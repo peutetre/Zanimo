@@ -157,7 +157,7 @@ Zanimo(myDomElt).then(Zanimo.transformf("scale(2)", true));
         <a href="#" id="hidden-a"></a>
 
 <script id="empty-script-help" type="text/tmpl">/*
- * Zanimo script help:
+ * - The Zanimo script editor -
  *
  * A Zanimo script is the body of a function returning a promise and taking 2 arguments,
  * which are helper functions provided by the animation runner: create and start.
@@ -177,7 +177,8 @@ Zanimo(myDomElt).then(Zanimo.transformf("scale(2)", true));
  */
 </script>
 
-<script data-example-id="example 1" type="text/tmpl">/* Zanimo script help:
+<script data-example-id="example 1" type="text/tmpl">/*
+ * - The Zanimo script editor -
  *
  * A Zanimo script is the body of a function returning a promise and taking 2 arguments,
  * which are helper functions provided by the animation runner: create and start.
@@ -250,7 +251,8 @@ return Zanimo(start(cube))
 
 </script>
 
-<script data-example-id="example 2" type="text/tmpl">/* Zanimo script help:
+<script data-example-id="example 2" type="text/tmpl">/*
+ * - The Zanimo script editor -
  *
  * A Zanimo script is the body of a function returning a promise and taking 2 arguments,
  * which are helper functions provided by the animation runner: create and start.
@@ -333,6 +335,47 @@ return Zanimo(start(cube))
         .then(animate4)
         .then(hide);
 
+</script>
+
+<script data-example-id="example 3" type="text/tmpl">/*
+ * - The Zanimo script editor -
+ *
+ * A Zanimo script is the body of a function returning a promise and taking 2 arguments,
+ * which are helper functions provided by the animation runner: create and start.
+ *
+ * [Optional] create: Helper to create DIV elements, takes an array of css attributes in camel case
+ * and returns a array of elements with the according style.
+ *
+ * [Mandatory] start: start the animation, takes a DOM element and returns a promise of the element.
+ *
+ * A tiny example:
+ *
+ * var cube = create([{ display:"none", left:"50px", top:"50px"}])[0],
+ *     show = function (el) { el.style.display="block"; return el;}
+ *     animate200pxToRight = Zanimo.transitionf("transform", "translate3d(200px,0,0)", 1000, "ease-in-out");
+ *
+ * return Zanimo(start(cube)).then(show).then(animate200pxToRight);
+ */
+
+var circle = create([{
+        display : "none",
+        left : "200px",
+        top : "200px",
+        borderRadius : "100px"
+    }])[0],
+    show = function (el) { el.style.display="block"; return el; },
+    animWitdh = Zanimo.transitionf("width", "700px", 1000, "ease-in-out"),
+    animHeight = Zanimo.transitionf("height", "200px", 500, "ease-in-out"),
+    all = function (fList) {
+        return function (el) {
+            var promises = fList.map(function (f) { return f(el); });
+            return Q.allResolved(promises).then(function () { return el; });
+        }
+    };
+
+return Zanimo(start(circle))
+        .then(show)
+        .then(all([animWitdh, animHeight]));
 </script>
 
         <script src="www/vendor/q-0.9.1.min.js"></script>
