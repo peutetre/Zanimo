@@ -133,13 +133,9 @@ var Zanimo = (function () {
 
     // private helper to remove a transition
     remove = function (domElt, attr, value, duration, timing) {
-        attr = T.prefix(attr);
-        var props = domElt.style[T.t].split(", "),
-            pos = props.lastIndexOf(T.repr(attr, duration, timing)),
-            newProps = props.filter(function (elt, idx) {
-                return idx !== pos;
-            });
-        domElt.style[T.t] = newProps.toString();
+        var prefixedAttr = T.prefix(attr),
+            keys = Object.keys(domElt._zanimo);
+        if(keys.length === 1 && keys[0] === attr) domElt.style[T.t] = "";
     };
 
     /**
@@ -154,7 +150,11 @@ var Zanimo = (function () {
                 domElt.removeEventListener(T.transitionend, cbTransitionend);
                 if (clear) { delete domElt._zanimo[attr]; }
             },
-            cbTransitionend = function () { cb(true); d.resolve(domElt); };
+            cbTransitionend = function (evt) {
+                if(evt.propertyName === T.norm(attr)) {
+                    cb(true); d.resolve(domElt);
+                }
+            };
 
         if (!(domElt instanceof HTMLElement)) {
             d.reject(new Error("Zanimo transition: no DOM element!"));
