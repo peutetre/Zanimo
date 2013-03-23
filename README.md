@@ -102,3 +102,14 @@ Encapsulate `Zanimo.transform()` in a function. Usefull for chaining.
 ~~~ javascript
 Zanimo(myDomElt).then(Zanimo.transformf("scale(2)", true));
 ~~~
+
+### Zanimo.all(array[function(elt) ➜  promise[elt]])  ➜  (function(elt) ➜  promise[elt])
+
+Helper to execute multiple transitions in the same step
+
+~~~ javascript
+var anim1 = Zanimo.transitionf("opacity", 0.5, 200),
+    anim2 = Zanimo.transitionf("width", "400px", 400);
+
+Zanimo(myDomElt).then(Zanimo.all([anim1, anim2]));
+~~~

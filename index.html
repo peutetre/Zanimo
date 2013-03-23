@@ -141,6 +141,15 @@ Zanimo
 <pre>
 Zanimo(myDomElt).then(Zanimo.transformf("scale(2)", true));
 </pre>
+                    <h3>Zanimo.all(array[function(elt) ➜  promise[elt]])  ➜  function(elt) ➜  promise[elt]</h3>
+                    <p>Helper to execute multiple transitions in the same step</p>
+
+<pre>
+var anim1 = Zanimo.transitionf("opacity", 0.5, 200),
+    anim2 = Zanimo.transitionf("width", "400px", 400);
+
+Zanimo(myDomElt).then(Zanimo.all([anim1, anim2]));
+</pre>
 
                     <p class="about">by <a href="http://twitter.com/42loops">@42loops</a></p>
                 </div>
@@ -365,17 +374,11 @@ var circle = create([{
     }])[0],
     show = function (el) { el.style.display="block"; return el; },
     animWitdh = Zanimo.transitionf("width", "700px", 1000, "ease-in-out"),
-    animHeight = Zanimo.transitionf("height", "200px", 500, "ease-in-out"),
-    all = function (fList) {
-        return function (el) {
-            var promises = fList.map(function (f) { return f(el); });
-            return Q.allResolved(promises).then(function () { return el; });
-        }
-    };
+    animHeight = Zanimo.transitionf("height", "200px", 500, "ease-in-out");
 
 return Zanimo(start(circle))
         .then(show)
-        .then(all([animWitdh, animHeight]));
+        .then(Zanimo.all([animWitdh, animHeight]));
 </script>
 
         <script src="www/vendor/q-0.9.1.min.js"></script>

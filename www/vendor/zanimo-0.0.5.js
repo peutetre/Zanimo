@@ -256,6 +256,16 @@ var Zanimo = (function () {
         };
     };
 
+    /**
+     * Needed to run parallel Zanimo animations.
+     */
+    Z.all = function (flist) {
+        return function (el) {
+            return Q.all(flist.map(function (f) { return f(el); }))
+                    .then(function (e) { console.log("TOTO", e); return el; }, function (err) { console.log("YOYO", err); throw err; });
+        }
+    };
+
     Z._T = T;
 
     return Z;

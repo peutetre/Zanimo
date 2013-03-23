@@ -4,7 +4,7 @@
 
 (function (app, curtain, store, editor, runner) {
 
-    var VERSION = 14;
+    var VERSION = 15;
 
     app.init = function () {
 

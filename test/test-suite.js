@@ -488,3 +488,37 @@ Specs.test(
         });
     }
 );
+
+Specs.test(
+    "Zanimo.all: 2 transitions on the same element",
+    function () {
+        var elt = setUp1(),
+            anim1 = Zanimo.transitionf("opacity", 0, 100),
+            anim2 = Zanimo.transitionf("background-color", "orange", 800);
+
+        return Q.when(Q.delay(200), function () {
+            return Zanimo(elt)
+                    .then(Zanimo.all([anim1, anim2]))
+                    .then(Specs.done("Resolve"), Specs.fail("Reject"))
+                    .then(setDown1, setDown1);
+        });
+    }
+);
+
+Specs.test(
+    "Zanimo.all: 2 transitions on the same element and one failed",
+    function () {
+        var elt = setUp1(),
+            anim1 = Zanimo.transitionf("opacity", 0, 100),
+            fail1 = function (el) {
+                return Q.reject(new Error("Ooooooops"));
+            };
+
+        return Q.when(Q.delay(200), function () {
+            return Zanimo(elt)
+                    .then(Zanimo.all([anim1, fail1]))
+                    .then(Specs.fail("Resolve"), Specs.done("Reject"))
+                    .then(setDown1, setDown1);
+        });
+    }
+);
