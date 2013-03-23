@@ -262,7 +262,7 @@ var Zanimo = (function () {
     Z.all = function (flist) {
         return function (el) {
             return Q.all(flist.map(function (f) { return f(el); }))
-                    .then(function (e) { console.log("TOTO", e); return el; }, function (err) { console.log("YOYO", err); throw err; });
+                    .then(function (e) { return el; }, function (err) { throw err; });
         }
     };
 
