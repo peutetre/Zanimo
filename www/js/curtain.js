@@ -4,7 +4,7 @@
 
 (function (curtain) {
 
-    var state = 0,
+    var state = false,
         $documentation,
         $activeArea,
         $star,
@@ -26,30 +26,26 @@
         upStar = Zanimo.transitionf("transform", "translate3d(0,0,0)", 200, "ease-in-out"),
         errorLog = function (err) { new Error(err.message); },
         resize = function () {
-            if(state == 1)
-                Zanimo($documentation).then(open).done(empty, empty);
-            else if (state == 2)
+            if(state)
                 Zanimo($documentation).then(hide).done(empty, empty);
+            else
+                Zanimo($documentation).then(open).done(empty, empty);
         },
         animate = function () {
-            switch(state) {
-                case 0:
-                    state ++;
-                    return Zanimo($documentation).then(open, errorLog);
-                case 1:
-                    state ++;
-                    return Zanimo($documentation)
-                            .then(hide)
-                            .then(Zanimo.f($star))
-                            .then(downStar, errorLog);
-                case 2:
-                    state = 0;
-                    return Zanimo($documentation)
+            if(state) {
+                state = false;
+                return Zanimo($documentation)
                             .then(close)
                             .then(Zanimo.f($star))
                             .then(upStar, errorLog);
-                default:
-                    return Q.resolve();
+            }
+            else {
+                state = true;
+                return Zanimo($documentation)
+                            .then(open)
+                            .then(hide)
+                            .then(Zanimo.f($star))
+                            .then(downStar, errorLog);
             }
         },
         activeAreaAction = function (evt) {

@@ -13,9 +13,7 @@
         runner.init();
         editor.init();
 
-        curtain.animate()
-            .then(curtain.animate)
-            .then(curtain.bind);
+        curtain.animate().then(curtain.bind);
     };
 
     window.onerror = function (err) { alert(err); };
