@@ -1,7 +1,6 @@
 # Zanimo.js - Promise based CSS3 transitions
 
-Allows chaining of transitions in a promise based way.
-It depends on Kris Kowal's [Q.js library](https://github.com/kriskowal/q).
+Allows chaining of transitions in a promise based way using Kris Kowal's [Q.js library](https://github.com/kriskowal/q).
 
 Zanimo.js is licensed under the terms of the MIT License.
 
@@ -30,13 +29,13 @@ To run tests in your shell, you need [phantomjs](http://code.google.com/p/phanto
 $ make test
 ~~~
 
-Or open [test/index.html](http://peutetre.github.com/Zanimo/test/index.html) in a web browser to run the tests.
+Or open [test/index.html](http://peutetre.github.com/Zanimo/test/index.html) in a web browser.
 
 ## API
 
 ### Zanimo(elt|promise[elt]) ➜  promise[elt]
 
-Take a DOM element or a promise of a DOM element and returns a promise of the given element.
+Takes a DOM element or a promise of a DOM element and returns a promise of the given element.
 
 ~~~ javascript
 Zanimo(myDomElement).then(function (elt) {
@@ -48,7 +47,7 @@ Zanimo(myDomElement).then(function (elt) {
 
 ### Zanimo.f(elt|promise[elt]) ➜  ( function(elt) ➜  promise[elt] )
 
-Usefull for changing a given DOM element along a promises chain.
+Useful for changing a given DOM element along a promises chain.
 
 ~~~ javascript
 var anim200pxLeft = Zanimo.transitionf("transform", "translate(200px, 0)", 200);
@@ -61,7 +60,7 @@ Zanimo(myDomElement)
 
 ### Zanimo.transition(elt, property, value, duration, [timingFunction])  ➜  promise[elt]
 
-Start a transition on the given DOM element and returns a promise.
+Starts a transition on the given DOM element and returns a promise.
 
 ~~~ javascript
 Zanimo
@@ -74,7 +73,7 @@ Zanimo
 
 ### Zanimo.transitionf(property, value, duration, [timingFunction])  ➜  ( function(elt) ➜  promise[elt] )
 
-Encapsulate `Zanimo.transition()` in a function. Usefull to define reusable transitions.
+Encapsulates `Zanimo.transition()` in a function. Useful to define reusable transitions.
 
 ~~~ javascript
 var widthTransition = Zanimo.transitionf("width", "200px", 200, "ease-in"),
@@ -87,7 +86,7 @@ Zanimo(myDomElement)
 
 ### Zanimo.transform(elt, value, [overwrite])  ➜  promise[elt]
 
-Apply a css transform on the given DOM element.
+Applies a css transform on the given DOM element.
 
 ~~~ javascript
 Zanimo
@@ -97,7 +96,7 @@ Zanimo
 
 ### Zanimo.transformf(value, [overwrite])  ➜  ( function(elt) ➜  promise[elt] )
 
-Encapsulate `Zanimo.transform()` in a function. Usefull for chaining.
+Encapsulates `Zanimo.transform()` in a function. Useful for chaining.
 
 ~~~ javascript
 Zanimo(myDomElt).then(Zanimo.transformf("scale(2)", true));
@@ -105,7 +104,7 @@ Zanimo(myDomElt).then(Zanimo.transformf("scale(2)", true));
 
 ### Zanimo.all(array[function(elt) ➜  promise[elt]])  ➜  (function(elt) ➜  promise[elt])
 
-Helper to execute multiple transitions in the same step
+Helps executing multiple transitions in the same step.
 
 ~~~ javascript
 var anim1 = Zanimo.transitionf("opacity", 0.5, 200),
