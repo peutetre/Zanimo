@@ -35,6 +35,9 @@ body, html
 a
     color rgb(82, 122, 160)
 
+a:hover
+    background #75ACDF
+
 .anim-screen
     position absolute
     left 0
@@ -83,14 +86,29 @@ a
                 font-weight: bold;
                 border: 1px solid rgb(117, 172, 223);
                 text-decoration none
+                text-shadow: 0 -1px 2px rgba(0, 0, 0, 0.24);
+                -moz-text-shadow: 0 -1px 2px rgba(0, 0, 0, 0.24);
+                -ms-text-shadow: 0 -1px 2px rgba(0, 0, 0, 0.24);
+            a.download:hover
+                background #75ACDF
             p
-                margin:5px 10px
+                margin:5px 10px 5px 20px
                 font-family: 'Roboto', sans-serif;
                 font-size 14px
                 color rgb(86, 89, 97)
             p.description
-                font-size:16px;
-                margin 10px
+                font-size: 25px;
+                background: #76BDFF;
+                margin: 0;
+                padding: 10px;
+                border-bottom: 1px solid #9EA5AC;
+                border-top: 1px solid #75ACDF;
+                color: white;
+                -moz-text-shadow: 0 -1px 2px rgba(0, 0, 0, 0.24);
+                -ms-text-shadow: 0 -1px 2px rgba(0, 0, 0, 0.24);
+                text-shadow: 0 -1px 2px rgba(0, 0, 0, 0.24);
+                a
+                    color white
             ul
                 margin: 0 0 5px 30px;
                 list-style: disc;
@@ -110,8 +128,11 @@ a
                 margin:15px 10px 10px 10px;
                 font-family Anaheim, sans-serif;
                 text-shadow: 1px 1px 2px rgb(209, 209, 209);
+                border-bottom: 1px solid rgba(118, 189, 255, 0.45)
+                padding 10px 5px
             h3.building
                 display:inline-block;
+                border-bottom:none;
             h2
                 color: rgb(53, 71, 87);
                 font-weight: bold;
@@ -121,13 +142,14 @@ a
                 font-size: 40px;
             pre
                 font-family: "Monaco", sans-serif;
-                margin: 0 10px 0 10px;
-                padding: 0;
+                margin: 0 10px 0 20px;
+                padding: 5px;
                 overflow: scroll;
                 overflow-y: hidden;
                 color: #354757;
                 font-weight: bold;
                 font-size: 13px;
+                background: rgba(255,255,255,0.8);
             p.about
                 float right
                 position relative
