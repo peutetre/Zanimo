@@ -26,10 +26,7 @@
         upStar = Zanimo.transitionf("transform", "translate3d(0,0,0)", 200, "ease-in-out"),
         errorLog = function (err) { new Error(err.message); },
         resize = function () {
-            if(state)
-                Zanimo($documentation).then(hide).done(empty, empty);
-            else
-                Zanimo($documentation).then(open).done(empty, empty);
+            if(state) Zanimo($documentation).then(hide).done(empty, empty);
         },
         animate = function () {
             if(state) {
