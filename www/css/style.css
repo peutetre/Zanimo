@@ -141,6 +141,9 @@ a:hover {
   display: inline-block;
   border-bottom: none;
 }
+.documentation section.content div.doc-content h3.normal {
+  border-bottom: none;
+}
 .documentation section.content div.doc-content h2 {
   color: #354757;
   font-weight: bold;
