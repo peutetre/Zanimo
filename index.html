@@ -347,39 +347,81 @@ return Zanimo(start(cube))
 
 </script>
 
-<script data-example-id="example 3" type="text/tmpl">/*
- * - The Zanimo script editor -
- *
- * A Zanimo script is the body of a function returning a promise and taking 2 arguments,
- * which are helper functions provided by the animation runner: create and start.
- *
- * [Optional] create: Helper to create DIV elements, takes an array of css attributes in camel case
- * and returns a array of elements with the according style.
- *
- * [Mandatory] start: start the animation, takes a DOM element and returns a promise of the element.
- *
- * A tiny example:
- *
- * var cube = create([{ display:"none", left:"50px", top:"50px"}])[0],
- *     show = function (el) { el.style.display="block"; return el;}
- *     animate200pxToRight = Zanimo.transitionf("transform", "translate3d(200px,0,0)", 1000, "ease-in-out");
- *
- * return Zanimo(start(cube)).then(show).then(animate200pxToRight);
+<script data-example-id="rotations" type="text/tmpl">/*
+ * rotations
  */
-
-var circle = create([{
-        display : "none",
-        left : "200px",
-        top : "200px",
-        borderRadius : "100px"
-    }])[0],
+var circles = create([{
+    	borderRadius:"100px",
+   		height:"100px",
+    	width:"100px",
+        border:"50px dashed #F33E6F",
+    	backgroundClip:"content-box",
+    	backgroundColor:"transparent",
+    	background:"none",
+    	display:"none",
+    	top:"250px",
+    	left:"250px",
+    	zIndex:10001
+	},{
+    	borderRadius:"200px",
+   		height:"200px",
+    	width:"200px",
+        border:"50px dashed #FDB45C",
+    	backgroundClip:"content-box",
+        backgroundColor:"transparent",
+    	background:"none",
+        display:"none",
+        top:"200px",
+    	left:"200px",
+        zIndex:10000
+	},{
+    	borderRadius:"300px",
+   		height:"300px",
+    	width:"300px",
+        border:"50px dashed #DF8686",
+    	backgroundClip:"content-box",
+        backgroundColor:"transparent",
+    	background:"none",
+        display:"none",
+        top:"150px",
+    	left:"150px",
+        zIndex:9999
+	}]),
+    // helper functions
     show = function (el) { el.style.display="block"; return el; },
-    animWitdh = Zanimo.transitionf("width", "700px", 1000, "ease-in-out"),
-    animHeight = Zanimo.transitionf("height", "200px", 500, "ease-in-out");
+    hide = function (el) { el.style.display="hide"; return el; },
+    id = function (i) { console.log(i); return i; },
+    err = function (err) {console.log(err); throw err;},
+    // animations
+    rotate1 = Zanimo.transitionf("transform", "rotate(1230deg)", 4500, "ease-in-out"),
+    rotate2 = Zanimo.transitionf("transform", "rotate(-1230deg)", 4300, "ease-in-out"),
+    rotate3 = Zanimo.transitionf("transform", "rotate(230deg)", 4500, "ease-in-out"),
+    color1 = Zanimo.transitionf("border", "50px dashed rgb(12,34,45)", 4000, "ease-in-out"),
+    color2 = Zanimo.transitionf("border", "50px dashed rgb(135,214,234)", 4300, "ease-in-out"),
+    color3 = Zanimo.transitionf("border", "50px dashed rgb(253,180,92)", 4100, "ease-in-out");
 
-return Zanimo(start(circle))
-        .then(show)
-        .then(Zanimo.all([animWitdh, animHeight]));
+return start().then(function () {
+	return Q.all([
+        Zanimo(circles[0])
+        	.then(show)
+        	.then(Zanimo.all([rotate1, color1]))
+        	.then(Zanimo.all([rotate2, color2]))
+        	.then(Zanimo.all([rotate3, color3]))
+            .then(hide),
+        Zanimo(circles[1])
+        	.then(show)
+        	.then(Zanimo.all([rotate3, color3]))
+        	.then(Zanimo.all([rotate1, color1]))
+        	.then(Zanimo.all([rotate2, color2]))
+        	.then(hide),
+        Zanimo(circles[2])
+        	.then(show)
+        	.then(Zanimo.all([rotate2, color2]))
+        	.then(Zanimo.all([rotate3, color3]))
+        	.then(Zanimo.all([rotate1, color1]))
+        	.then(hide)
+    ]);
+});
 </script>
 
         <script src="www/vendor/q-0.9.1.min.js"></script>
