@@ -98,7 +98,7 @@ var Zanimo = (function () {
             // normalize a css transformation string like
             // "translate(340px, 0px, 230px) rotate(340deg )"
             // -> "translate(340px,0,230px) rotate(340deg)"
-            normTransform : _normTransform
+            normValue : _normValue
         };
     })(window.document),
 
@@ -151,7 +151,7 @@ var Zanimo = (function () {
                 if (clear) { delete domElt._zanimo[attr]; }
             },
             cbTransitionend = function (evt) {
-                if(evt.propertyName === T.norm(attr)) {
+                if(T.norm(evt.propertyName) === T.norm(T.prefix(attr))) {
                     cb(true); d.resolve(domElt);
                 }
             };
