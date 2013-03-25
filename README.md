@@ -113,3 +113,7 @@ Zanimo(myDomElement)
     .then(Zanimo.f(myOtherDomElement))
     .then(anim200pxLeft)
 ~~~
+
+## Credits
+
+[@bobylito](http://bobylito.me/) who came up with the name `Zanimo`.
