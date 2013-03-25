@@ -75,14 +75,18 @@
         runner.clean();
         return Zanimo.transition($animScreen, "opacity", 0, 200)
                      .then(runner.hideScreen, runner.hideScreen)
-                     .then(function () { running = false; });
+                     .then(function () { return Q.delay(200).then(function () {
+                        running = false;
+                     })});
     };
 
-    runner.fail = function () {
+    runner.fail = function (err) {
         runner.clean();
         return Zanimo.transition($animScreen, "opacity", 0, 200)
                      .then(runner.hideScreen, runner.hideScreen)
-                     .then(function() { running = false; alert(err); });
+                     .then(function () { return Q.delay(200).then(function () {
+                        running = false;
+                     })});
     };
 
 }(window.Runner = {}));
