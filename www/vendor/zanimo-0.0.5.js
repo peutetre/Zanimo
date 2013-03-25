@@ -43,12 +43,10 @@ var Zanimo = (function () {
             },
             _prefixed = { "transform": "" },
             _normReplacef = function(m, g) { return g.toUpperCase(); },
-            _normTransf = function (match) {
-                var args = match.substr(1, match.length-2).split(","),
-                    rst = [];
+            _normCSSVal = function (match) {
+                var args = match.substr(1, match.length-2).split(","), rst = [];
                 args.forEach(function (arg) {
-                    rst.push(arg.replace(_space, _emptyString)
-                                .replace(_zeropixel, _zero));
+                    rst.push(arg.replace(_space, _emptyString).replace(_zeropixel, _zero));
                 });
                 return "(" + rst.join(",") + ")";
             },
@@ -56,9 +54,9 @@ var Zanimo = (function () {
                 var property = p[0] === "-" ? p.substr(1, p.length-1) : p;
                 return property.replace(_normRegex, _normReplacef);
             },
-            _normTransform = function (val) {
-                return isNaN(val) ?
-                    val.replace(_matchParenthesis, _normTransf) : "" + val;
+            _normValue = function (val) {
+                if (val === null || val === undefined) return "";
+                return isNaN(val) ? val.replace(_matchParenthesis, _normCSSVal) : val.toString();
             };
 
             // detect transition feature
@@ -73,9 +71,9 @@ var Zanimo = (function () {
             _transition = _prefix ? _prefix + "-" + _transition : _transition
             _transition = _norm(_transition);
             _dummy = doc.createElement("div");
-            _dummyTransition = _normTransform(_dummyTransition);
+            _dummyTransition = _normValue(_dummyTransition);
             _dummy.style[_transition] = _dummyTransition;
-            _dummy = _normTransform(_dummy.style[_transition]);
+            _dummy = _normValue(_dummy.style[_transition]);
 
             if (_dummy === _dummyTransition) {
                 _repr = function (v, d, t) {
@@ -98,7 +96,7 @@ var Zanimo = (function () {
             // normalize a css transformation string like
             // "translate(340px, 0px, 230px) rotate(340deg )"
             // -> "translate(340px,0,230px) rotate(340deg)"
-            normTransform : _normTransform
+            normValue : _normValue
         };
     })(window.document),
 
@@ -151,7 +149,7 @@ var Zanimo = (function () {
                 if (clear) { delete domElt._zanimo[attr]; }
             },
             cbTransitionend = function (evt) {
-                if(evt.propertyName === T.norm(attr)) {
+                if(T.norm(evt.propertyName) === T.norm(T.prefix(attr))) {
                     cb(true); d.resolve(domElt);
                 }
             };
@@ -171,8 +169,8 @@ var Zanimo = (function () {
             add(domElt, attr, value, duration, timing);
             timeout = setTimeout(function () {
                 var rawVal = domElt.style.getPropertyValue(T.prefix(attr)),
-                    domVal = T.normTransform(rawVal),
-                    givenVal = T.normTransform(value);
+                    domVal = T.normValue(rawVal),
+                    givenVal = T.normValue(value);
 
                 cb(true);
                 if (domVal === givenVal) { d.resolve(domElt); }
@@ -261,8 +259,12 @@ var Zanimo = (function () {
      */
     Z.all = function (flist) {
         return function (el) {
-            return Q.all(flist.map(function (f) { return f(el); }))
-                    .then(function (e) { return el; }, function (err) { throw err; });
+            return Q.allResolved(flist.map(function (f) { return f(el); }))
+                    .then(function (plist) {
+                        var rejected = plist.filter(function (p) { return Q.isRejected(p); });
+                        if(rejected.length) return Q.reject(rejected);
+                        else return el;
+                    });
         }
     };
 
