@@ -90,20 +90,9 @@ Zanimo(myDomElement).then(function (elt) {
 });
 </pre>
 
-                    <h3>Zanimo.f(elt | promise[elt]) ➜  function(elt) ➜  promise[elt]</h3>
-                    <p>Useful for changing a given DOM element in a promises chain.</p>
-
-<pre>
-var anim200pxLeft = Zanimo.transitionf("transform", "translate(200px, 0)", 200);
-
-Zanimo(myDomElement)
-    .then(anim200pxLeft)
-    .then(Zanimo.f(myOtherDomElement))
-    .then(anim200pxLeft)
-</pre>
-
                     <h3>Zanimo.transition(elt, property, value, duration, [timingFunction])  ➜  promise[elt]</h3>
-                    <p>Starts a transition on the given DOM element and returns a promise.</p>
+                    <p>Starts a transition on the given DOM element and returns a promise.
+                       For now Zanimo does not support hexadecimal color notation or 0px (just use 0) in the value argument.</p>
 
 <pre>
 Zanimo
@@ -150,6 +139,17 @@ var anim1 = Zanimo.transitionf("opacity", 0.5, 200),
     anim2 = Zanimo.transitionf("width", "400px", 400);
 
 Zanimo(myDomElt).then(Zanimo.all([anim1, anim2]));
+</pre>
+                    <h3>Zanimo.f(elt | promise[elt]) ➜  function(elt) ➜  promise[elt]</h3>
+                    <p>Useful for changing a given DOM element in a promises chain.</p>
+
+<pre>
+var anim200pxLeft = Zanimo.transitionf("transform", "translate(200px, 0)", 200);
+
+Zanimo(myDomElement)
+    .then(anim200pxLeft)
+    .then(Zanimo.f(myOtherDomElement))
+    .then(anim200pxLeft)
 </pre>
 
                     <p class="about">by <a href="http://twitter.com/42loops">@42loops</a></p>
