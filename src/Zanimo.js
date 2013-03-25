@@ -43,12 +43,10 @@ var Zanimo = (function () {
             },
             _prefixed = { "transform": "" },
             _normReplacef = function(m, g) { return g.toUpperCase(); },
-            _normTransf = function (match) {
-                var args = match.substr(1, match.length-2).split(","),
-                    rst = [];
+            _normCSSVal = function (match) {
+                var args = match.substr(1, match.length-2).split(","), rst = [];
                 args.forEach(function (arg) {
-                    rst.push(arg.replace(_space, _emptyString)
-                                .replace(_zeropixel, _zero));
+                    rst.push(arg.replace(_space, _emptyString).replace(_zeropixel, _zero));
                 });
                 return "(" + rst.join(",") + ")";
             },
@@ -56,9 +54,9 @@ var Zanimo = (function () {
                 var property = p[0] === "-" ? p.substr(1, p.length-1) : p;
                 return property.replace(_normRegex, _normReplacef);
             },
-            _normTransform = function (val) {
-                return isNaN(val) ?
-                    val.replace(_matchParenthesis, _normTransf) : "" + val;
+            _normValue = function (val) {
+                if (val === null || val === undefined) return "";
+                return isNaN(val) ? val.replace(_matchParenthesis, _normCSSVal) : val.toString();
             };
 
             // detect transition feature
@@ -73,9 +71,9 @@ var Zanimo = (function () {
             _transition = _prefix ? _prefix + "-" + _transition : _transition
             _transition = _norm(_transition);
             _dummy = doc.createElement("div");
-            _dummyTransition = _normTransform(_dummyTransition);
+            _dummyTransition = _normValue(_dummyTransition);
             _dummy.style[_transition] = _dummyTransition;
-            _dummy = _normTransform(_dummy.style[_transition]);
+            _dummy = _normValue(_dummy.style[_transition]);
 
             if (_dummy === _dummyTransition) {
                 _repr = function (v, d, t) {
@@ -171,8 +169,8 @@ var Zanimo = (function () {
             add(domElt, attr, value, duration, timing);
             timeout = setTimeout(function () {
                 var rawVal = domElt.style.getPropertyValue(T.prefix(attr)),
-                    domVal = T.normTransform(rawVal),
-                    givenVal = T.normTransform(value);
+                    domVal = T.normValue(rawVal),
+                    givenVal = T.normValue(value);
 
                 cb(true);
                 if (domVal === givenVal) { d.resolve(domElt); }

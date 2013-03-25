@@ -357,14 +357,14 @@ Specs.test(
                 .then(Zanimo.transformf("translate(0, 200px)", true))
                 .then(function (elt) {
                     var d = Q.defer();
-                    if (Zanimo._T.normTransform(elt.style[Zanimo._T.transform])
-                        === Zanimo._T.normTransform("translate(0, 200px)")) {
+                    if (Zanimo._T.normValue(elt.style[Zanimo._T.transform])
+                        === Zanimo._T.normValue("translate(0, 200px)")) {
                         d.resolve(elt);
                     }
                     else {
                         d.reject(new Error("Fail: "
-                            + Zanimo._T.normTransform(elt.style[Zanimo._T.transform])
-                            + " " + Zanimo._T.normTransform("translate(200px, 0)")
+                            + Zanimo._T.normValue(elt.style[Zanimo._T.transform])
+                            + " " + Zanimo._T.normValue("translate(200px, 0)")
                         ));
                     }
                     return d.promise;
@@ -389,14 +389,14 @@ Specs.test(
                 .then(Zanimo.transformf("translate(0, 200px)"))
                 .then(function (elt) {
                     var d = Q.defer();
-                    if (Zanimo._T.normTransform(elt.style[Zanimo._T.transform])
-                        === Zanimo._T.normTransform("translate(200px, 0) translate(0, 200px)")) {
+                    if (Zanimo._T.normValue(elt.style[Zanimo._T.transform])
+                        === Zanimo._T.normValue("translate(200px, 0) translate(0, 200px)")) {
                         d.resolve(elt);
                     }
                     else {
                         d.reject(new Error("Fail: "
-                            + Zanimo._T.normTransform(elt.style[Zanimo._T.transform])
-                            + " " + Zanimo._T.normTransform("translate(200px, 0) translate(200px, 0)")
+                            + Zanimo._T.normValue(elt.style[Zanimo._T.transform])
+                            + " " + Zanimo._T.normValue("translate(200px, 0) translate(200px, 0)")
                         ));
                     }
                     return d.promise;
