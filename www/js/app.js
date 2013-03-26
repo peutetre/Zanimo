@@ -8,7 +8,7 @@
 
     // fix layout when no CSS calc() support available
     function fixCSSCalc() {
-        var dummy = document.createElement(),
+        var dummy = document.createElement("div"),
             calc = null;
 
         ["", "-webkit-", "-moz-", "-ms-"].forEach(function (prefix) {
