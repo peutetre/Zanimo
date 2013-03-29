@@ -6,11 +6,16 @@
     "ignore" : [
         "index.html",
         "bin/*",
+        "bin",
         "Makefile",
         "src/*",
+        "src",
         "test/*",
+        "test",
         "vendor/*",
-        "www/*"
+        "vendor",
+        "www/*",
+        "www"
     ],
     "dependencies" : {
         "q" : "~0.9.2"
