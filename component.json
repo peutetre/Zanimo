@@ -3,6 +3,15 @@
     "version" : "0.0.5",
     "readme" : "README.md",
     "main" : "./dist/zanimo-0.0.5.js",
+    "ignore" : [
+        "index.html",
+        "bin/*",
+        "Makefile",
+        "src/*",
+        "test/*",
+        "vendor/*",
+        "www/*"
+    ]
     "dependencies" : {
         "q" : "~0.9.2"
     }
