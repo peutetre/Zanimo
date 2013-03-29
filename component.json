@@ -4,6 +4,8 @@
     "readme" : "README.md",
     "main" : "./dist/zanimo-0.0.5.js",
     "ignore" : [
+        ".travis.yml",
+        ".gitignore",
         "index.html",
         "bin/*",
         "bin",
