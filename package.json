@@ -4,6 +4,7 @@
     "description" : "animation library wrapping css3 transitions with promises",
     "homepage" : "http://peutetre.github.com/Zanimo/",
     "author" : "Paul Panserrieu <paul@42loops.com> (https://github.com/peutetre)",
+    "readme" : "README.md",
     "keywords" : [
         "q",
         "css3",
@@ -25,7 +26,7 @@
             "url" : "https://github.com/peutetre/Zanimo/blob/master/MIT-LICENSE"
         }
     ],
-    "main" : "dist/zanimo-0.0.5.js",
+    "main" : "./dist/zanimo-0.0.5.js",
     "repository" : {
         "type" : "git",
         "url" : "git@github.com:peutetre/Zanimo.git"
