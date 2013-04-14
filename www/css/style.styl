@@ -266,7 +266,6 @@ a:hover
                 background: transparent;
                 text-overflow ellipsis
 
-
     .CodeMirror
         -webkit-user-select : none;
         position absolute
@@ -279,3 +278,22 @@ a:hover
         height: unquote('calc(100% - 80px)');
         border-top: 1px solid rgb(218, 218, 218);
         background:rgb(253, 253, 253);
+
+textarea
+    position absolute
+    background #fff
+    top 80px
+    width 100%
+    -webkit-appearance none
+    border-radius 0
+    font-size 16px
+    height: unquote('-webkit-calc(100% - 80px)');
+    height: unquote('-moz-calc(100% - 80px)');
+    height: unquote('-ms-calc(100% - 80px)');
+    height: unquote('calc(100% - 80px)');
+    border none
+    border-top: 1px solid rgb(218, 218, 218);
+    padding 10px
+    overflow: auto;
+    -webkit-overflow-scrolling : touch;
+

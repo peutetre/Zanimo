@@ -17,7 +17,19 @@
         $githubBtn,
         $star,
         toWhite = Zanimo.transitionf("color", "#F0F1F3", 100),
-        toGreen = Zanimo.transitionf("color", "green", 100);
+        toGreen = Zanimo.transitionf("color", "green", 100),
+        isMobile = /WebKit.*Mobile.*|Android/.test(navigator.userAgent),
+        codeMirror = CodeMirror || {};
+
+    if (isMobile) {
+        var cm = { el : null };
+        codeMirror = {};
+        codeMirror.fromTextArea = function (el, options) {
+            cm.el = el; return cm;
+        };
+        cm.getValue = function () { return cm.el.value; };
+        cm.setValue = function (code) { cm.el.value = code; };
+    }
 
     editor.init = function () {
         $hidden = $("#hidden-a");
@@ -29,7 +41,7 @@
         $githubBtn = $("button.icon-github-alt", $editor);
         $star = $(".chip span");
 
-        _editor = CodeMirror.fromTextArea($("textarea", $editor), {
+        _editor = codeMirror.fromTextArea($("textarea", $editor), {
             lineNumbers: true,
             matchBrackets: true,
             indentUnit: 4,

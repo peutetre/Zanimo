@@ -26,7 +26,7 @@
                 var h = window.innerHeight;
                 $doc.style.height = (h - 30) + "px";
                 $content.style.height = (h - 65) + "px";
-                $editor.style.height = (h - 80) + "px";
+                if($editor) $editor.style.height = (h - 80) + "px";
             };
         if(!isTouchable) window.addEventListener("resize", fixLayout);
         window.addEventListener("orientationchange", fixLayout);

@@ -300,3 +300,21 @@ a:hover {
   border-top: 1px solid #dadada;
   background: #fdfdfd;
 }
+textarea {
+  position: absolute;
+  background: #fff;
+  top: 80px;
+  width: 100%;
+  -webkit-appearance: none;
+  border-radius: 0;
+  font-size: 16px;
+  height: -webkit-calc(100% - 80px);
+  height: -moz-calc(100% - 80px);
+  height: -ms-calc(100% - 80px);
+  height: calc(100% - 80px);
+  border: none;
+  border-top: 1px solid #dadada;
+  padding: 10px;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+}
