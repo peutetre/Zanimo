@@ -121,7 +121,7 @@
 
     editor.onGithub = function (evt) {
         $hidden.focus();
-        if(confirm("Visit on Github?")) location = "http://github.com/peutetre/Zanimo";
+        if(confirm("Visit on Github?")) window.open("http://github.com/peutetre/Zanimo");
     };
 
     editor.onSelect = function (evt) {
