@@ -1,4 +1,5 @@
 CACHE MANIFEST
+# 001
 
 CACHE:
 http://peutetre.github.io/Zanimo/
@@ -24,8 +25,6 @@ http://peutetre.github.io/Zanimo/www/css/fonts/roboto.woff
 http://peutetre.github.io/Zanimo/www/css/fonts/anaheim.woff
 http://peutetre.github.io/Zanimo/www/css/fonts/molle.woff
 http://peutetre.github.io/Zanimo/www/vendor/font-awesome/font/fontawesome-webfont.woff?v=3.0.1
-http://www.google-analytics.com/ga.js
-http://www.google-analytics.com/__utm.gif?utmwv=5.4.1&utms=1&utmn=1580948749&utmhn=peutetre.github.io&utmcs=UTF-8&utmsr=1440x900&utmvp=1440x442&utmsc=24-bit&utmul=en-us&utmje=1&utmfl=11.7%20r700&utmdt=Zanimo.js&utmhid=1490800468&utmr=-&utmp=%2FZanimo%2F&utmht=1366115321729&utmac=UA-15362034-1&utmcc=__utma%3D213107093.600648166.1365583077.1366060233.1366115322.11%3B%2B__utmz%3D213107093.1365583077.1.1.utmcsr%3D(direct)%7Cutmccn%3D(direct)%7Cutmcmd%3D(none)%3B&utmu=q~
 
 NETWORK:
 *
