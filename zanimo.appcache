@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# 001
+# 002
 
 CACHE:
 http://peutetre.github.io/Zanimo/
@@ -7,7 +7,6 @@ http://peutetre.github.io/Zanimo/www/css/reset.css
 http://peutetre.github.io/Zanimo/www/vendor/codemirror/codemirror.css
 http://peutetre.github.io/Zanimo/www/vendor/font-awesome/css/font-awesome.css
 http://peutetre.github.io/Zanimo/www/css/style.css
-https://api.travis-ci.org/peutetre/Zanimo.png?branch=master
 http://peutetre.github.io/Zanimo/vendor/q-0.9.1.min.js
 http://peutetre.github.io/Zanimo/dist/zanimo-0.0.5.min.js
 http://peutetre.github.io/Zanimo/www/vendor/codemirror/codemirror.js
