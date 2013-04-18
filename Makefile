@@ -21,4 +21,7 @@ clean:
 	@@rm ${BUILDDIR}/${ZANIMO}-${VERSION}.min.js
 	@@rm ${BUILDDIR}/${ZANIMO}-${VERSION}.js
 
+install: build www
+	rsync -a --exclude='.git' . root@${host}:${path}
+
 .PHONY: test www
