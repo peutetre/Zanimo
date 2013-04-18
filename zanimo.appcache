@@ -1,29 +1,29 @@
 CACHE MANIFEST
-# 002
+# 003
 
 CACHE:
-http://peutetre.github.io/Zanimo/
-http://peutetre.github.io/Zanimo/www/css/reset.css
-http://peutetre.github.io/Zanimo/www/vendor/codemirror/codemirror.css
-http://peutetre.github.io/Zanimo/www/vendor/font-awesome/css/font-awesome.css
-http://peutetre.github.io/Zanimo/www/css/style.css
-http://peutetre.github.io/Zanimo/vendor/q-0.9.1.min.js
-http://peutetre.github.io/Zanimo/dist/zanimo-0.0.5.min.js
-http://peutetre.github.io/Zanimo/www/vendor/codemirror/codemirror.js
-http://peutetre.github.io/Zanimo/www/vendor/codemirror/matchbrackets.js
-http://peutetre.github.io/Zanimo/www/vendor/codemirror/continuecomment.js
-http://peutetre.github.io/Zanimo/www/vendor/codemirror/javascript.js
-http://peutetre.github.io/Zanimo/www/js/$.js
-http://peutetre.github.io/Zanimo/www/js/curtain.js
-http://peutetre.github.io/Zanimo/www/js/store.js
-http://peutetre.github.io/Zanimo/www/js/runner.js
-http://peutetre.github.io/Zanimo/www/js/editor.js
-http://peutetre.github.io/Zanimo/www/js/app.js
-http://peutetre.github.io/Zanimo/www/images/arrow@2x.png
-http://peutetre.github.io/Zanimo/www/css/fonts/roboto.woff
-http://peutetre.github.io/Zanimo/www/css/fonts/anaheim.woff
-http://peutetre.github.io/Zanimo/www/css/fonts/molle.woff
-http://peutetre.github.io/Zanimo/www/vendor/font-awesome/font/fontawesome-webfont.woff?v=3.0.1
+/
+/www/css/reset.css
+/www/vendor/codemirror/codemirror.css
+/www/vendor/font-awesome/css/font-awesome.css
+/www/css/style.css
+/vendor/q-0.9.1.min.js
+/dist/zanimo-0.0.5.min.js
+/www/vendor/codemirror/codemirror.js
+/www/vendor/codemirror/matchbrackets.js
+/www/vendor/codemirror/continuecomment.js
+/www/vendor/codemirror/javascript.js
+/www/js/$.js
+/www/js/curtain.js
+/www/js/store.js
+/www/js/runner.js
+/www/js/editor.js
+/www/js/app.js
+/www/images/arrow@2x.png
+/www/css/fonts/roboto.woff
+/www/css/fonts/anaheim.woff
+/www/css/fonts/molle.woff
+/www/vendor/font-awesome/font/fontawesome-webfont.woff?v=3.0.1
 
 NETWORK:
 *
