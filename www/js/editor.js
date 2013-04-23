@@ -15,6 +15,7 @@
         $saveBtn,
         $trashBtn,
         $githubBtn,
+        $shareBtn,
         $star,
         toWhite = Zanimo.transitionf("color", "#F0F1F3", 100),
         toGreen = Zanimo.transitionf("color", "green", 100),
@@ -39,6 +40,7 @@
         $saveBtn = $("button.icon-save", $editor);
         $trashBtn = $("button.icon-trash", $editor);
         $githubBtn = $("button.icon-github-alt", $editor);
+        $shareBtn = $("button.icon-share", $editor);
         $star = $(".chip span");
 
         _editor = codeMirror.fromTextArea($("textarea", $editor), {
@@ -59,6 +61,7 @@
         $saveBtn.addEventListener(isTouchable ? "touchstart" : "click", editor.onSave);
         $trashBtn.addEventListener(isTouchable ? "touchstart" : "click", editor.onTrash);
         $githubBtn.addEventListener(isTouchable ? "touchstart" : "click", editor.onGithub);
+        $shareBtn.addEventListener(isTouchable ? "touchstart" : "click", editor.onShare);
         $select.addEventListener("change", editor.onSelect);
         window.document.addEventListener("keydown", editor.onKeydown);
     };
@@ -87,6 +90,13 @@
         } catch(err) {
             alert(err);
         }
+    };
+
+    editor.onShare = function (evt) {
+        var url = encodeURIComponent('http://zanimo.us/#runner/' + currentScript + "/" +  window.btoa(editor.getValue())),
+            text = encodeURIComponent("a zanimo.js animation: " + currentScript),
+            shareUrl = 'https://twitter.com/intent/tweet?original_referer=http%3A%2F%2Fzanimo.us&text=' + text + '&tw_p=tweetbutton&url=' + url;
+        window.open(shareUrl);
     };
 
     editor.onSave = function (evt) {
@@ -124,6 +134,24 @@
         if(confirm("Visit on Github?")) window.open("http://github.com/peutetre/Zanimo");
     };
 
+    editor.add = function (name, code) {
+        if (store.save(name, code)) {
+            _editor.setValue(code);
+            editor.populateSelect(name, store);
+            $select.value = name;
+            currentScript = name;
+            return true;
+        }
+        else {
+            $select.value = currentScript;
+            alert("Can't overwrite example script!");
+            setTimeout(function () {
+                $select.value = currentScript;
+            },10);
+            return false;
+        }
+    };
+
     editor.onSelect = function (evt) {
         $hidden.focus();
 
@@ -131,20 +159,8 @@
             var name = window.prompt("Script name:", "my-test"),
                 trimedName = "";
             if (name && name.length > 0 && name.trim() !== "New") {
-                trimedName = name.trim();
-                if (store.save(trimedName, EMPTY_SCRIPT)) {
-                    _editor.setValue(EMPTY_SCRIPT);
-                    editor.populateSelect(trimedName, store);
-                    $select.value = trimedName;
-                    currentScript = trimedName;
-                }
-                else {
-                    $select.value = currentScript;
-                    alert("Can't overwrite example script!");
-                    setTimeout(function () {
-                        $select.value = currentScript;
-                    },10);
-                }
+                trimedName = name.trim().replace(/ /g, '-');
+                editor.add(trimedName, EMPTY_SCRIPT);
             }
             else if (name == null) {
                 $select.value = currentScript;
@@ -202,17 +218,5 @@
     editor.loadExample = function (name) { _editor.setValue(store.get(name)); };
 
     editor.getValue = function () { return _editor.getValue(); };
-
-    editor.load = function (name) {
-        if(!store.hasScript(name)) return false;
-        editor.loadExample(name);
-        $select.value = name;
-        currentScript = name;
-        return true;
-    };
-
-    editor.loadFirstExample = function () {
-        editor.load(store.head());
-    };
 
 }(window.Editor = {}, window.Store, window.Runner));

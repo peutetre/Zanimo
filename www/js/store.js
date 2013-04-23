@@ -70,8 +70,4 @@
         return store.getList()[0];
     };
 
-    store.hasScript = function (name) {
-        return store.getList().indexOf(name) !== -1;
-    };
-
 }(window.Store = window.Store || {}));

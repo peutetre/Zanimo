@@ -76,7 +76,6 @@
         return Zanimo.transition($animScreen, "opacity", 0, 200)
                      .then(runner.hideScreen, runner.hideScreen)
                      .then(function () { return Q.delay(200).then(function () {
-                        window.location.hash = "";
                         running = false;
                      })});
     };

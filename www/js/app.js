@@ -4,7 +4,7 @@
 
 (function (app, curtain, store, editor, runner) {
 
-    var VERSION = 22;
+    var VERSION = 23;
 
     // fix layout when no CSS calc() support available
     function fixCSSCalc() {
@@ -33,40 +33,31 @@
         fixLayout();
     }
 
-    app.show = function (init) {
+    app.share = function () { editor.onShare(); };
+
+    app.show = function () {
          var hash = window.location.hash.replace(/#/, ''),
-            matchRoute = hash.match(/(\w*)\/?(\w*)?/),
-            match = false;
+            matchRoute = hash.match(/(runner)\/(\w+)\/(\w+)/);
+
         switch ( matchRoute ? matchRoute[1] : "" ) {
             case "runner":
-                if (editor.load(matchRoute[2])) {
+                if (editor.add(matchRoute[2], window.atob(matchRoute[3])))
                     runner.run(editor.getValue());
-                    match = true;
-                }
-                else {
-                    editor.loadFirstExample();
-                }
             default:
-                if (!match) window.location.hash = '';
-                if (init === true) {
-                    Q.when(Q.delay(1000), function () {
-                        curtain.animate().then(curtain.bind)
-                    });
-                }
+                window.location.hash = "";
+                Q.when(Q.delay(1000), function () {
+                    curtain.animate().then(curtain.bind)
+                });
         }
     };
 
     app.init = function () {
-
         curtain.init();
         store.setup(VERSION);
         runner.init();
         editor.init();
-
         fixCSSCalc();
-
-        app.show(true);
-        window.addEventListener("hashchange", app.show);
+        app.show();
     };
 
     window.onerror = function (err) { alert(err); };
