@@ -4,7 +4,7 @@
 
 (function (app, curtain, store, editor, runner) {
 
-    var VERSION = 23;
+    var VERSION = 25;
 
     // fix layout when no CSS calc() support available
     function fixCSSCalc() {
