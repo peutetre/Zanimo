@@ -40,7 +40,7 @@
     };
 
     runner.create = function (definitions) {
-        var el, attr;
+        var el, attr, items = [];
         definitions.forEach(function (def) {
             el = DOM("div");
             el.style.width = "100px";
@@ -52,9 +52,10 @@
                 el.style[attr] = def[attr];
             }
             elements.push(el);
+            items.push(el);
             document.body.appendChild(el);
         });
-        return elements;
+        return items;
     };
 
     runner.start = function (el) {
