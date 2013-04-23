@@ -201,4 +201,18 @@
 
     editor.loadExample = function (name) { _editor.setValue(store.get(name)); };
 
+    editor.getValue = function () { return _editor.getValue(); };
+
+    editor.load = function (name) {
+        if(!store.hasScript(name)) return false;
+        editor.loadExample(name);
+        $select.value = name;
+        currentScript = name;
+        return true;
+    };
+
+    editor.loadFirstExample = function () {
+        editor.load(store.head());
+    };
+
 }(window.Editor = {}, window.Store, window.Runner));
