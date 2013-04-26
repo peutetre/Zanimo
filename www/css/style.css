@@ -257,6 +257,7 @@ a:hover {
   margin: 13px 0 0 10px;
   padding: 0;
   color: #76bdff;
+  cursor: pointer;
 }
 .editor div.toolbar .button.icon-github-alt {
   float: right;
