@@ -159,15 +159,11 @@
             var name = window.prompt("Script name:", "my-test"),
                 trimedName = "";
             if (name && name.length > 0 && name.trim() !== "New") {
-                trimedName = name.trim().replace(/ /g, '-');
+                trimedName = name.trim().replace(/ /g, '_').replace(/-/g, '_');
                 editor.add(trimedName, EMPTY_SCRIPT);
             }
-            else if (name == null) {
-                $select.value = currentScript;
-            }
             else {
-                $select.value = currentScript;
-                alert("Script name is invalid!");
+                if (name != null) alert("Script name is invalid!");
                 setTimeout(function () {
                     $select.value = currentScript;
                 },10);
