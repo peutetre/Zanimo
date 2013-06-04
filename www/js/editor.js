@@ -166,7 +166,7 @@
                 if (name != null) alert("Script name is invalid!");
                 setTimeout(function () {
                     $select.value = currentScript;
-                },10);
+                },30);
             }
         } else {
             editor.loadExample(evt.target.value, store);
