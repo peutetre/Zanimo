@@ -1,0 +1,52 @@
+{
+  "name": "zanimo",
+  "version": "0.0.5",
+  "author": "Paul Panserrieu <paul@42loops.com>",
+  "description": "Animation library based on CSS3 transitions and promises",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/peutetre/Zanimo.git"
+  },
+  "keywords": [
+    "animation",
+    "transition",
+    "promise",
+    "browser"
+  ],
+  "dependencies" : {
+    "q"   :  "0.9.*"
+  },
+  "testling": {
+    "scripts": [
+        "vendor/q-0.9.1.js",
+        "dist/zanimo-0.0.5.js",
+        "test/specs.js",
+        "test/test-suite.js"
+    ],
+    "browsers": [
+        "iexplore/10.0",
+        "chrome/20.0",
+        "chrome/21.0",
+        "chrome/22.0",
+        "chrome/23.0",
+        "chrome/24.0",
+        "chrome/25.0",
+        "firefox/15.0",
+        "firefox/16.0",
+        "firefox/17.0",
+        "firefox/18.0",
+        "firefox/19.0",
+        "safari/4.0",
+        "safari/5.0.5",
+        "safari/5.1",
+        "firefox/nightly",
+        "opera/next",
+        "chrome/canary",
+        "iphone/6.0",
+        "ipad/6.0",
+        "safari/6.0",
+        "android-browser/4.2"
+    ]
+  },
+  "license": "MIT"
+}
