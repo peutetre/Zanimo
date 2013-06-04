@@ -77,7 +77,7 @@
             result = document.getElementById("result"),
             clearbtn = document.getElementById("clear"),
             browserlog = function (r) {
-                result.innerHTML = r.join("<br>");
+                if(result)  result.innerHTML = r.join("<br>");
             },
             testLock = false;
 
@@ -93,7 +93,7 @@
         }
         if(clearbtn) {
             clearbtn.addEventListener("click", function () {
-                result.innerHTML = "";
+                if(result) result.innerHTML = "";
             }, false);
         }
 
