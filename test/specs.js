@@ -81,18 +81,21 @@
             },
             testLock = false;
 
-        startbtn.addEventListener("click", function () {
-            if (testLock) return;
-            testLock = true;
-            start().done(function(r) {
-                browserlog(r);
-                testLock = false;
-            });
-        }, false);
-
-        clearbtn.addEventListener("click", function () {
-            result.innerHTML = "";
-        }, false);
+        if (startbtn) {
+            startbtn.addEventListener("click", function () {
+                if (testLock) return;
+                testLock = true;
+                start().done(function(r) {
+                    browserlog(r);
+                    testLock = false;
+                });
+            }, false);
+        }
+        if(clearbtn) {
+            clearbtn.addEventListener("click", function () {
+                result.innerHTML = "";
+            }, false);
+        }
 
         // start tests
         testLock = true;
