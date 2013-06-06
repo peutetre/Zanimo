@@ -3,6 +3,8 @@ BUILDDIR = dist
 VERSION = `cat VERSION`
 FILES = src/Zanimo.js
 
+
+
 all: build www
 
 build: cat
