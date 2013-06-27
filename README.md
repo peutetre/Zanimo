@@ -13,6 +13,14 @@ Zanimo targets the following platforms:
 * Chrome
 * Internet Explorer 10
 
+## Install
+
+via bower
+
+~~~ sh
+bower install zanimo
+~~~
+
 ## Building
 
 [![Build Status](https://secure.travis-ci.org/peutetre/Zanimo.png?branch=Q)](http://travis-ci.org/peutetre/Zanimo)
