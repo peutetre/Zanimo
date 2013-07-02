@@ -1,8 +1,8 @@
---- 
-node_js: 
+---
+node_js:
 - 0.1
-env: 
-  global: 
+env:
+  global:
   - secure: |-
       exIRj0hA/y9HolTboosEpXFt7QmaaVxzqf34Z9EI7uW2HSdcZhInfFz7anw4
       jV+rU+SgqYqc4Bma1xJ+lE0Ch+5mTpipA+p7ce/4J6jcACraoTf7ERNbs8A6

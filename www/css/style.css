@@ -122,6 +122,11 @@ a:hover {
   position: relative;
   top: 4px;
 }
+.documentation section.content div.doc-content img.sauce {
+  display: block;
+  margin: 0 0 10px 15px;
+  position: static;
+}
 .documentation section.content div.doc-content li {
   margin: 0 0 0 10px;
   font-family: 'Roboto', sans-serif;
