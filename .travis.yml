@@ -1,8 +1,8 @@
 language: node_js
 node_js:
-  - 0.10
+    - 0.10
 env:
-  global:
-    - secure: "RVPJrvUTUyQXXdWQ9C6tn2yjGJe5gnBf5JN+Fl8z2pppSDbsFRHAosOtt8a8\ncAYrQ7VWdqViHSkOlXpF7/whASx8637AKYI1hmzYehiyVl6nQ/1LCMICIwC4\nPEwczdFtG/liIdEBB+BquKCLs9pg7r4XT1IL2JAgHClQGzqUp9o="
-    - secure: "fCsBWIy9PmhV3iMfSIDHRMISGlUZqaefoM5tLw6XNL4Y3vwRxGFFQdA1ETNC\nY38wph8EI5cNPDadMyXSw3/1O0gTdrU1iD3DezVM/R49c91mU3Prv+84DDVz\nClknDlg2W0JCHy02/KvViO3b1g6Ao9w/N9lrYRwvNEu/MA8LvKc="
+    global:
+        - secure: "icYPF/lYpeiE4bUY3kpCIqJEYWtp7eA0WAG/f74vkTYrh+HEjYeu4Z/ZmoSu\nNbZAa8O0GzQFZuyuxTL/ulCjBcpO2NJYhYY/+aQ6NUGObsETN2Xo6z5J2/ul\nSsXPvh0/iWrkQGamur5WXK9sg0/Jd4rp0588mOkl3Xyr0lmVTvI="
+        - secure: "XuoAUhfWHIGIreg16qRK0vX/ftcxetnQhuHUCR+eCrCDjqkGl1/0kImtlHEQ\nAluHsKoJky+UNfnvNyY2Y0ms68XV8P7MWSgfGq7jxiScRWERtCDDI7CXMw1N\nyxKSRGi004wW1Nq7P6zAsKNsqQ7bJXlTn8n303j5vxCUvVxwAHY="
 script: grunt test
