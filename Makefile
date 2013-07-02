@@ -14,6 +14,9 @@ cat:
 test:
 	@@phantomjs test/launch.js
 
+sauce:
+	@@grunt test
+
 www:
 	@@stylus www/css/style.styl
 

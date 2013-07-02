@@ -6,7 +6,8 @@
 
     var success = 0,
         results = [],
-        tests = [];
+        tests = [],
+        delta0 = 0;
 
     specs.test = function test(name, f) {
         tests.push(function testf(acc) {
@@ -43,6 +44,9 @@
     }
 
     window.start = function () {
+        document.getElementById("qunit-testresult").innerHTML = "";
+        document.getElementById("result").innerHTML = "";
+        delta0 = (new Date()).getTime();
         results = [];
         success = tests.reduce(function (acc, f) {
             return acc.then(f);
@@ -56,6 +60,24 @@
             return results;
         });
     };
+
+    function fakeQunitResults (rslt) {
+        var rsltElt = document.getElementById("qunit-testresult"),
+            passed = 0,
+            failed = 0,
+            delta = (new Date()).getTime() - delta0;
+
+        rslt.forEach(function (r) {
+            if(r.indexOf("✔") !== -1) { passed++; console.log(r); }
+            else if(r.indexOf("✘") !== -1) { failed++; console.log(r); }
+        });
+
+        rsltElt.innerHTML = "Tests completed in " + delta + " milliseconds.<br> <span class='passed'>"
+            + (passed + failed) + " assertions of <span class='total'>"
+            + passed + "</span> passed, <span class='failed'>"
+            + failed + "</span> failed.";
+        window.global_test_results = { failed: failed, passed: passed, total: (passed+failed), runtime: delta };
+    }
 
     function init () {
 
@@ -88,6 +110,7 @@
             testLock = true;
             start().done(function(r) {
                 browserlog(r);
+                fakeQunitResults(r);
                 testLock = false;
             });
         }

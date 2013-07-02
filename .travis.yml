@@ -1,1 +1,11 @@
-script: make test
+language: node_js
+node_js:
+  - 0.8
+  - 0.10
+env:
+  global:
+    - secure: "RVPJrvUTUyQXXdWQ9C6tn2yjGJe5gnBf5JN+Fl8z2pppSDbsFRHAosOtt8a8\ncAYrQ7VWdqViHSkOlXpF7/whASx8637AKYI1hmzYehiyVl6nQ/1LCMICIwC4\nPEwczdFtG/liIdEBB+BquKCLs9pg7r4XT1IL2JAgHClQGzqUp9o="
+    - secure: "fCsBWIy9PmhV3iMfSIDHRMISGlUZqaefoM5tLw6XNL4Y3vwRxGFFQdA1ETNC\nY38wph8EI5cNPDadMyXSw3/1O0gTdrU1iD3DezVM/R49c91mU3Prv+84DDVz\nClknDlg2W0JCHy02/KvViO3b1g6Ao9w/N9lrYRwvNEu/MA8LvKc="
+before_script:
+- npm install -g grunt-cli
+script: grunt test
