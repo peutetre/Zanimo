@@ -3,8 +3,16 @@
  */
 
 bodyColor = gray
-documentationColor = red
-editorColor = orange
+linkColor = rgb(82, 122, 160)
+linkBackgroundHoverColor = #75ACDF
+niceGray = rgb(240, 241, 243)
+niceBlue = rgb(118, 189, 255)
+niceBlueGray = rgb(117, 172, 223)
+backWithOpacity = rgba(0, 0, 0, 0.24)
+darkGray = rgb(53, 71, 87)
+mygray = rgb(86, 89, 97)
+lightGray = rgb(209, 209, 209)
+lighterGray = rgb(218, 218, 218)
 
 @font-face
     font-family: 'Molle';
@@ -33,10 +41,10 @@ body, html
     -webkit-font-smoothing: antialiased;
 
 a
-    color rgb(82, 122, 160)
+    color linkColor
 
 a:hover
-    background #75ACDF
+    background linkBackgroundHoverColor
 
 .anim-screen
     position absolute
@@ -45,13 +53,13 @@ a:hover
     width 100%
     height 100%
     z-index 999
-    background rgb(240, 241, 243)
+    background niceGray
     display none
     opacity 0
 
 .documentation
     z-index 1
-    background rgb(240, 241, 243)
+    background niceGray
     height 100%
     width 100%
     position absolute
@@ -78,35 +86,35 @@ a:hover
                 margin: 15px auto;
                 display: block;
                 text-align: center;
-                background: rgb(118, 189, 255);
+                background: niceBlue;
                 font-family: Anaheim, sans-serif;
                 font-size: 16px;
                 border-radius: 6px;
-                color: rgb(240, 241, 243);
+                color: niceGray;
                 font-weight: bold;
-                border: 1px solid rgb(117, 172, 223);
+                border: 1px solid niceBlueGray;
                 text-decoration none
-                text-shadow: 0 -1px 2px rgba(0, 0, 0, 0.24);
-                -moz-text-shadow: 0 -1px 2px rgba(0, 0, 0, 0.24);
-                -ms-text-shadow: 0 -1px 2px rgba(0, 0, 0, 0.24);
+                text-shadow: 0 -1px 2px backWithOpacity;
+                -moz-text-shadow: 0 -1px 2px backWithOpacity;
+                -ms-text-shadow: 0 -1px 2px backWithOpacity;
             a.download:hover
-                background #75ACDF
+                background linkBackgroundHoverColor
             p
                 margin:5px 10px 5px 20px
                 font-family: 'Roboto', sans-serif;
                 font-size 14px
-                color rgb(86, 89, 97)
+                color mygray
             p.description
                 font-size: 25px;
                 background: #76BDFF;
                 margin: 0;
                 padding: 10px;
                 border-bottom: 1px solid #9EA5AC;
-                border-top: 1px solid #75ACDF;
+                border-top: 1px solid linkBackgroundHoverColor;
                 color: white;
-                -moz-text-shadow: 0 -1px 2px rgba(0, 0, 0, 0.24);
-                -ms-text-shadow: 0 -1px 2px rgba(0, 0, 0, 0.24);
-                text-shadow: 0 -1px 2px rgba(0, 0, 0, 0.24);
+                -moz-text-shadow: 0 -1px 2px backWithOpacity;
+                -ms-text-shadow: 0 -1px 2px backWithOpacity;
+                text-shadow: 0 -1px 2px backWithOpacity;
                 a
                     color white
             ul
@@ -122,12 +130,12 @@ a:hover
                 font-family: 'Roboto', sans-serif;
                 font-size 12px
             h3
-                color: rgb(53, 71, 87);
+                color: darkGray;
                 font-weight: bold;
                 font-size: 20px;
                 margin:15px 10px 10px 10px;
                 font-family Anaheim, sans-serif;
-                text-shadow: 1px 1px 2px rgb(209, 209, 209);
+                text-shadow: 1px 1px 2px lightGray;
                 border-bottom: 1px solid rgba(118, 189, 255, 0.45)
                 padding 10px 5px
             h3.building
@@ -136,11 +144,11 @@ a:hover
             h3.normal
                 border-bottom:none;
             h2
-                color: rgb(53, 71, 87);
+                color: darkGray;
                 font-weight: bold;
                 font-family Anaheim, sans-serif;
                 margin: 20px 0 0 10px;
-                text-shadow: 1px 1px 2px rgb(209, 209, 209);
+                text-shadow: 1px 1px 2px lightGray;
                 font-size: 40px;
             pre
                 font-family: "Monaco", sans-serif;
@@ -173,7 +181,7 @@ a:hover
                 font-weight bold
                 font-style italic
                 display inline
-                color rgb(86, 89, 97)
+                color mygray
             span
                 font-size 15px
                 font-family: 'Anaheim', sans-serif;
@@ -186,10 +194,10 @@ a:hover
         width 100%
         text-align center
         position relative
-        background: rgb(118, 189, 255);
-        border-bottom: 1px solid rgb(117, 172, 223);
+        background: niceBlue;
+        border-bottom: 1px solid niceBlueGray;
         div.chip
-            background: rgb(118, 189, 255);
+            background: niceBlue;
             position: relative;
             width: 100px;
             height: 50px;
@@ -200,7 +208,7 @@ a:hover
                 position absolute
                 font-size 20px
                 font-size: 30px;
-                color rgb(240, 241, 243)
+                color niceGray
                 top: -2px;
                 left: 38px;
                 cursor: pointer;
@@ -209,7 +217,7 @@ a:hover
             position absolute
             top 6px
             right 6px
-            color rgb(240, 241, 243)
+            color niceGray
 
 .editor
     z-index 0
@@ -237,7 +245,7 @@ a:hover
             font-size 21px;
             margin: 13px 0 0 10px;
             padding 0
-            color rgb(118, 189, 255)
+            color niceBlue
             cursor pointer
         .button.icon-github-alt
             float: right;
@@ -245,7 +253,7 @@ a:hover
             position: relative;
         .select-container
             background: url(../images/arrow@2x.png) 90% 5px no-repeat;
-            color rgb(118, 189, 255)
+            color niceBlue
             background-size: 14px;
             height: 26px;
             width: 120px;
@@ -254,7 +262,7 @@ a:hover
             padding 0
             overflow hidden
             z-index: 1;
-            border: 1px solid rgb(209, 209, 209);
+            border: 1px solid lightGray;
             border-radius: 4px 4px 4px 4px;
             background-color: rgb(230, 230, 230);
             .select
@@ -277,7 +285,7 @@ a:hover
         height: unquote('-moz-calc(100% - 80px)');
         height: unquote('-ms-calc(100% - 80px)');
         height: unquote('calc(100% - 80px)');
-        border-top: 1px solid rgb(218, 218, 218);
+        border-top: 1px solid lighterGray;
         background:rgb(253, 253, 253);
 
 textarea
@@ -293,7 +301,7 @@ textarea
     height: unquote('-ms-calc(100% - 80px)');
     height: unquote('calc(100% - 80px)');
     border none
-    border-top: 1px solid rgb(218, 218, 218);
+    border-top: 1px solid lighterGray;
     padding 10px
     overflow: auto;
     -webkit-overflow-scrolling : touch;
