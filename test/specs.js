@@ -57,20 +57,6 @@
         });
     };
 
-    function tapeOutput(rslt) {
-        console.log('TAP version 13');
-        console.log('1..'+(rslt.length-1));
-        console.log('# Zanimo.js test suite');
-        rslt.forEach(function (r, idx) {
-            if (r.indexOf("✔") === 0) {
-                console.log('ok ' + (idx+1) + ' ' + r)
-            }
-            else if(idx !== rslt.length-1) {
-                console.log('not ok ' + (idx+1) + ' ' + r)
-            }
-        });
-    }
-
     function init () {
 
         var startbtn = document.getElementById("start"),
@@ -97,13 +83,14 @@
             }, false);
         }
 
-        // start tests
-        testLock = true;
-        start().done(function(r) {
-            browserlog(r);
-            tapeOutput(r);
-            testLock = false;
-        });
+        // start tests if no phantomjs
+        if (!window.callPhantom) {
+            testLock = true;
+            start().done(function(r) {
+                browserlog(r);
+                testLock = false;
+            });
+        }
     }
 
     window.document.addEventListener("DOMContentLoaded", init, false);
