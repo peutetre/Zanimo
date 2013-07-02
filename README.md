@@ -25,12 +25,15 @@ bower install zanimo
 
 [![Build Status](https://secure.travis-ci.org/peutetre/Zanimo.png?branch=Q)](http://travis-ci.org/peutetre/Zanimo)
 
+[![SauceLabs Status](https://saucelabs.com/browser-matrix/peutetre.svg)](https://saucelabs.com/u/peutetre)
+
 ~~~ sh
 $ make
 ~~~
 
 ## Launch tests
 
+### phantomjs
 To run tests in your shell, you need [phantomjs](http://code.google.com/p/phantomjs/wiki/Installation).
 
 ~~~ sh
@@ -38,6 +41,14 @@ $ make test
 ~~~
 
 Or open [test/index.html](http://peutetre.github.com/Zanimo/test/index.html) in a web browser.
+
+### SauceLabs
+
+To run tests via SauceLabs, you need to set up the following environment variables `SAUCE_USERNAME` and `SAUCE_ACCESS_KEY`
+
+~~~sh
+$ make sauce
+~~~
 
 ## API
 
