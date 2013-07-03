@@ -21,6 +21,8 @@ via bower
 bower install zanimo
 ~~~
 
+via npm and browserify. [Example repo](https://github.com/peutetre/zanimo-npm-dummy-example)
+
 ## Building
 
 [![Build Status](https://secure.travis-ci.org/peutetre/Zanimo.png?branch=Q)](http://travis-ci.org/peutetre/Zanimo)
