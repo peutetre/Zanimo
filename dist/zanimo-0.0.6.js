@@ -2,21 +2,16 @@
 // (c) 2011-2013 Paul Panserrieu
 
 (function (definition) {
-    // CommonJS
     if (typeof exports === "object") {
         module.exports = definition();
-
-    // RequireJS
-    } else if (typeof define === "function" && define.amd) {
-        define(definition);
-
-    // <script>
     } else {
         Zanimo = definition();
     }
 
 })(function () {
     return (function () {
+
+    var Q = window.Q || require('q');
 
     /**
      * Provides requestAnimationFrame in a cross browser way.
