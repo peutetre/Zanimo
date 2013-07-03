@@ -26,5 +26,6 @@
   "scripts": {
     "test" : "grunt test"
   },
-  "license" : "MIT"
+  "license" : "MIT",
+  "main":"dist/zanimo-0.0.6.js"
 }
