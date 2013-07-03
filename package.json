@@ -27,5 +27,6 @@
     "test" : "grunt test"
   },
   "license" : "MIT",
-  "main":"dist/zanimo-0.0.6.js"
+  "main":"dist/zanimo-0.0.6.js",
+  "homepage":"http://zanimo.us"
 }
