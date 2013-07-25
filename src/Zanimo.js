@@ -39,7 +39,7 @@
     var T = (function (doc) {
         var _matchParenthesis = /(\(.+?\))/g,
             _zeropixel = /^0px$/g,
-            _zero = "0"
+            _zero = "0",
             _space = / /g,
             _normRegex = /\-([a-z])/g,
             _emptyString = "",
