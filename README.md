@@ -27,8 +27,7 @@ via npm and browserify. [Example repo](https://github.com/peutetre/zanimo-npm-du
 
 [![Build Status](https://secure.travis-ci.org/peutetre/Zanimo.png?branch=Q)](http://travis-ci.org/peutetre/Zanimo)
 
-[![SauceLabs Status](https://saucelabs.com/browser-matrix/peutetre.svg)](https://saucelabs.com/u/peutetre)
-
+[![SauceLabs Status](https://saucelabs.com/browser-matrix/zanimo.svg)](https://saucelabs.com/u/zanimo)
 ~~~ sh
 $ make
 ~~~
