@@ -269,7 +269,7 @@
      */
     Z.all = function (flist) {
         return function (el) {
-            return Q.allResolved(flist.map(function (f) { return f(el); }))
+            return Q.all(flist.map(function (f) { return f(el); }))
                     .then(function (plist) {
                         var rejected = plist.filter(function (p) { return Q.isRejected(p); });
                         if(rejected.length) return Q.reject(rejected);
