@@ -111,7 +111,7 @@
     })(window.document),
 
     isDOM = function (domElt) {
-        return 'nodeType' in domElt;
+        return domElt && domElt.nodeType ? true : false;
     },
 
     /**

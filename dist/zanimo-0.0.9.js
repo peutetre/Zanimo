@@ -111,7 +111,7 @@
     })(window.document),
 
     isDOM = function (domElt) {
-        return 'nodeType' in domElt;
+        return domElt && domElt.nodeType ? true : false;
     },
 
     /**
@@ -146,7 +146,10 @@
     // private helper to remove a transition
     remove = function (domElt, attr, value, duration, timing) {
         var prefixedAttr = T.prefix(attr),
-            keys = Object.keys(domElt._zanimo);
+            keys = [];
+        for (var k in domElt._zanimo) {
+          keys.push(k);
+        }
         if(keys.length === 1 && keys[0] === attr) domElt.style[T.t] = "";
     };
 
