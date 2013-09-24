@@ -110,11 +110,15 @@
         };
     })(window.document),
 
+    isDOM = function (domElt) {
+        return 'nodeType' in domElt;
+    },
+
     /**
      * Returns a fulfilled promise wrapping the given DOM element.
      */
     Z = function (domElt) {
-        if (domElt instanceof HTMLElement) {
+        if (isDOM(domElt)) {
             return Q.resolve(domElt);
         }
         else if(Q.isPromise(domElt)) {
@@ -164,7 +168,7 @@
                 }
             };
 
-        if (!(domElt instanceof HTMLElement)) {
+        if (!isDOM(domElt)) {
             d.reject(new Error("Zanimo transition: no DOM element!"));
             return d.promise;
         }
@@ -224,7 +228,7 @@
     Z.transform = function (elt, value, overwrite) {
         var d = Q.defer();
 
-        if (!(elt instanceof HTMLElement)) {
+        if (!isDOM(elt)) {
             d.reject(new Error("Zanimo transform: no DOM element!"));
             return d.promise;
         }
