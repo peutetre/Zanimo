@@ -1,6 +1,6 @@
 {
   "name" : "zanimo",
-  "version" : "0.0.8",
+  "version" : "0.0.9",
   "author" : "Paul Panserrieu <paul@42loops.com>",
   "description" : "Animation library based on CSS3 transitions and promises",
   "repository" : {
@@ -27,6 +27,6 @@
     "test" : "grunt test"
   },
   "license" : "MIT",
-  "main":"dist/zanimo-0.0.8.js",
+  "main":"dist/zanimo-0.0.9.js",
   "homepage":"http://zanimo.us"
 }

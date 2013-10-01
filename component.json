@@ -1,8 +1,8 @@
 {
     "name" : "zanimo",
-    "version" : "0.0.8",
+    "version" : "0.0.9",
     "readme" : "README.md",
-    "main" : "./dist/zanimo-0.0.8.js",
+    "main" : "./dist/zanimo-0.0.9.js",
     "dependencies" : {
         "q" : "0.9.7"
     }

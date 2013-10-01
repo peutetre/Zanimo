@@ -110,11 +110,15 @@
         };
     })(window.document),
 
+    isDOM = function (domElt) {
+        return domElt && domElt.nodeType ? true : false;
+    },
+
     /**
      * Returns a fulfilled promise wrapping the given DOM element.
      */
     Z = function (domElt) {
-        if (domElt instanceof HTMLElement) {
+        if (isDOM(domElt)) {
             return Q.resolve(domElt);
         }
         else if(Q.isPromise(domElt)) {
@@ -142,7 +146,10 @@
     // private helper to remove a transition
     remove = function (domElt, attr, value, duration, timing) {
         var prefixedAttr = T.prefix(attr),
-            keys = Object.keys(domElt._zanimo);
+            keys = [];
+        for (var k in domElt._zanimo) {
+          keys.push(k);
+        }
         if(keys.length === 1 && keys[0] === attr) domElt.style[T.t] = "";
     };
 
@@ -164,7 +171,7 @@
                 }
             };
 
-        if (!(domElt instanceof HTMLElement)) {
+        if (!isDOM(domElt)) {
             d.reject(new Error("Zanimo transition: no DOM element!"));
             return d.promise;
         }
@@ -224,7 +231,7 @@
     Z.transform = function (elt, value, overwrite) {
         var d = Q.defer();
 
-        if (!(elt instanceof HTMLElement)) {
+        if (!isDOM(elt)) {
             d.reject(new Error("Zanimo transform: no DOM element!"));
             return d.promise;
         }
