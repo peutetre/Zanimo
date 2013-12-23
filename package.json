@@ -14,7 +14,8 @@
     "browser"
   ],
   "dependencies" : {
-    "q" : "0.9.7"
+    "q" : "0.9.7",
+    "qanimationframe": "2.0.1"
   },
   "devDependencies":{
     "grunt" : "~0.4.0",
