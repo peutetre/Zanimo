@@ -1,3 +1,6 @@
+## 0.0.10
+- Add `filter` support
+
 ## 0.0.9
 - Replace 'instanceof HTMLElement' check by 'elt.nodeType' for IE support
 

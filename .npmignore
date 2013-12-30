@@ -1,0 +1,12 @@
+node_modules
+.travis.yml
+Makefile
+VERSION
+bin
+test
+vendor
+www
+zanimo.appcache
+browsers.json
+Gruntfile
+index.html

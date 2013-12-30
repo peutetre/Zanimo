@@ -51,7 +51,7 @@
             _repr = function (v, d, t) {
                 return v + " " + d + "ms " + (t || "linear");
             },
-            _prefixed = { "transform": "" },
+            _prefixed = { "transform": "", "filter": ""},
             _normReplacef = function(m, g) { return g.toUpperCase(); },
             _normCSSVal = function (match) {
                 var args = match.substr(1, match.length-2).split(","), rst = [];
