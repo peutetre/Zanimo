@@ -1,3 +1,4 @@
+.npmignore
 node_modules
 .travis.yml
 Makefile
@@ -8,5 +9,6 @@ vendor
 www
 zanimo.appcache
 browsers.json
-Gruntfile
+Gruntfile.js
+TODO
 index.html
