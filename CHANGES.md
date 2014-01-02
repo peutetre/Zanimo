@@ -1,4 +1,12 @@
+## 0.1.0
+
+- BRAND NEW API from Gaétan Renaudeau (@gre)
+- BROWSERIFY ONLY (you can export a standalone version with browserify)
+- using mocha for unit tests
+- clean repo (remove editor)
+
 ## 0.0.9
+
 - Replace 'instanceof HTMLElement' check by 'elt.nodeType' for IE support
 
 ## 0.0.8
