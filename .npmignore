@@ -1,0 +1,5 @@
+.npmignore
+.travis.yml
+browsers.json
+Gruntfile.js
+test
