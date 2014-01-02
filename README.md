@@ -1,59 +1,36 @@
-# Zanimo.js - Promise based CSS3 transitions
+# Zanimo.js - Promise based CSS3 transitions [![Build Status](https://secure.travis-ci.org/peutetre/Zanimo.png?branch=Q)](http://travis-ci.org/peutetre/Zanimo) [![Dependency Status](https://gemnasium.com/peutetre/Zanimo.png)](https://gemnasium.com/peutetre/Zanimo)
 
-Allows chaining of transitions in a promise based way using Kris Kowal's [Q.js library](https://github.com/kriskowal/q).
+[![SauceLabs Status](https://saucelabs.com/browser-matrix/zanimo.svg)](https://saucelabs.com/u/zanimo)
+
+Allows chaining of css transitions in a promise based way.
 
 Zanimo.js is licensed under the terms of the MIT License.
 
-## Targeted platforms
-
-Zanimo targets the following platforms:
-
-* Safari
-* Firefox
-* Chrome
-* Internet Explorer 10
-
 ## Install
 
-via bower
+```sh
+$ npm install zanimo
+```
 
-~~~ sh
-bower install zanimo
-~~~
+##  tests
 
-via npm and browserify. [Example repo](https://github.com/peutetre/zanimo-npm-dummy-example)
+Build tests with
 
-## Building
+```
+npm run build
+```
 
-[![Build Status](https://secure.travis-ci.org/peutetre/Zanimo.png?branch=Q)](http://travis-ci.org/peutetre/Zanimo)
-
-[![Dependency Status](https://gemnasium.com/peutetre/Zanimo.png)](https://gemnasium.com/peutetre/Zanimo)
-
-[![SauceLabs Status](https://saucelabs.com/browser-matrix/zanimo.svg)](https://saucelabs.com/u/zanimo)
-~~~ sh
-$ make
-~~~
-
-## Launch tests
-
-### phantomjs
-To run tests in your shell, you need [phantomjs](http://code.google.com/p/phantomjs/wiki/Installation).
-
-~~~ sh
-$ make test
-~~~
-
-Or open [test/index.html](http://peutetre.github.com/Zanimo/test/index.html) in a web browser.
+and open [test/index.html](http://peutetre.github.com/Zanimo/test/index.html) in a web browser.
 
 ### SauceLabs
 
 To run tests via SauceLabs, you need to set up the following environment variables `SAUCE_USERNAME` and `SAUCE_ACCESS_KEY`
 
 ~~~sh
-$ make sauce
+$ npm test
 ~~~
 
-## API
+## API (TODO)
 
 ### Zanimo(elt|promise[elt]) ➜  promise[elt]
 
