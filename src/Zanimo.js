@@ -1,5 +1,5 @@
 // Zanimo.js - Promise based CSS3 transitions
-// (c) 2011-2013 Paul Panserrieu
+// (c) 2011-2014 Paul Panserrieu
 
 (function (definition) {
     if (typeof exports === "object") {
