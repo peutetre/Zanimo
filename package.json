@@ -34,7 +34,7 @@
     "grunt-contrib-connect": "0.1.2"
   },
   "scripts": {
-    "test": "npm ru build; grunt test",
+    "test": "npm run build; grunt test",
     "build": "./node_modules/browserify/bin/cmd.js ./test/test.js -o ./test/main.js --debug;"
   },
   "license": "MIT",
