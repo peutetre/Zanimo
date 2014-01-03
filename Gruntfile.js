@@ -28,5 +28,5 @@ module.exports = function(grunt) {
         if (key !== "grunt" && key.indexOf("grunt") === 0) grunt.loadNpmTasks(key);
     }
 
-    grunt.registerTask("test", ["connect", "saucelabs-qunit"]);
+    grunt.registerTask("test", ["connect", "saucelabs-mocha"]);
 };
