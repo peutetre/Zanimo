@@ -24,9 +24,7 @@ module.exports = function(grunt) {
         }
     });
 
-    for (var key in grunt.file.readJSON("package.json").devDependencies) {
-        if (key !== "grunt" && key.indexOf("grunt") === 0) grunt.loadNpmTasks(key);
-    }
-
+    grunt.loadNpmTasks('grunt-contrib-connect');
+    grunt.loadNpmTasks('grunt-saucelabs');
     grunt.registerTask("test", ["connect", "saucelabs-mocha"]);
 };
