@@ -8,7 +8,7 @@ module.exports = function(grunt) {
                 }
             }
         },
-        'saucelabs-qunit': {
+        'saucelabs-mocha': {
             all: {
                 options: {
                     urls: ["http://127.0.0.1:9999/test/index.html"],
@@ -21,14 +21,12 @@ module.exports = function(grunt) {
                     tags: ["master"]
                 }
             }
-        },
-        watch: {}
+        }
     });
 
     for (var key in grunt.file.readJSON("package.json").devDependencies) {
         if (key !== "grunt" && key.indexOf("grunt") === 0) grunt.loadNpmTasks(key);
     }
 
-    grunt.registerTask("dev", ["connect", "watch"]);
     grunt.registerTask("test", ["connect", "saucelabs-qunit"]);
 };
