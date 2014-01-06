@@ -6,10 +6,13 @@
 
 require("mocha-as-promised")();
 
-var Zanimo = require('..'),
+var normalizeTransformValue = require('../src/normalize-transform-value'),
+    Zanimo = require('..'),
     Q = require('q'),
     prefix = require('prefix'),
     expect = require('expect.js');
+
+Q.longStackSupport = true;
 
 function createSquare(id) {
     var elt = document.createElement("div");
@@ -29,6 +32,18 @@ function setUp1 () { return createSquare("test-1"); }
 function setDown1 (val) { removeSquare("test-1"); return val; }
 function setUp2 () { return createSquare("test-2"); }
 function setDown2 (val) { removeSquare("test-2"); return val; }
+
+describe('normalizeTransformValue', function () {
+    it('should return `translate3d(0,0,0)` when called with `translate3d(0px ,0, 0  )`', function () {
+        expect(normalizeTransformValue('translate3d(0px ,0, 0  )')).to.eql('translate3d(0,0,0)');
+    });
+    it('should return `translate3d(0,200px,0) rotateY(280deg) translate3d(0,0,30px)` when called with `translate3d(0px ,200px, 0  )  rotateY(280deg)        translate3d( 0 , 0,30px)`', function () {
+        expect(normalizeTransformValue('translate3d(0px ,200px, 0  )  rotateY(280deg)        translate3d( 0 , 0,30px)')).to.eql('translate3d(0,200px,0) rotateY(280deg) translate3d(0,0,30px)');
+    });
+    it('should return an empty string when called with no arg', function () {
+        expect(normalizeTransformValue()).to.eql('');
+    });
+});
 
 describe('Zanimo', function () {
 
