@@ -59,10 +59,10 @@ describe('Zanimo', function () {
 
         return Q.when(Q.delay(200), function () {
             return Zanimo(elt)
-                    .then(function (el) {
-                        expect(el).to.be.a(window.Element);
-                        setDown1();
-                    });
+                .then(function (el) {
+                    expect(el).to.be.a(window.Element);
+                    setDown1();
+                });
         });
     });
 
@@ -161,9 +161,9 @@ describe('Zanimo', function () {
     it('failed when called with not a DOM element', function () {
         return Q.when(Q.delay(200), function () {
             return Q.fcall(Zanimo, "Oops", "opacity", 1, 100)
-                    .fail(function (err) {
-                        return expect(err).to.be.a(Error);
-                    });
+                .fail(function (err) {
+                    return expect(err).to.be.a(Error);
+                });
         });
     });
 
@@ -172,10 +172,10 @@ describe('Zanimo', function () {
 
         return Q.when(Q.delay(200), function () {
             return Q.fcall(Zanimo, elt, "toto", "test", 100)
-                    .fail(function (err) {
-                        setDown1();
-                        return expect(err).to.be.a(Error);
-                    });
+                .fail(function (err) {
+                    setDown1();
+                    return expect(err).to.be.a(Error);
+                });
         });
     });
 
@@ -184,10 +184,10 @@ describe('Zanimo', function () {
 
         return Q.when(Q.delay(200), function () {
             return Q.fcall(Zanimo, elt, "opacity", 0.5, "oops", "linear")
-                    .fail(function (err) {
-                        setDown1();
-                        return expect(err).to.be.a(Error);
-                    });
+                .fail(function (err) {
+                    setDown1();
+                    return expect(err).to.be.a(Error);
+                });
         });
     });
 
@@ -278,9 +278,9 @@ describe('Zanimo.f', function () {
 
         return Q.delay(200).then(function () {
             return Zanimo(elt)
-                    .delay(100)
-                    .then(transition2)
-                    .then(setDown1);
+                .delay(100)
+                .then(transition2)
+                .then(setDown1);
         });
     });
 
@@ -293,7 +293,7 @@ describe('Zanimo.f', function () {
 
         return Q.delay(200).then(function () {
             return Zanimo(elt, "transform", "translate(00px, 200px)")
-                    .then(setDown1);
+                .then(setDown1);
         });
     });
 
@@ -324,14 +324,14 @@ describe('Zanimo.f', function () {
 
         return Q.delay(200).then(function () {
             return Zanimo(elt)
-                    .then(transition)
-                    .then(opacity)
-                    .then(transition)
-                    .then(opacity)
-                    .then(transition)
-                    .then(opacity)
-                    .then(transition)
-                    .then(setDown1);
+                .then(transition)
+                .then(opacity)
+                .then(transition)
+                .then(opacity)
+                .then(transition)
+                .then(opacity)
+                .then(transition)
+                .then(setDown1);
         });
     });
 
@@ -345,14 +345,14 @@ describe('Zanimo.f', function () {
 
         return Q.when(Q.delay(200), function () {
             return Zanimo(elt)
-                    .then(transition)
-                    .then(transform)
-                    .then(transition)
-                    .then(transform)
-                    .then(transition)
-                    .then(transform)
-                    .then(transition)
-                    .then(setDown1);
+                .then(transition)
+                .then(transform)
+                .then(transition)
+                .then(transform)
+                .then(transition)
+                .then(transform)
+                .then(transition)
+                .then(setDown1);
         });
     });
 
