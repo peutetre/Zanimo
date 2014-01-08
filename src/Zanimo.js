@@ -8,142 +8,142 @@ var Q = require('q'),
     prefix = require('prefix'),
     normalizeTransformValue = require('../src/normalize-transform-value'),
     shorthand = require('../src/transition-shorthand-property'),
-
     transition = prefix('transition'),
-    transitionend = 'WebkitTransition' in document.body.style ? 'webkitTransitionEnd' : 'transitionend';
+    transitionend = 'WebkitTransition' in document.body.style ? 'webkitTransitionEnd' : 'transitionend',
 
-var isDOM = function (domElt) { return domElt && domElt.nodeType; },
+    isDOM = function (el) { return el && el.nodeType; },
 
-// private helper to add a transition
-add = function (domElt, attr, value, duration, easing) {
-    attr = prefix.dash(attr);
-    if (domElt.style[transition]) {
-        domElt.style[transition] = domElt.style[transition] +
-                            ", " +
-                            shorthand(attr, duration, easing);
-    }
-    else {
-        domElt.style[transition] = shorthand(attr, duration, easing);
-    }
-    domElt.style[prefix(attr)] = value;
-},
+    addTransition = function (elt, attr, value, duration, easing) {
+        var currentValue = elt.style[transition];
+        attr = prefix.dash(attr);
+        if (currentValue) {
+            elt.style[transition] = currentValue + ", " + shorthand(attr, duration, easing);
+        }
+        else {
+            elt.style[transition] = shorthand(attr, duration, easing);
+        }
+        elt.style[prefix(attr)] = value;
+    },
 
-// private helper to remove a transition
-remove = function (domElt, attr/*, value, duration, easing*/) {
-    var keys = [];
-    for (var k in domElt._zanimo) {
-        keys.push(k);
-    }
-    if(keys.length === 1 && keys[0] === attr) domElt.style[transition] = "";
-};
+    removeTransition = function (el, attr) {
+        el.style[transition] = el.style[transition]
+            .split(',').filter(function(t) {
+                return !t.match(attr);
+            }).join(',');
+    },
 
-/**
- * Zanimo(elt)
- * > Returns a Promise of elt.
- *
- * Zanimo(elt, attr, value)
- * > Sets elt.style[attr]=value and returns the Promise of elt.
- *
- * Zanimo(elt, attr, value, duration)
- * Zanimo(elt, attr, value, duration, easing)
- * > Performs a transition.
- */
-var Zanimo = function (elt, attr, value, duration, easing) {
-    var arity = arguments.length;
-    if (arity === 0 || arity === 2 || arity > 5) return Q.reject(new Error("Zanimo: invalid arguments"));
-    if (Q.isPromise(elt)) {
-        return elt.then(function (elt) {
-            return Zanimo.apply(this, [elt].concat(Array.prototype.slice.call(arguments, 1)));
+    applycss = function (el, attr, value) {
+        return QanimationFrame(function(){
+            el.style[prefix.dash(attr)] = value;
+            return el;
         });
-    }
-    if (!isDOM(elt)) {
-        return Q.reject(new Error("Zanimo require an HTMLElement, or a promise of an HTMLElement"));
-    }
-    if (arity === 1) {
-        return Q(elt);
-    }
-    else if (arity === 3) {
-        try {
-            var prefixedAttr = prefix.dash(attr);
-        } catch(err) {
-            return Q.reject(new Error("Zanimo transition: " + attr + ' is not supported!'));
-        };
-        if(elt._zanimo && elt._zanimo.hasOwnProperty(attr)) {
-            elt._zanimo[attr].defer.reject(new Error(
-                "Zanimo transition " + elt.id + " with transform=" +
-                elt._zanimo[attr].value +
+    },
+
+    css = function (el, attr, value) {
+        if(el._zanimo && el._zanimo.hasOwnProperty(attr)) {
+            el._zanimo[attr].defer.reject(new Error(
+                "Zanimo transition with transform=" +
+                el._zanimo[attr].value +
                 " stopped by transform=" + value
             ));
-            elt._zanimo[attr].cb();
+            el._zanimo[attr].cb();
         }
-        return QanimationFrame(function(){
-            elt.style[prefixedAttr] = value;
-            return elt;
-        });
-    }
-    else {
-        if(window.isNaN(parseInt(duration, 10))) {
-            return Q.reject(new Error("Zanimo transition: duration must be an integer!"));
-        }
-        try {
-            var prefixedAttr = prefix.dash(attr);
-        } catch(err) {
-            return Q.reject(new Error("Zanimo transition: " + attr + ' is not supported!'));
-        };
-        var d = Q.defer(), timeout,
+        return applycss(el, attr, value);
+    },
+
+    animate = function (el, attr, value, duration, easing) {
+        var prefixed = prefix.dash(attr),
+            d = Q.defer(),
+            timeout,
             cb = function (clear) {
                 if (timeout) { clearTimeout(timeout); timeout = null; }
-                remove(elt, attr, value, duration, easing);
-                elt.removeEventListener(transitionend, cbTransitionend);
-                if (clear) { delete elt._zanimo[attr]; }
+                removeTransition(el, attr);
+                el.removeEventListener(transitionend, cbTransitionend);
+                if (clear) { delete el._zanimo[attr]; }
             },
             cbTransitionend = function (evt) {
-                if(prefix(evt.propertyName) === prefix(prefixedAttr)) {
+                if(prefix(evt.propertyName) === prefix(prefixed)) {
                     cb(true);
-                    d.resolve(elt);
+                    d.resolve(el);
                 }
             };
 
-        elt.addEventListener(transitionend, cbTransitionend);
+        el.addEventListener(transitionend, cbTransitionend);
 
         QanimationFrame(function () {
-            add(elt, attr, value, duration, easing);
+            addTransition(el, attr, value, duration, easing);
             timeout = setTimeout(function () {
-                var rawVal = elt.style.getPropertyValue(prefixedAttr),
+                var rawVal = el.style.getPropertyValue(prefixed),
                     domVal = normalizeTransformValue(rawVal),
                     givenVal = normalizeTransformValue(value);
 
                 cb(true);
-                if (domVal === givenVal) { d.resolve(elt); }
+                if (domVal === givenVal) { d.resolve(el); }
                 else {
-                    d.reject( new Error("Zanimo transition: " +
-                        elt.id + " with " + attr + " = " + givenVal +
-                        ", DOM value=" + domVal
+                    d.reject( new Error("Zanimo transition: with "
+                        + attr + " = " + givenVal + ", DOM value=" + domVal
                     ));
                 }
             }, duration + 20 );
 
-            elt._zanimo = elt._zanimo || { };
-            if(elt._zanimo[attr]) {
-                elt._zanimo[attr].defer.reject(new Error(
-                    "Zanimo transition " +
-                    elt.id + " with " +
-                    attr + "=" + elt._zanimo[attr].value +
+            el._zanimo = el._zanimo || { };
+            if(el._zanimo[attr]) {
+                el._zanimo[attr].defer.reject(new Error(
+                    "Zanimo transition with " +
+                    attr + "=" + el._zanimo[attr].value +
                     " stopped by transition with " + attr + "=" + value
                 ));
-                elt._zanimo[attr].cb();
+                el._zanimo[attr].cb();
             }
-            elt._zanimo[attr] = {cb: cb, value: value, defer: d};
+            el._zanimo[attr] = {cb: cb, value: value, defer: d};
         });
 
         return d.promise;
+    };
+
+/**
+ * Zanimo(el)
+ * > Returns a Promise of elt.
+ *
+ * Zanimo(el, attr, value)
+ * > Sets el.style[attr]=value and returns the Promise of el.
+ *
+ * Zanimo(el, attr, value, duration)
+ * Zanimo(el, attr, value, duration, easing)
+ * > Performs a transition.
+ */
+var Zanimo = function (el, attr, value, duration, easing) {
+    var arity = arguments.length;
+    if (arity === 0 || arity === 2 || arity > 5) return Q.reject(new Error("Zanimo invalid arguments"));
+    if (Q.isPromise(el)) {
+        return el.then(function (el) {
+            return Zanimo.apply(this, [el].concat(Array.prototype.slice.call(arguments, 1)));
+        });
     }
+    if (!isDOM(el)) {
+        return Q.reject(new Error("Zanimo require an HTMLElement, or a promise of an HTMLElement"));
+    }
+    if (arity === 1) {
+        return Q(el);
+    }
+    try {
+        prefix.dash(attr);
+    } catch(err) {
+        return Q.reject(new Error("Zanimo transition: " + attr + ' is not supported!'));
+    };
+    if (arity === 3) {
+        return css(el, attr, value);
+    }
+    if(window.isNaN(parseInt(duration, 10))) {
+        return Q.reject(new Error("Zanimo transition: duration must be an integer!"));
+    }
+    return animate(el, attr, value, duration, easing);
 };
 
 /**
  * A function wrapping `Zanimo(elt, ...)` as a `f(...)(elt)` for easy chaining purpose.
  */
-Zanimo.f = function (/*attr, value, duration, easing*/) {
+Zanimo.f = function (attr, value, duration, easing) {
     var args = Array.prototype.slice.call(arguments);
     return function (elt) {
         return Zanimo.apply(this, [elt].concat(args));

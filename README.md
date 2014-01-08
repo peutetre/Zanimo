@@ -22,17 +22,9 @@ npm run build
 
 and open [test/index.html](http://peutetre.github.com/Zanimo/test/index.html) in a web browser.
 
-### SauceLabs
+## API
 
-To run tests via SauceLabs, you need to set up the following environment variables `SAUCE_USERNAME` and `SAUCE_ACCESS_KEY`
-
-~~~sh
-$ npm test
-~~~
-
-## API (TODO)
-
-### Zanimo(elt|promise[elt]) ➜  promise[elt]
+### Zanimo(el|promise[el]) ➜  promise[el]
 
 Takes a DOM element or a promise of a DOM element and returns a promise of the given element.
 
@@ -70,7 +62,7 @@ Zanimo(myDomElement, "width", "200px", 200, "ease-in")
 
 ### Zanimo.f(*)  ➜  ( function(elt) ➜  promise[elt] )
 
-Encapsulates a `Zanimo(elt, *)` call by returning a function (elt)➜promise[elt]. 
+Encapsulates a `Zanimo(elt, *)` call by returning a function (elt)➜promise[elt].
 
 Useful to define reusable transitions.
 
