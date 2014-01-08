@@ -19,19 +19,19 @@
     "url" : "http://greweb.me/"
   }],
   "dependencies": {
-    "q": "0.9.7",
+    "q": "1.0.0",
     "qanimationframe": "2.0.1",
     "prefix": "0.2.0"
   },
   "devDependencies": {
-    "browserify": "3.18.0",
+    "browserify": "3.19.1",
     "expect.js": "0.2.0",
     "mocha": "1.16.2",
     "mocha-as-promised": "2.0.0",
-    "grunt": "0.4.1",
-    "grunt-cli": "0.1.6",
+    "grunt": "0.4.2",
+    "grunt-cli": "0.1.11",
     "grunt-saucelabs": "4.1.2",
-    "grunt-contrib-connect": "0.1.2"
+    "grunt-contrib-connect": "0.6.0"
   },
   "scripts": {
     "test": "npm run build; grunt test",
@@ -39,5 +39,5 @@
   },
   "license": "MIT",
   "main": "src/Zanimo.js",
-  "homepage": "http://zanimo.us"
+  "homepage": "https://github.com/peutetre/Zanimo"
 }
