@@ -157,11 +157,11 @@ describe('Zanimo', function () {
         return Q.delay(200).then(function () {
             return Zanimo(el1, "transform", "translate(200px, 0)", 300)
                 .then(function () {
-                    expect(el1.style[prefix('transform')]).to.be.eql('translate(200px, 0)');
+                    expect(normalizeTransformValue(el1.style[prefix('transform')])).to.be.eql('translate(200px,0)');
                     return Zanimo(el2, "transform", "translate(0, 200px)", 100);
                 })
                 .then(function (el) {
-                    expect(el.style[prefix('transform')]).to.be.eql('translate(0, 200px)');
+                    expect(normalizeTransformValue(el.style[prefix('transform')])).to.be.eql('translate(0,200px)');
                     down();
                 });
         });
@@ -252,7 +252,7 @@ describe('Zanimo.f', function () {
 
         return Q.delay(200).then(function () {
             return Zanimo(el)
-                .then(Zanimo.f("background-color", "blue", 200))
+                .then(Zanimo.f('background-color', 'blue', 200))
                 .then(setDown1);
         });
     });
