@@ -9,7 +9,7 @@ require("mocha-as-promised")();
 var normalizeTransformValue = require('../src/normalize-transform-value'),
     Zanimo = require('..'),
     Q = require('q'),
-    prefix = require('prefix'),
+    prefix = require('vendor-prefix'),
     expect = require('expect.js');
 
 Q.longStackSupport = true;

@@ -1,6 +1,6 @@
 'use strict';
 
-var prefix = require('prefix'),
+var prefix = require('vendor-prefix'),
     normalizeTransformValue = require('./normalize-transform-value'),
     transition = prefix.dash('transition'),
     el = document.createElement('div'),

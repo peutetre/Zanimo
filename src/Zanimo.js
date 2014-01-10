@@ -5,7 +5,7 @@
 
 var Q = require('q'),
     QanimationFrame = require('qanimationframe'),
-    prefix = require('prefix'),
+    prefix = require('vendor-prefix'),
     normalizeTransformValue = require('../src/normalize-transform-value'),
     shorthand = require('../src/transition-shorthand-property'),
     transition = prefix('transition'),

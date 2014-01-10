@@ -21,7 +21,7 @@
   "dependencies": {
     "q": "1.0.0",
     "qanimationframe": "2.0.1",
-    "prefix": "0.2.0"
+    "vendor-prefix": "0.1.0"
   },
   "devDependencies": {
     "browserify": "3.19.1",
