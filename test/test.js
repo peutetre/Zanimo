@@ -95,7 +95,7 @@ describe('Zanimo', function () {
             return Zanimo(d.promise)
                 .fail(function (err) {
                     setDown1();
-                    expect(err).to.be.a(Error);
+                    return expect(err).to.be.a(Error);
                 });
         });
     });
@@ -324,6 +324,8 @@ describe('Zanimo.f', function () {
     });
 
     it('succeeded to apply sequentially 4 opacity transitions on the same element', function () {
+        this.timeout(5000);
+        
         var el = setUp1(),
             transition = Zanimo.f("opacity", 0, 200),
             opacity = function (el) {
