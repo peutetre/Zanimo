@@ -11,7 +11,13 @@ var Q = require('q'),
     transition = prefix('transition'),
     transitionend = 'WebkitTransition' in document.body.style ? 'webkitTransitionEnd' : 'transitionend',
 
-    isDOM = function (el) { return el && el.nodeType; },
+    isDOM = function (el) {
+        try {
+            return el && el.nodeType;
+        } catch(err) {
+            return false;
+        };
+    },
 
     addTransition = function (elt, attr, value, duration, easing) {
         var currentValue = elt.style[transition];
