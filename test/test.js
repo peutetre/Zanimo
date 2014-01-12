@@ -84,20 +84,10 @@ describe('Zanimo', function () {
     });
 
     it('failed with a promise of number', function () {
-        var el = setUp1(),
-            d = Q.defer();
-
-        setTimeout(function () {
-            d.resolve(1);
-        }, 500);
-
-        return Q.delay(200).then(function () {
-            return Zanimo(d.promise)
-                .fail(function (err) {
-                    setDown1();
-                    return expect(err).to.be.a(Error);
-                });
-        });
+        return Zanimo(Q(1))
+            .fail(function (err) {
+                return expect(err).to.be.a(Error);
+            });
     });
 
     it('succeeded applying a style to an element', function () {
@@ -133,7 +123,7 @@ describe('Zanimo', function () {
             expect(el.style.width).to.eql('100px');
             expect(el.style.height).to.eql('100px');
 
-            return  Q.all([
+            return  Q.allSettled([
                     Zanimo(el, "width", "300px", 400, "ease-in-out"),
                     Zanimo(el, "height", "300px", 400, "ease-in-out")
                 ])
