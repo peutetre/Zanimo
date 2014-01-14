@@ -1,23 +1,14 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>Zanimo Tests</title>
+        <title>Zanimo tests</title>
+        <link rel="stylesheet" href="../node_modules/mocha/mocha.css" />
     </head>
     <body>
-
-        <h1>Zanimo Tests</h1>
-        <button id='start'>Start tests</button>
-        <button id='clear'>Clear</button>
-        <h2>Results</h2>
-        <p id='result'></p>
-
-        <!-- faking some qunit test results -->
-        <p id="qunit-testresult" class="result"></p>
-
-        <script type="text/javascript" src="../vendor/q-0.9.7.js"></script>
-        <script type="text/javascript" src="../dist/zanimo-0.0.10.js"></script>
-
-        <script type="text/javascript" src="specs.js"></script>
-        <script type="text/javascript" src="test-suite.js"></script>
+        <div id='test' style='height:400px'></div>
+        <div id="mocha"></div>
+        <script src="../node_modules/mocha/mocha.js"></script>
+        <script>mocha.setup('bdd');</script>
+        <script src="main.js"></script>
     </body>
 </html>

@@ -1,14 +1,6 @@
 .npmignore
 node_modules
 .travis.yml
-Makefile
-VERSION
-bin
-test
-vendor
-www
-zanimo.appcache
 browsers.json
 Gruntfile.js
-TODO
-index.html
+test

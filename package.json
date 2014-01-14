@@ -1,32 +1,43 @@
 {
-  "name" : "zanimo",
-  "version" : "0.0.10",
-  "author" : "Paul Panserrieu <paul@42loops.com>",
-  "description" : "Animation library based on CSS3 transitions and promises",
-  "repository" : {
-    "type" : "git",
-    "url" : "https://github.com/peutetre/Zanimo.git"
+  "name": "zanimo",
+  "version": "1.0.0",
+  "author": "Paul Panserrieu <paul@42loops.com>",
+  "description": "Animation library based on CSS3 transitions and promises",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/peutetre/Zanimo.git"
   },
-  "keywords" : [
+  "keywords": [
     "animation",
     "transition",
     "promise",
     "browser"
   ],
-  "dependencies" : {
-    "q" : "0.9.7"
+  "contributors" : [{
+    "name" : "Gaétan Renaudeau",
+    "email" : "renaudeau.gaetan@gmail.com",
+    "url" : "http://greweb.me/"
+  }],
+  "dependencies": {
+    "q": "~1.0.0",
+    "qanimationframe": "~2.0.1",
+    "vendor-prefix": "~0.1.0"
   },
-  "devDependencies":{
-    "grunt" : "~0.4.0",
-    "grunt-cli" : "~0.1.6",
-    "grunt-saucelabs" : "~4.0.2",
-    "grunt-contrib-connect" : "~0.1.2",
-    "grunt-contrib-watch" : "~0.2.0"
+  "devDependencies": {
+    "browserify": "3.19.1",
+    "expect.js": "0.2.0",
+    "mocha": "1.16.2",
+    "mocha-as-promised": "2.0.0",
+    "grunt": "0.4.2",
+    "grunt-cli": "0.1.11",
+    "grunt-saucelabs": "4.1.2",
+    "grunt-contrib-connect": "0.6.0"
   },
   "scripts": {
-    "test" : "grunt test"
+    "test": "npm run build; grunt test",
+    "build": "./node_modules/browserify/bin/cmd.js ./test/test.js -o ./test/main.js --debug;"
   },
-  "license" : "MIT",
-  "main":"dist/zanimo-0.0.10.js",
-  "homepage":"http://zanimo.us"
+  "license": "MIT",
+  "main": "src/Zanimo.js",
+  "homepage": "https://github.com/peutetre/Zanimo"
 }
