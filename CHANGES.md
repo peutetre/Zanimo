@@ -1,9 +1,14 @@
-## 0.1.0
+## 1.0.0
 
-- BRAND NEW API from Gaétan Renaudeau (@gre)
-- BROWSERIFY ONLY (you can export a standalone version with browserify)
+- BRAND NEW API from Gaétan Renaudeau <a href='http://github.com/gre'>gre</a>
+- BROWSERIFY ONLY (you can export a standalone version with browserify if you need)
 - using mocha for unit tests
 - clean repo (remove editor)
+- using new modules: qanimationframe and vendor-prefix
+
+## 0.0.10
+
+- Add `filter` support
 
 ## 0.0.9
 

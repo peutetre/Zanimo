@@ -2,7 +2,8 @@
 
 [![SauceLabs Status](https://saucelabs.com/browser-matrix/zanimo.svg)](https://saucelabs.com/u/zanimo)
 
-Allows chaining of css transitions in a promise based way.
+Allows chaining of css transitions in a promise based way, which gives a powerful control over CSS transitions
+for making animations.
 
 Zanimo.js is licensed under the terms of the MIT License.
 
