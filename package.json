@@ -1,6 +1,6 @@
 {
   "name": "zanimo",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "author": "Paul Panserrieu <paul@42loops.com>",
   "description": "Animation library based on CSS3 transitions and promises",
   "repository": {
@@ -19,9 +19,9 @@
     "url" : "http://greweb.me/"
   }],
   "dependencies": {
-    "q": "1.0.0",
-    "qanimationframe": "2.0.1",
-    "vendor-prefix": "0.1.0"
+    "q": "~1.0.0",
+    "qanimationframe": "~2.0.1",
+    "vendor-prefix": "~0.1.0"
   },
   "devDependencies": {
     "browserify": "3.19.1",
