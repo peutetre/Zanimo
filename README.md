@@ -1,4 +1,4 @@
-# Zanimo.js - Promise based CSS3 transitions [![Build Status](https://secure.travis-ci.org/peutetre/Zanimo.png?branch=Q)](http://travis-ci.org/peutetre/Zanimo) [![Dependency Status](https://gemnasium.com/peutetre/Zanimo.png)](https://gemnasium.com/peutetre/Zanimo)
+# Zanimo.js - Promise based CSS3 transitions [![Build Status](https://secure.travis-ci.org/peutetre/Zanimo.png?branch=Q)](http://travis-ci.org/peutetre/Zanimo)
 
 [![SauceLabs Status](https://saucelabs.com/browser-matrix/zanimo.svg)](https://saucelabs.com/u/zanimo)
 
