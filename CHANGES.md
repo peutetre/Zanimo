@@ -1,3 +1,7 @@
+## 1.0.1
+
+- upgrade to qanimationframe 2.1.x
+
 ## 1.0.0
 
 - BRAND NEW API from Gaétan Renaudeau <a href='http://github.com/gre'>gre</a>
