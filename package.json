@@ -1,6 +1,6 @@
 {
   "name": "zanimo",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "Paul Panserrieu <paul@42loops.com>",
   "description": "Animation library based on CSS3 transitions and promises",
   "repository": {
@@ -11,7 +11,8 @@
     "animation",
     "transition",
     "promise",
-    "browser"
+    "browser",
+    "css"
   ],
   "contributors" : [{
     "name" : "Gaétan Renaudeau",
@@ -19,19 +20,19 @@
     "url" : "http://greweb.me/"
   }],
   "dependencies": {
-    "q": "~1.0.0",
-    "qanimationframe": "~2.0.1",
-    "vendor-prefix": "~0.1.0"
+    "q": "1.0.x",
+    "qanimationframe": "2.1.x",
+    "vendor-prefix": "0.1.x"
   },
   "devDependencies": {
-    "browserify": "3.19.1",
-    "expect.js": "0.2.0",
-    "mocha": "1.16.2",
-    "mocha-as-promised": "2.0.0",
-    "grunt": "0.4.2",
-    "grunt-cli": "0.1.11",
-    "grunt-saucelabs": "4.1.2",
-    "grunt-contrib-connect": "0.6.0"
+    "browserify": "3.19.x",
+    "expect.js": "0.2.x",
+    "mocha": "1.16.x",
+    "mocha-as-promised": "2.0.x",
+    "grunt": "0.4.x",
+    "grunt-cli": "0.1.x",
+    "grunt-saucelabs": "4.1.x",
+    "grunt-contrib-connect": "0.6.x"
   },
   "scripts": {
     "test": "npm run build; grunt test",
