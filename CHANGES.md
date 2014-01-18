@@ -1,3 +1,7 @@
+## 1.0.2
+
+- fix first argument of Zanimo: HTMLElement or a promise[HTMLElement]
+
 ## 1.0.1
 
 - upgrade to qanimationframe 2.1.x

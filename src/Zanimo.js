@@ -122,8 +122,8 @@ var Zanimo = function (el, attr, value, duration, easing) {
     var arity = arguments.length;
     if (arity === 0 || arity === 2 || arity > 5) return Q.reject(new Error("Zanimo invalid arguments"));
     if (Q.isPromise(el)) {
-        return el.then(function (el) {
-            return Zanimo.apply(this, [el].concat(Array.prototype.slice.call(arguments, 1)));
+        return el.then(function () {
+            return Zanimo.apply(this, arguments);
         });
     }
     if (!isDOM(el)) {

@@ -74,8 +74,8 @@ describe('Zanimo', function () {
         }, 200);
 
         return Zanimo(d.promise)
-            .then(function (el) {
-                expect(el).to.be.a(window.Element);
+            .then(function (val) {
+                expect(val).to.eql(el);
                 setDown1();
             });
     });
