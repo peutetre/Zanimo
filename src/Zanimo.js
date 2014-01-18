@@ -108,22 +108,24 @@ var Q = require('q'),
     };
 
 /**
- * Zanimo(el)
- * > Returns a Promise of elt.
+ * Zanimo(el | promise[el])
+ * > Returns a Promise of el.
  *
- * Zanimo(el, attr, value)
- * > Sets el.style[attr]=value and returns the Promise of el.
+ * Zanimo(el | promise[el], attr, value)
+ * > Sets el.style[attr]=value and returns the promise of el.
  *
- * Zanimo(el, attr, value, duration)
- * Zanimo(el, attr, value, duration, easing)
+ * Zanimo(el | promise[el], attr, value, duration, [easing])
  * > Performs a transition.
  */
 var Zanimo = function (el, attr, value, duration, easing) {
-    var arity = arguments.length;
-    if (arity === 0 || arity === 2 || arity > 5) return Q.reject(new Error("Zanimo invalid arguments"));
+    var args = arguments,
+        arity = arguments.length;
+    if (arity === 0 || arity === 2 || arity > 5) {
+        return Q.reject(new Error("Zanimo invalid arguments"));
+    }
     if (Q.isPromise(el)) {
-        return el.then(function () {
-            return Zanimo.apply(this, arguments);
+        return el.then(function (val) {
+            return Zanimo.apply(this, [val].concat(Array.prototype.slice.call(args, 1)));
         });
     }
     if (!isDOM(el)) {
@@ -147,12 +149,12 @@ var Zanimo = function (el, attr, value, duration, easing) {
 };
 
 /**
- * A function wrapping `Zanimo(elt, ...)` as a `f(...)(elt)` for easy chaining purpose.
+ * A function wrapping `Zanimo(el, ...)` as a `f(...)(el)` for easy chaining purpose.
  */
 Zanimo.f = function (attr, value, duration, easing) {
     var args = Array.prototype.slice.call(arguments);
-    return function (elt) {
-        return Zanimo.apply(this, [elt].concat(args));
+    return function (el) {
+        return Zanimo.apply(this, [el].concat(args));
     };
 };
 

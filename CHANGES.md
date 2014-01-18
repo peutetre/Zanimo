@@ -1,6 +1,6 @@
-## 1.0.2
+## 1.1.0
 
-- fix first argument of Zanimo: HTMLElement or a promise[HTMLElement]
+- Zanimo first argument is now an HTMLElement or a promise[HTMLElement]
 
 ## 1.0.1
 

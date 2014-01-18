@@ -96,6 +96,15 @@ describe('Zanimo', function () {
         });
     });
 
+    it('succeeded applying a style to an element wrapped in a promise', function () {
+        var el = setUp1();
+
+        return Zanimo(Q.resolve(el), 'opacity', 0).then(function (el) {
+            expect(el.style.opacity).to.eql("0");
+            setDown1();
+        });
+    });
+
     it('succeeded transitioning the width of a element from 100px to 300px in 400ms with ease-in-out timing function', function() {
         var el = setUp1();
 
