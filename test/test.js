@@ -7,6 +7,7 @@
 require("mocha-as-promised")();
 
 var normalizeTransformValue = require('../src/normalize-transform-value'),
+    normalizeTimingFunction = require('../src/normalize-timing-function'),
     Zanimo = require('..'),
     Q = require('q'),
     prefix = require('vendor-prefix'),
@@ -43,6 +44,18 @@ describe('normalizeTransformValue', function () {
     });
     it('should return an empty string when called with no arg', function () {
         expect(normalizeTransformValue()).to.eql('');
+    });
+});
+
+describe('normalizeTimingFunction', function () {
+    it('should return "linear" when called with "linear"', function () {
+        expect(normalizeTimingFunction('linear')).to.eql('linear');
+    });
+    it('should return "cubic-bezier(0.17, .67, .83, .67)" when called with "cubic-bezier(0.17,0.67,0.83,0.67)"', function () {
+        expect(normalizeTimingFunction('cubic-bezier(0.17, .67, .83, .67)')).to.eql('cubic-bezier(0.17,0.67,0.83,0.67)');
+    });
+    it('should return "cubic-bezier(.17, .67 , .83, .67 )" when called with "cubic-bezier(0.17,0.67,0.83,0.67)"', function () {
+        expect(normalizeTimingFunction('cubic-bezier(.17, .67 , .83, .67 )')).to.eql('cubic-bezier(0.17,0.67,0.83,0.67)');
     });
 });
 
