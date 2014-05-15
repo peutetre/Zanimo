@@ -21,16 +21,16 @@ Build tests with
 npm run build
 ```
 
-and open [test/index.html](http://peutetre.github.com/Zanimo/test/index.html) in a web browser.
+and open [test/index.html](http://peutetre.github.com/Zanimo/test/index.html) in your browser.
 
 ## API
 
-### Zanimo(el|promise[el]) ➜  promise[el]
+### Zanimo(el | promise[el]) ➜  promise[el]
 
 Takes a DOM element or a promise of a DOM element and returns a promise of the given element.
 
 ~~~ javascript
-Zanimo(myDomElement).then(function (elt) {
+Zanimo(myDomElement).then(function (el) {
     // do something with the DOM element
 }, function (reason) {
     // do something when `myDOMElement` isn't a DOM element
@@ -38,7 +38,7 @@ Zanimo(myDomElement).then(function (elt) {
 ~~~
 
 
-### Zanimo(elt, property, value) ➜  promise[elt]
+### Zanimo(el | promise[el], property, value) ➜  promise[el]
 
 Applies a css style on the given DOM element.
 
@@ -48,7 +48,7 @@ Zanimo(myDomElement, "transform", "translate3d(200px, 200px, 0)")
 ~~~
 
 
-### Zanimo(elt, property, value, duration, [timingFunction])  ➜  promise[elt]
+### Zanimo(el | promise[el], property, value, duration, [easing])  ➜  promise[el]
 
 Starts a transition on the given DOM element and returns a promise.
 For now Zanimo does not support hexadecimal color notation or 0px (just use 0) in the value argument.
@@ -61,9 +61,9 @@ Zanimo(myDomElement, "width", "200px", 200, "ease-in")
     );
 ~~~
 
-### Zanimo.f(*)  ➜  ( function(elt) ➜  promise[elt] )
+### Zanimo.f(*)  ➜  ( function(el) ➜  promise[el] )
 
-Encapsulates a `Zanimo(elt, *)` call by returning a function (elt)➜promise[elt].
+Encapsulates a `Zanimo(el, *)` call by returning a function (el) ➜ promise[el].
 
 Useful to define reusable transitions.
 

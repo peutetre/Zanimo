@@ -9,10 +9,9 @@ var matchParenthesis = /(\(.+?\))/g,
 
     normalize = function (match) {
         var args = match.substr(1, match.length-2).split(","),
-            rst = [];
-        args.forEach(function (arg) {
-            rst.push(arg.replace(space, emptyString).replace(zeropixel, zero));
-        });
+            rst = args.map(function (arg) {
+                return arg.replace(space, emptyString).replace(zeropixel, zero);
+            });
         return "(" + rst.join(",") + ")";
     };
 
