@@ -14,12 +14,15 @@
     "browser",
     "css"
   ],
-  "contributors" : [{
-    "name" : "Gaétan Renaudeau",
-    "email" : "renaudeau.gaetan@gmail.com",
-    "url" : "http://greweb.me/"
-  }],
+  "contributors": [
+    {
+      "name": "Gaétan Renaudeau",
+      "email": "renaudeau.gaetan@gmail.com",
+      "url": "http://greweb.me/"
+    }
+  ],
   "dependencies": {
+    "color": "0.6.x",
     "q": "1.0.x",
     "qanimationframe": "2.1.x",
     "vendor-prefix": "0.1.x"
