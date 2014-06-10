@@ -14,14 +14,10 @@ module.exports = function(grunt) {
                     urls: ["http://127.0.0.1:9999/test/index.html"],
                     tunnelTimeout: 5,
                     build: (new Date()).getTime(),
-                    throttled: 1,
+                    throttled: 2,
                     browsers: grunt.file.readJSON('browsers.json').browsers,
                     testname: "zanimo tests",
-                    testReadyTimeout:30000,
-                    tags: ["master"],
-                    onTestComplete : function (rslt) {
-                        console.log(rslt.url);
-                    }
+                    tags: ["master"]
                 }
             }
         }
