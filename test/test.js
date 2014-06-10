@@ -4,8 +4,6 @@
 
 'use strict';
 
-require("mocha-as-promised")();
-
 var normalizeTransformValue = require('../src/normalize-transform-value'),
     normalizeTimingFunction = require('../src/normalize-timing-function'),
     Zanimo = require('..'),
