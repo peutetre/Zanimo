@@ -20,7 +20,7 @@ module.exports = function(grunt) {
                     testReadyTimeout:30000,
                     tags: ["master"],
                     onTestComplete : function (rslt) {
-                        console.log(rslt);
+                        console.log(rslt.url);
                     }
                 }
             }
