@@ -1,6 +1,6 @@
 {
   "name": "zanimo",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "author": "Paul Panserrieu <paul@42loops.com>",
   "description": "Animation library based on CSS3 transitions and promises",
   "repository": {
