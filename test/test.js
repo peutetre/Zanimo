@@ -4,8 +4,6 @@
 
 'use strict';
 
-require("mocha-as-promised")();
-
 var normalizeTransformValue = require('../src/normalize-transform-value'),
     normalizeTimingFunction = require('../src/normalize-timing-function'),
     Zanimo = require('..'),
@@ -44,6 +42,21 @@ describe('normalizeTransformValue', function () {
     });
     it('should return an empty string when called with no arg', function () {
         expect(normalizeTransformValue()).to.eql('');
+    });
+    it('should return `red` when called with `red`', function () {
+        expect(normalizeTransformValue('red')).to.eql('red');
+    });
+    it('should return `#1ABC9C` when called with `#1ABC9C`', function () {
+        expect(normalizeTransformValue('#1ABC9C')).to.eql('#1ABC9C');
+    });
+    it('should return `rgba(25,25,25,0.5)` when called with `rgba(25, 25, 25, .5)`', function () {
+        expect(normalizeTransformValue('rgba(25, 25, 25, .5)')).to.eql('rgba(25,25,25,0.5)');
+    });
+    it('should return `rgb(19,32,20)` when called with `hsl(125, 25%, 10%)`', function () {
+        expect(normalizeTransformValue('hsl(125, 25%, 10%)')).to.eql('rgb(19,32,20)');
+    });
+    it('should return `rgba(221,232,238,0.5)` when called with `hsla(200, 35%, 90%, .5)`', function () {
+        expect(normalizeTransformValue('hsla(200, 35%, 90%, .5)')).to.eql('rgba(221,232,238,0.5)');
     });
 });
 
@@ -203,6 +216,16 @@ describe('Zanimo', function () {
         return Zanimo(el, "transform", "translate(200px, 0)").then(setDown1);
     });
 
+    it('succeeded while making a transition on the background color to hsla(200, 35%, 90%, .5)', function () {
+        var el = setUp1();
+        return Zanimo(el, "background-color", "hsla(200, 35%, 90%, .5)", 200, 'ease-in-out').then(setDown1);
+    });
+
+    it('succeeded while making a transition on the background color to rgba(19, 32, 20, 0.5)', function () {
+        var el = setUp1();
+        return Zanimo(el, "background-color", "rgba(19, 32, 20, 0.5)", 200, 'ease-in-out').then(setDown1);
+    });
+
 });
 
 describe('Zanimo.f', function () {
@@ -335,5 +358,27 @@ describe('Zanimo.f', function () {
 });
 
 window.onload = function () {
-    setTimeout(function () { mocha.run(); }, 1000);
+    var runner = mocha.run();
+    var failedTests = [];
+
+    runner.on('end', function(){
+        window.mochaResults = runner.stats;
+        window.mochaResults.reports = failedTests;
+    });
+
+    runner.on('fail', logFailure);
+
+    function logFailure(test, err){
+
+        var flattenTitles = function(test){
+            var titles = [];
+            while (test.parent.title){
+                titles.push(test.parent.title);
+                test = test.parent;
+            }
+            return titles.reverse();
+        };
+
+        failedTests.push({name: test.title, result: false, message: err.message, stack: err.stack, titles: flattenTitles(test) });
+    }
 };

@@ -77,7 +77,7 @@ var Q = require('q'),
         el.addEventListener(transitionend, cbTransitionend);
 
         QanimationFrame(function () {
-            addTransition(el, attr, value, duration, easing);
+            addTransition(el, attr, normalizeTransformValue(value), duration, easing);
             timeout = setTimeout(function () {
                 var rawVal = el.style.getPropertyValue(prefixed),
                     domVal = normalizeTransformValue(rawVal),
