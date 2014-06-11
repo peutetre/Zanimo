@@ -12,9 +12,8 @@ module.exports = function(grunt) {
             all: {
                 options: {
                     urls: ["http://127.0.0.1:9999/test/index.html"],
-                    tunnelTimeout: 5,
                     build: (new Date()).getTime(),
-                    throttled: 2,
+                    throttled: 3,
                     browsers: grunt.file.readJSON('browsers.json').browsers,
                     testname: "zanimo tests",
                     tags: ["master"]
