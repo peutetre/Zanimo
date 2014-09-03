@@ -13,6 +13,9 @@ Zanimo.js is licensed under the terms of the MIT License.
 $ npm install zanimo
 ```
 
+To use in the browser, compile with [browserify](http://browserify.org) or fetch
+a UMD bundle from [browserify cdn](http://wzrd.in).
+
 ##  tests
 
 Build tests with
